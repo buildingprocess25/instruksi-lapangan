@@ -49,7 +49,7 @@
           class="header-logo"
         />
       </a>
-      <h1>Form Estimasi Rencana Anggaran Biaya</h1>
+      <h1>Form Tambahan Pekerjaan</h1>
       <button id="logout-button-form" class="btn-logout-form">Logout</button>
     </header>
 
@@ -94,12 +94,6 @@
           />
         </div>
         <input type="hidden" id="lokasi" name="Nomor Ulok" />
-        <label for="proyek">Proyek:</label>
-        <select name="Proyek" id="proyek" required>
-          <option value="">-- Pilih Jenis Proyek --</option>
-          <option value="Alfamart Reguler">Reguler</option>
-          <option value="Franchise">Franchise</option>
-        </select>
 
         <label for="alamat">Alamat Toko:</label>
         <input
@@ -121,71 +115,6 @@
           <option value="Sipil">Sipil</option>
           <option value="ME">ME</option>
         </select>
-
-        <label for="luas_area_parkir">Luas Area Parkir (m²):</label>
-        <input
-          type="text"
-          inputmode="decimal"
-          id="luas_area_parkir"
-          name="Luas Area Parkir"
-          placeholder="Masukan Luas Area Parkir (e.g., 20.00)"
-          oninput="this.value = this.value.replace(/[^0-9.]/g, '').replace(/(\..*?)\..*/g, '$1').replace(/(\.\d{2})\d+/, '$1')"
-          required
-        />
-
-        <label for="luas_area_sales">Luas Area Sales (m²):</label>
-        <input
-          type="text"
-          inputmode="decimal"
-          id="luas_area_sales"
-          name="Luas Area Sales"
-          placeholder="Masukan Luas Area Sales (e.g., 30.75)"
-          oninput="this.value = this.value.replace(/[^0-9.]/g, '').replace(/(\..*?)\..*/g, '$1').replace(/(\.\d{2})\d+/, '$1')"
-          required
-        />
-
-        <label for="luas_gudang">Luas Gudang (m²):</label>
-        <input
-          type="text"
-          inputmode="decimal"
-          id="luas_gudang"
-          name="Luas Gudang"
-          placeholder="Masukan Luas Gudang (e.g., 15.20)"
-          oninput="this.value = this.value.replace(/[^0-9.]/g, '').replace(/(\..*?)\..*/g, '$1').replace(/(\.\d{2})\d+/, '$1')"
-          required
-        />
-
-        <label for="luas_bangunan">Luas Bangunan (m²):</label>
-        <input
-          type="text"
-          inputmode="decimal"
-          id="luas_bangunan"
-          name="Luas Bangunan"
-          placeholder="Masukan Luas Bangunan (e.g., 50.25)"
-          oninput="this.value = this.value.replace(/[^0-9.]/g, '').replace(/(\..*?)\..*/g, '$1').replace(/(\.\d{2})\d+/, '$1')"
-          required
-        />
-
-        <label for="luas_area_terbuka">Luas Area Terbuka (m²):</label>
-        <input
-          type="text"
-          inputmode="decimal"
-          id="luas_area_terbuka"
-          name="Luas Area Terbuka"
-          placeholder="Masukan Luas Area Terbuka (e.g., 20.00)"
-          oninput="this.value = this.value.replace(/[^0-9.]/g, '').replace(/(\..*?)\..*/g, '$1').replace(/(\.\d{2})\d+/, '$1')"
-          required
-        />
-
-        <label for="luas_terbangunan">Luas Terbangunan (m²):</label>
-        <input
-          type="text"
-          id="luas_terbangunan"
-          name="Luas Terbangunan"
-          placeholder="0"
-          readonly
-          style="background-color: #e9ecef; cursor:not-allowed;"
-        />
 
         <div class="all-tables-container">
           <div id="sipil-tables-wrapper" class="hidden">

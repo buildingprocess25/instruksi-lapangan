@@ -4,7 +4,7 @@ const APPS_SCRIPT_POST_URL =
   "https://script.google.com/macros/s/AKfycbzPubDTa7E2gT5HeVLv9edAcn1xaTiT3J4BtAVYqaqiFAvFtp1qovTXpqpm-VuNOxQJ/exec";
 
 const PYTHON_API_LOGIN_URL =
-  "https://building-alfamart.onrender.com/api/login";
+  "http://168.110.201.69:5000/api/login";
 
 async function logLoginAttempt(username, cabang, status) {
   const logData = {
@@ -110,15 +110,15 @@ document.addEventListener("DOMContentLoaded", () => {
         sessionStorage.setItem("userRole", userRole);
 
         setTimeout(() => {
-            if (loginType === "rab") {
-                window.location.href = "/Estimasi_rab/index.html";
-            } 
-            else if (loginType === "spk") {
-                window.location.href = "/SPK_form/index.html";
-            } 
-            else {
-                window.location.href = "/";
-            }
+          if (loginType === "rab") {
+            window.location.href = "/Estimasi_rab/index.html";
+          }
+          else if (loginType === "spk") {
+            window.location.href = "/SPK_form/index.html";
+          }
+          else {
+            window.location.href = "/";
+          }
         }, 1200);
       } else {
         if (result.message === "Invalid credentials") {

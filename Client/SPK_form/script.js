@@ -77,7 +77,7 @@ document.addEventListener('DOMContentLoaded', () => {
     MADIUN: "2MZ1",
   };
 
-  const PYTHON_API_BASE_URL = "https://building-alfamart.onrender.com";
+  const PYTHON_API_BASE_URL = "http://168.110.201.69:5000";
   let approvedRabData = [];
 
   const branchGroups = {
@@ -248,7 +248,7 @@ document.addEventListener('DOMContentLoaded', () => {
   async function checkSpkStatus(nomorUlok) {
     const res = await fetch(`${PYTHON_API_BASE_URL}/api/get_spk_status?ulok=${nomorUlok}`);
     if (!res.ok) return null;
-    return await res.json(); 
+    return await res.json();
   }
 
   async function handleFormSubmit(e) {
