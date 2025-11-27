@@ -1,0 +1,67 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="UTF-8">
+    <title>Update Pengawasan Proyek</title>
+    <style>
+        body { font-family: Arial, sans-serif; color: #333; line-height: 1.6; }
+        .container { max-width: 600px; margin: 20px auto; padding: 20px; border: 1px solid #ddd; border-radius: 8px; background-color: #f9f9f9; }
+        .header { font-size: 24px; font-weight: bold; color: #CE1E10; margin-bottom: 20px; text-align: center; }
+        .content p { margin: 10px 0; }
+        .content strong { color: #333; }
+        .button-container { text-align: center; margin: 30px 0; }
+        .button { background-color: #CE1E10; color: #ffffff !important; padding: 12px 25px; text-decoration: none; border-radius: 5px; font-weight: bold; display: inline-block; }
+        .footer { font-size: 12px; color: #888; text-align: center; margin-top: 20px; }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <div class="header">
+            {% if form_type == 'input_pic' %}
+                Tugas Pengawasan Baru Telah Dibuat
+            {% else %}
+                Laporan Pengawasan Telah Diterima
+            {% endif %}
+        </div>
+        <div class="content">
+            <p>Yth. Bapak/Ibu,</p>
+            
+            {% if form_type == 'input_pic' %}
+                <p>
+                    Anda telah ditugaskan untuk melakukan pengawasan proyek renovasi/pembangunan toko Alfamart dengan detail sebagai berikut:
+                </p>
+            {% else %}
+                <p>
+                    Terima kasih, laporan pengawasan Anda untuk <strong>{{ form_type | upper }}</strong> telah kami terima. Berikut adalah detailnya:
+                </p>
+            {% endif %}
+
+            <p>
+                <strong>Kode Toko (Ulok):</strong> {{ form_data.kode_ulok }}<br>
+                <strong>Cabang:</strong> {{ form_data.cabang }}<br>
+                {% if form_type == 'input_pic' %}
+                    <strong>Kategori Lokasi:</strong> {{ form_data.kategori_lokasi | replace('_', ' ') | title }}<br>
+                    <strong>Tanggal Mulai SPK:</strong> {{ form_data.tanggal_spk }}<br>
+                    <strong>PIC Building Support:</strong> {{ form_data.pic_building_support }}
+                {% endif %}
+            </p>
+            
+            {% if next_form_url %}
+                <p>
+                    Langkah selanjutnya adalah mengisi laporan untuk tahap berikutnya. Silakan klik tombol di bawah ini untuk melanjutkan.
+                </p>
+                <div class="button-container">
+                    <a href="{{ next_form_url }}" class="button">Lanjutkan ke Form Berikutnya</a>
+                </div>
+            {% else %}
+                <p>
+                    Terima kasih, seluruh rangkaian proses pengawasan untuk toko ini telah selesai.
+                </p>
+            {% endif %}
+        </div>
+        <div class="footer">
+            <p>Email ini dibuat secara otomatis oleh sistem. Mohon untuk tidak membalas email ini.</p>
+        </div>
+    </div>
+</body>
+</html>

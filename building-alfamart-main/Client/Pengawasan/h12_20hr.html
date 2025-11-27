@@ -1,0 +1,276 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Laporan Progress Pengawasan H12</title>
+    <script>
+      // Security Check: Redirect to login if not authenticated
+      const isAuthenticated = sessionStorage.getItem('authenticated');
+      if (!isAuthenticated) {
+        // Jika belum login, paksa kembali ke halaman login utama
+        window.location.href = '/index.html';
+      }
+    </script>
+    <style>
+      body {
+        font-family: Cambria;
+        background-color: #f4f4f4;
+        margin: 0;
+        padding: 0;
+      }
+
+      header {
+        background-color: #ce1e10;
+        color: white;
+        text-align: center;
+        padding: 20px;
+      }
+
+      .container {
+        max-width: 800px;
+        margin: 20px auto;
+        background-color: white;
+        padding: 30px;
+        box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+        border-radius: 10px;
+      }
+
+      .form-container {
+        display: flex;
+        flex-direction: column;
+      }
+
+      .form-container label {
+        font-weight: bold;
+        margin-bottom: 5px;
+        margin-top: 15px;
+      }
+
+      .form-container input,
+      .form-container select,
+      .form-container textarea {
+        padding: 10px;
+        margin-bottom: 15px;
+        border: 1px solid #ddd;
+        border-radius: 5px;
+      }
+
+      .button-group {
+        display: flex;
+        gap: 10px;
+        margin-top: 10px;
+      }
+
+      .form-container button {
+        background-color: #ce1e10;
+        color: white;
+        padding: 12px 20px;
+        border: none;
+        border-radius: 5px;
+        cursor: pointer;
+        transition: background-color 0.3s;
+        flex: 1;
+      }
+
+      .form-container button:hover {
+        background-color: #ef190a;
+      }
+
+      .popup {
+        display: none;
+        position: fixed;
+        top: 50%;
+        left: 50%;
+        transform: translate(-50%, -50%);
+        background-color: #ffffff;
+        padding: 30px;
+        box-shadow: 0px 0px 15px rgba(0, 0, 0, 0.3);
+        border-radius: 10px;
+        color: #ef190a;
+        text-align: center;
+      }
+
+      .popup p {
+        font-size: 24px;
+        font-weight: bold;
+        margin-bottom: 15px;
+      }
+
+      .popup.show {
+        display: block;
+      }
+
+      .popup button {
+        background-color: #ef190a;
+        color: white;
+        padding: 10px 20px;
+        border: none;
+        border-radius: 5px;
+        font-size: 16px;
+        cursor: pointer;
+      }
+
+      .popup button:hover {
+        background-color: #d50e08;
+      }
+
+      #compress {
+        background-color: #ffb700;
+        color: black;
+      }
+
+      #compress:hover {
+        background-color: #e6a800;
+      }
+
+      .file-info {
+        font-size: 12px;
+        color: #666;
+        margin-top: -10px;
+        margin-bottom: 15px;
+      }
+    </style>
+  </head>
+  <body>
+    <header>
+      <h1>Laporan Progress Pengawasan H12 (UKUR ULANG AREA SALES)</h1>
+    </header>
+
+    <div class="container">
+      <form id="laporan-form" class="form-container">
+        <label for="kode_ulok">Kode Ulok:</label>
+        <select id="kode_ulok" name="kode_ulok" required>
+          <option value="">-- Pilih Kode Ulok --</option>
+        </select>
+
+        <label for="status_lokasi">Status Lokasi:</label>
+        <input
+          type="text"
+          id="status_lokasi"
+          name="status_lokasi"
+          placeholder="Ruko 20 hr"
+          disabled
+        />
+        <input
+          type="hidden"
+          id="status_lokasi"
+          name="status_lokasi"
+          value="ruko_20hr"
+        />
+
+        <label for="pek_lantai">I. PEK. LANTAI & DINDING KERAMIK:</label>
+        <input
+          type="file"
+          id="pek_lantai"
+          name="pek_lantai"
+          accept="image/*"
+          required
+        />
+        <small class="file-info">Maksimal ukuran file: 700 KB</small>
+
+        <label for="status_progress1">Status Progress:</label>
+        <select name="status_progress" id="status_progress1" required>
+          <option value="">-- Pilih Status Progress --</option>
+          <option value="tepat_waktu">Tepat Waktu</option>
+          <option value="terlambat">Terlambat</option>
+        </select>
+
+        <label for="catatan1">Catatan:</label>
+        <textarea
+          name="catatan"
+          id="catatan1"
+          rows="4"
+          placeholder="Masukkan Catatan"
+          required
+        ></textarea>
+
+        <label for="pek_kanopi">II. PEK. ATAP KANOPI:</label>
+        <input
+          type="file"
+          id="pek_kanopi"
+          name="pek_kanopi"
+          accept="image/*"
+          required
+        />
+        <small class="file-info">Maksimal ukuran file: 700 KB</small>
+
+        <label for="status_progress2">Status Progress:</label>
+        <select name="status_progress" id="status_progress2" required>
+          <option value="">-- Pilih Status Progress --</option>
+          <option value="tepat_waktu">Tepat Waktu</option>
+          <option value="terlambat">Terlambat</option>
+        </select>
+
+        <label for="catatan1">Catatan:</label>
+        <textarea
+          name="catatan"
+          id="catatan1"
+          rows="4"
+          placeholder="Masukkan Catatan"
+          required
+        ></textarea>
+
+        <label for="pek_plafond">III. MULAI PEK. PLAFOND & PARTISI:</label>
+        <input
+          type="file"
+          id="pek_plafond"
+          name="pek_plafond"
+          accept="image/*"
+          required
+        />
+        <small class="file-info">Maksimal ukuran file: 700 KB</small>
+
+        <label for="status_progress3">Status Progress:</label>
+        <select name="status_progress" id="status_progress3" required>
+          <option value="">-- Pilih Status Progress --</option>
+          <option value="tepat_waktu">Tepat Waktu</option>
+          <option value="terlambat">Terlambat</option>
+        </select>
+
+        <label for="catatan3">Catatan:</label>
+        <textarea
+          name="catatan"
+          id="catatan3"
+          rows="4"
+          placeholder="Masukkan Catatan"
+          required
+        ></textarea>
+
+        <label for="berkas_pengawasan"
+          >IV. BERKAS PENGAWASAN (MEMO PENGAWASAN/INSTRUKSI LAPANGAN/OPNAME
+          PEKERJAAN)</label
+        >
+        <input
+          type="file"
+          id="berkas_pengawasan"
+          name="berkas_pengawasan"
+          accept="image/*"
+          required
+        />
+        <small class="file-info">Maksimal ukuran file: 700 KB</small>
+
+        <div class="button-group">
+          <button type="submit">Simpan</button>
+        </div>
+
+        <div class="button-group">
+          <button
+            type="button"
+            id="compress"
+            onclick="window.open('https://compressprojectv2.vercel.app/', '_blank')"
+          >
+            Kompres Foto Disini
+          </button>
+        </div>
+      </form>
+    </div>
+
+    <div class="popup" id="popup">
+      <p>Data Berhasil Terkirim</p>
+      <button onclick="closePopup()">Tutup</button>
+    </div>
+
+    <script src="script.js"></script>
+  </body>
+</html>

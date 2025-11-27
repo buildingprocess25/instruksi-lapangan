@@ -1,0 +1,239 @@
+<!DOCTYPE html>
+<html lang="id">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Homepage - Aplikasi Building & Maintenance</title>
+    <link rel="icon" href="/Assets/favicon.ico" type="image/x-icon" />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap"
+      rel="stylesheet"
+    />
+    <style>
+      :root {
+        --primary-color: #005a9e;
+        --secondary-color: #e53e3e;
+        --background-color: #f4f7f6;
+        --card-background: #ffffff;
+        --text-color: #2d3748;
+        --subtle-text-color: #718096;
+        --border-color: #e2e8f0;
+      }
+
+      body {
+        font-family: 'Inter', sans-serif;
+        background-color: var(--background-color);
+        color: var(--text-color);
+        margin: 0;
+      }
+
+      .main-header {
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        padding: 1rem;
+        background: linear-gradient(135deg, #dc2626 0%, #b91c1c 100%);
+        color: white;
+        border-bottom: 1px solid var(--border-color);
+      }
+
+      .header-logo-container {
+        display: flex;
+        align-items: center;
+        gap: 1rem;
+        margin-right: 1rem;
+      }
+
+      .header-logo {
+        height: 40px;
+        animation: logoSlideIn 1.2s ease-out forwards;
+        opacity: 0;
+        transform: translateX(-100px);
+      }
+
+      @keyframes logoSlideIn {
+        0% {
+          opacity: 0;
+          transform: translateX(-100px) rotate(-20deg);
+        }
+        60% {
+          opacity: 1;
+          transform: translateX(10px) rotate(5deg);
+        }
+        80% {
+          transform: translateX(-5px) rotate(-2deg);
+        }
+        100% {
+          opacity: 1;
+          transform: translateX(0) rotate(0deg);
+        }
+      }
+
+      .building-logo {
+        height: 50px;
+        animation: logoPopOut 1.5s ease-out forwards;
+        opacity: 0;
+        transform: scale(0);
+      }
+
+      @keyframes logoPopOut {
+        0% {
+          opacity: 0;
+          transform: scale(0) rotate(-180deg);
+        }
+        60% {
+          opacity: 1;
+          transform: scale(1.2) rotate(10deg);
+        }
+        80% {
+          transform: scale(0.9) rotate(-5deg);
+        }
+        100% {
+          opacity: 1;
+          transform: scale(1) rotate(0deg);
+        }
+      }
+
+      .main-header h1 {
+        font-size: 1.5rem;
+        font-weight: 600;
+        color: white;
+        animation: fadeInSlide 1s ease-out 0.5s forwards;
+        opacity: 0;
+      }
+
+      @keyframes fadeInSlide {
+        from {
+          opacity: 0;
+          transform: translateY(-20px);
+        }
+        to {
+          opacity: 1;
+          transform: translateY(0);
+        }
+      }
+
+      .container {
+        max-width: 900px;
+        margin: 2rem auto;
+        padding: 2rem;
+      }
+
+      .welcome-message {
+        text-align: center;
+        margin-bottom: 3rem;
+      }
+
+      .welcome-message h2 {
+        font-size: 2rem;
+        font-weight: 700;
+        margin-bottom: 0.5rem;
+      }
+
+      .welcome-message p {
+        font-size: 1.1rem;
+        color: var(--subtle-text-color);
+      }
+
+      .menu-container {
+        display: grid;
+        grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+        gap: 1.5rem;
+      }
+
+      .menu-item {
+        display: block;
+        background-color: var(--card-background);
+        padding: 1.5rem;
+        border-radius: 12px;
+        text-decoration: none;
+        color: inherit;
+        border: 1px solid var(--border-color);
+        box-shadow: 0 4px 6px rgba(0, 0, 0, 0.05);
+        transition: transform 0.2s ease-in-out, box-shadow 0.2s ease-in-out;
+      }
+
+      .menu-item:hover {
+        transform: translateY(-5px);
+        box-shadow: 0 10px 15px rgba(185, 28, 28, 0.3);
+      }
+
+      .menu-item h3 {
+        font-size: 1.25rem;
+        font-weight: 600;
+        margin-bottom: 0.5rem;
+      }
+
+      .menu-item p {
+        font-size: 1rem;
+        color: var(--subtle-text-color);
+        line-height: 1.5;
+      }
+
+      .menu-item.disabled {
+        background-color: #f7fafc;
+        cursor: not-allowed;
+        opacity: 0.6;
+      }
+
+      .menu-item.disabled:hover {
+        transform: none;
+        box-shadow: 0 4px 6px rgba(0, 0, 0, 0.05);
+      }
+    </style>
+  </head>
+  <body>
+    <header class="main-header">
+      <div class="header-logo-container">
+        <img
+          src="/Assets/Alfamart-Emblem.png"
+          alt="Alfamart Logo"
+          class="header-logo"
+        />
+        <img
+          src="/Homepage/Building-Logo.png"
+          alt="Building & Maintenance Logo"
+          class="building-logo"
+        />
+      </div>
+      <h1>Property & Development</h1>
+    </header>
+
+    <main class="container">
+      <div class="welcome-message">
+        <h2>SPARTA</h2>
+        <p>System for Property Administration, Reporting, Tracking & Approval</p>
+      </div>
+
+      <nav class="menu-container">
+        <a href="https://building-alfamart.vercel.app/login_spk.html" class="menu-item" id="menu-spk">
+          <h3>Buat SPK</h3>
+          <p>Buat Surat Perintah Kerja untuk kontraktor.</p>
+        </a>
+        <a
+          href="https://frontend-form-virid.vercel.app/login-input_pic.html"
+          class="menu-item"
+        >
+          <h3>Pengawasan</h3>
+          <p>Input informasi pengawasan.</p>
+        </a>
+        <a href="https://opnamebnm.vercel.app/" class="menu-item">
+          <h3>Opname</h3>
+          <p>Pengisian form Opname.</p>
+        </a>
+        <a href="https://dokumentasi-bangunan.vercel.app/" class="menu-item">
+          <h3>Foto Dokumentasi Bangunan Toko Baru</h3>
+          <p>Pengisian form Dokumentasi.</p>
+        </a>
+        <a href="https://frontend-form-virid.vercel.app/login-perpanjanganspk.html/" class="menu-item">
+          <h3>Pertambahan Hari SPK</h3>
+          <p>Pengisian form Pertambahan Hari SPK.</p>
+        </a>
+        <a href="https://penyimpanan-dokumen.vercel.app/" class="menu-item">
+          <h3>Penyimpanan Dokumen Toko</h3>
+          <p>Pengisian form Penyimpanan Dokumen.</p>
+        </a>
+      </nav>
+    </main>
+  </body>
+</html>

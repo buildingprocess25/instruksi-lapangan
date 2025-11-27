@@ -1,0 +1,126 @@
+:root {
+    --primary-color: #005a9e; /* Warna biru Alfamart */
+    --secondary-color: #e53e3e; /* Warna merah Alfamart */
+    --background-color: #f4f7f6;
+    --form-background: #ffffff;
+    --text-color: #2d3748;
+    --label-color: #4a5568;
+    --border-color: #cbd5e0;
+    --border-focus-color: #4299e1;
+}
+
+body {
+    font-family: 'Inter', sans-serif;
+    background-color: var(--background-color);
+    color: var(--text-color);
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    height: 100vh;
+    margin: 0;
+}
+
+.login-container {
+    width: 100%;
+    max-width: 400px;
+    padding: 2.5rem;
+    background-color: var(--form-background);
+    border-radius: 12px;
+    box-shadow: 0 10px 25px rgba(0, 0, 0, 0.1);
+    text-align: center;
+}
+
+.login-header {
+    margin-bottom: 2rem;
+}
+
+.login-logo {
+    height: 50px;
+    margin-bottom: 1rem;
+}
+
+.login-header h1 {
+    font-size: 1.75rem;
+    font-weight: 700;
+    color: var(--text-color);
+}
+
+.form-group {
+    margin-bottom: 1.5rem;
+    text-align: left;
+}
+
+.form-group label {
+    display: block;
+    font-weight: 500;
+    margin-bottom: 0.5rem;
+    color: var(--label-color);
+}
+
+.form-group input {
+    width: 100%;
+    padding: 0.75rem 1rem;
+    border: 1px solid var(--border-color);
+    border-radius: 8px;
+    font-size: 1rem;
+    box-sizing: border-box; /* Pastikan padding tidak menambah lebar */
+    transition: border-color 0.2s, box-shadow 0.2s;
+}
+
+.form-group input:focus {
+    outline: none;
+    border-color: var(--border-focus-color);
+    box-shadow: 0 0 0 3px rgba(66, 153, 225, 0.5);
+}
+
+button[type="submit"] {
+    width: 100%;
+    padding: 0.85rem;
+    border: none;
+    border-radius: 8px;
+    background-color: var(--primary-color);
+    color: white;
+    font-size: 1.1rem;
+    font-weight: 600;
+    cursor: pointer;
+    transition: background-color 0.2s, transform 0.1s;
+}
+
+button[type="submit"]:hover {
+    background-color: #004a80;
+}
+
+button[type="submit"]:active {
+    transform: scale(0.98);
+}
+
+.login-message {
+    margin-top: 1rem;
+    font-weight: 500;
+}
+
+.password-wrapper {
+    position: relative;
+}
+
+.form-group .password-wrapper input#password {
+    padding-right: 40px; 
+}
+
+.toggle-password {
+    position: absolute;
+    right: 12px;
+    top: 50%;
+    transform: translateY(-50%);
+    cursor: pointer;
+    color: var(--label-color);
+    width: 20px;
+    height: 20px;
+    display: grid;
+    place-items: center;
+}
+
+.toggle-password svg {
+    width: 100%;
+    height: 100%;
+}

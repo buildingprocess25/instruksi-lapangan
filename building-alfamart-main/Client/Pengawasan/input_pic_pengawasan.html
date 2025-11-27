@@ -1,0 +1,309 @@
+<!DOCTYPE html>
+<html lang="id">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Form Input PIC Pengawasan</title>
+    <script>
+      // Security Check: Redirect to login if not authenticated
+      const isAuthenticated = sessionStorage.getItem('authenticated');
+      if (!isAuthenticated) {
+        // Jika belum login, paksa kembali ke halaman login utama
+        window.location.href = '/index.html';
+      }
+    </script>
+    <style>
+      body {
+        font-family: Cambria;
+        background-color: #f4f4f4;
+        margin: 0;
+        padding: 0;
+      }
+
+      header {
+        background-color: #ce1e10;
+        color: white;
+        text-align: center;
+        padding: 20px;
+      }
+
+      .container {
+        max-width: 800px;
+        margin: 20px auto;
+        background-color: white;
+        padding: 30px;
+        box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+        border-radius: 10px;
+      }
+
+      .form-container {
+        display: flex;
+        flex-direction: column;
+      }
+
+      .form-container label {
+        font-weight: bold;
+        margin-bottom: 5px;
+        margin-top: 15px;
+      }
+
+      .form-container input,
+      .form-container select,
+      .form-container button {
+        padding: 10px;
+        margin-bottom: 15px;
+        border: 1px solid #ddd;
+        border-radius: 5px;
+        font-size: 14px;
+      }
+
+      .form-container select {
+        background-color: white;
+      }
+
+      .button-group {
+        display: flex;
+        gap: 10px;
+        margin-top: 10px;
+      }
+
+      .form-container button {
+        background-color: #ce1e10;
+        color: white;
+        padding: 12px 20px;
+        border: none;
+        border-radius: 5px;
+        cursor: pointer;
+        transition: background-color 0.3s;
+        flex: 1;
+        font-size: 16px;
+        font-weight: bold;
+      }
+
+      .form-container button:hover:not(:disabled) {
+        background-color: #ef190a;
+      }
+
+      .form-container button:disabled {
+        background-color: #cccccc;
+        cursor: not-allowed;
+        opacity: 0.6;
+      }
+
+      .popup {
+        display: none;
+        position: fixed;
+        top: 0;
+        left: 0;
+        width: 100%;
+        height: 100%;
+        background-color: rgba(0, 0, 0, 0.5);
+        z-index: 1000;
+      }
+
+      .popup-content {
+        position: absolute;
+        top: 50%;
+        left: 50%;
+        transform: translate(-50%, -50%);
+        background-color: #ffffff;
+        padding: 30px;
+        box-shadow: 0px 0px 15px rgba(0, 0, 0, 0.3);
+        border-radius: 10px;
+        color: #333;
+        text-align: center;
+        max-width: 400px;
+        width: 90%;
+      }
+
+      .popup-content p {
+        font-size: 18px;
+        font-weight: bold;
+        margin-top: 0;
+        margin-bottom: 20px;
+        line-height: 1.4;
+      }
+
+      .popup.show {
+        display: block;
+      }
+
+      .popup-content button {
+        background-color: #ef190a;
+        color: white;
+        padding: 12px 24px;
+        border: none;
+        border-radius: 5px;
+        font-size: 16px;
+        cursor: pointer;
+        font-weight: bold;
+      }
+
+      .popup-content button:hover {
+        background-color: #d50e08;
+      }
+
+      .file-info {
+        font-size: 12px;
+        color: #666;
+        margin-top: -10px;
+        margin-bottom: 15px;
+      }
+
+      .loading {
+        display: none;
+        text-align: center;
+        margin: 20px 0;
+        color: #ce1e10;
+        font-weight: bold;
+      }
+
+      .loading.show {
+        display: block;
+      }
+
+      .error-message {
+        color: #d32f2f;
+        background-color: #ffebee;
+        border: 1px solid #e57373;
+        border-radius: 5px;
+        padding: 10px;
+        margin: 10px 0;
+        display: none;
+      }
+
+      .error-message.show {
+        display: block;
+      }
+
+      .success-message {
+        color: #2e7d32;
+        background-color: #e8f5e8;
+        border: 1px solid #81c784;
+        border-radius: 5px;
+        padding: 10px;
+        margin: 10px 0;
+        display: none;
+      }
+
+      .success-message.show {
+        display: block;
+      }
+      
+      .input-readonly {
+          background-color: #f4f4f4;
+          cursor: not-allowed;
+      }
+
+      /* Responsive design */
+      @media (max-width: 600px) {
+        .container {
+          margin: 10px;
+          padding: 20px;
+        }
+
+        header {
+          padding: 15px;
+        }
+
+        .popup-content {
+          padding: 20px;
+        }
+      }
+    </style>
+  </head>
+  <body>
+    <header>
+      <h1>Form Input PIC Pengawasan</h1>
+    </header>
+
+    <div class="container">
+      <div class="error-message" id="error-message"></div>
+      <div class="success-message" id="success-message"></div>
+
+      <form id="pic-form" class="form-container">
+        <input type="hidden" name="form_type" value="input_pic">
+
+        <label for="cabang">Cabang:</label>
+        <select id="cabang" name="cabang" required disabled>
+          <option value="">-- Cabang terisi otomatis --</option>
+        </select>
+
+        <label for="kode_ulok">Kode Ulok:</label>
+        <select id="kode_ulok" name="kode_ulok" required>
+          <option value="">-- Pilih Kode Ulok --</option>
+        </select>
+
+        <label for="kategori_lokasi">Kategori Lokasi:</label>
+        <select name="kategori_lokasi" id="kategori_lokasi" required>
+          <option value="">-- Pilih Kategori Lokasi --</option>
+          <option value="non_ruko_non_urugan_30hr">
+            Non Ruko Non Urugan 30 HR
+          </option>
+          <option value="non_ruko_non_urugan_35hr">
+            Non Ruko Non Urugan 35 HR
+          </option>
+          <option value="non_ruko_non_urugan_40hr">
+            Non Ruko Non Urugan 40 HR
+          </option>
+          <option value="non_ruko_urugan_48hr">Non Ruko Urugan 48 HR</option>
+          <option value="ruko_10hr">Ruko 10 HR</option>
+          <option value="ruko_14hr">Ruko 14 HR</option>
+          <option value="ruko_20hr">Ruko 20 HR</option>
+        </select>
+
+        <label for="tanggal_spk">Tanggal Mulai SPK:</label>
+        <input
+          type="date"
+          id="tanggal_spk"
+          name="tanggal_spk"
+          min=""
+          required
+        />
+        
+        <label for="spk_url">Link PDF SPK:</label>
+        <input
+          type="text"
+          id="spk_url"
+          name="spkUrl"
+          placeholder="Link SPK akan terisi otomatis berdasarkan kode ulok..."
+          readonly
+          class="input-readonly"
+        />
+        <label for="rab_url"
+          >Link File (RAB, Penawaran & Gambar Sipil & Me):</label
+        >
+        <input
+          type="text"
+          id="rab_url"
+          name="rabUrl"
+          placeholder="Link RAB akan terisi otomatis berdasarkan kode ulok..."
+          readonly
+          class="input-readonly"
+        />
+        
+        <label for="pic_building_support">PIC Building Support:</label>
+        <select name="pic_building_support" id="pic_building_support" required>
+          <option value="">-- Pilih PIC Building Support --</option>
+        </select>
+
+        <div class="loading" id="loading">
+          Sedang memproses data dan mengirim email...
+        </div>
+
+        <div class="button-group">
+          <button type="submit" id="submit-btn">Simpan</button>
+        </div>
+      </form>
+    </div>
+
+    <div class="popup" id="popup">
+      <div class="popup-content">
+        <p id="popup-message"></p>
+        <button onclick="closePopup()">Tutup</button>
+      </div>
+    </div>
+
+    <script src="script.js"></script>
+  </body>
+</html>
