@@ -205,6 +205,30 @@ table tbody td select:focus {
 }
 
 /* Button Styles */
+.button-merge-pdf {
+    display: block; 
+    width: 100%;
+    padding: 0.85rem;
+    margin-top: 10px; 
+    margin-bottom: 20px; 
+    border: none;
+    border-radius: 8px;
+    background-color: #FDD835; 
+    color: #333333 !important;
+    font-size: 1.1rem;
+    font-weight: 600;
+    cursor: pointer;
+    text-align: center; 
+    text-decoration: none; 
+    transition: background-color 0.2s, transform 0.1s;
+}
+
+.button-merge-pdf:hover {
+    background-color: #FBC02D; /* Warna sedikit lebih gelap saat hover */
+    transform: translateY(-1px);
+    box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+}
+
 .button-group {
   display: flex;
   gap: 1rem;
