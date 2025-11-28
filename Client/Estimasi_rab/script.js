@@ -79,39 +79,6 @@ const parseRupiah = (formattedString) => parseFloat(String(formattedString).repl
 const formatNumberWithSeparators = (num) => (num === null || isNaN(num)) ? '0' : new Intl.NumberFormat('id-ID').format(num);
 const parseFormattedNumber = (str) => typeof str !== 'string' ? (Number(str) || 0) : (parseFloat(String(str).replace(/\./g, '').replace(/,/g, '.')) || 0);
 
-function hitungLuasTerbangunan() {
-    const luasBangunan = parseFloat(document.getElementById("luas_bangunan")?.value);
-    const luasAreaTerbuka = parseFloat(document.getElementById("luas_area_terbuka")?.value);
-
-    // Jika kedua input kosong → kosongkan output
-    if (isNaN(luasBangunan) && isNaN(luasAreaTerbuka)) {
-        document.getElementById("luas_terbangunan").value = "";
-        return;
-    }
-
-    // Jika hanya salah satu yang kosong → tetap hitung yang tersedia
-    const lb = isNaN(luasBangunan) ? 0 : luasBangunan;
-    const lat = isNaN(luasAreaTerbuka) ? 0 : luasAreaTerbuka;
-
-    // Rumus baru (ditambah)
-    const hasil = lb + (lat / 2);
-
-    // Validasi hasil tidak boleh minus (walaupun rumus baru mustahil minus)
-    if (hasil < 0) {
-        document.getElementById("luas_terbangunan").value = "";
-        if (typeof showMessage === "function") {
-            showMessage("Luas Terbangunan tidak boleh bernilai minus.", "error");
-        }
-        return;
-    }
-
-    document.getElementById("luas_terbangunan").value = hasil.toFixed(2);
-}
-
-// Event listeners
-document.getElementById("luas_bangunan")?.addEventListener("input", hitungLuasTerbangunan);
-document.getElementById("luas_area_terbuka")?.addEventListener("input", hitungLuasTerbangunan);
-
 
 const handleCurrencyInput = (event) => {
     const input = event.target;
@@ -596,24 +563,9 @@ async function handleFormSubmit() {
     const luasTerbangunan = parseFloat(luasTerbangunanRaw);
 
     // Jika kosong / bukan angka
-    if (!luasTerbangunanRaw || isNaN(luasTerbangunan)) {
-        messageDiv.textContent =
-            "Error: Luas Terbangunan belum terhitung. Periksa kembali input Luas Bangunan & Area Terbuka.";
-        messageDiv.style.backgroundColor = "#dc3545";
-        messageDiv.style.display = "block";
-        submitButton.disabled = false;
-        return;
-    }
-
+    
     // Jika hasil minus / <= 0
-    if (luasTerbangunan <= 0) {
-        messageDiv.textContent =
-            "Error: Luas Terbangunan tidak valid atau bernilai minus. Periksa kembali input Luas Bangunan & Area Terbuka.";
-        messageDiv.style.backgroundColor = "#dc3545";
-        messageDiv.style.display = "block";
-        submitButton.disabled = false;
-        return;
-    }
+    
 
     // Mapping nama_toko
     data["nama_toko"] =
