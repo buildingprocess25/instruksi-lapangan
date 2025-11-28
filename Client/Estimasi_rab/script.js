@@ -639,9 +639,10 @@ async function handleFormSubmit() {
     try {
         const response = await fetch(`${PYTHON_API_BASE_URL}/api/submit_rab_kedua`, {
             method: "POST",
-            headers: { enctype: "multipart/form-data" },
-            body: JSON.stringify(data),
-        });
+            // HAPUS headers: { enctype... } sepenuhnya.
+            // Browser otomatis menangani header untuk FormData.
+            body: formData, // <--- Kirim objek formData yang sudah berisi file & json_payload
+        });
 
         const result = await response.json();
 
