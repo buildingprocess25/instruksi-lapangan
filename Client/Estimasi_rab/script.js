@@ -615,7 +615,31 @@ async function handleFormSubmit() {
         formData.delete(key);
     }
 
-    formData.append("attachment_pdf", pdfFile, pdfFile.name);
+    // ... kode sebelumnya ...
+    for (const key of Object.keys(Object.fromEntries(new FormData(form)))) {
+        formData.delete(key);
+    }
+
+    // --- TAMBAHAN KODE (MULAI) ---
+    // Ambil elemen input file berdasarkan ID
+    const fileInput = document.getElementById('attachment_pdf');
+    // Ambil file pertama yang dipilih user
+    const pdfFile = fileInput.files[0]; 
+    // --- TAMBAHAN KODE (SELESAI) ---
+
+    // 5. Tambahkan kembali file PDF ke FormData
+    if (pdfFile) {
+        formData.append("attachment_pdf", pdfFile, pdfFile.name);
+    } else {
+        // Opsional: Handle jika user belum upload file (meski sudah ada atribut required di HTML)
+        console.error("File PDF belum dipilih");
+        messageDiv.textContent = "Mohon pilih file PDF terlebih dahulu.";
+        submitButton.disabled = false;
+        return; 
+    }
+
+    // 6. Masukkan seluruh data non-file ...
+    // ... kode selanjutnya ...
 
     formData.append('json_payload', JSON.stringify(data));
 
