@@ -611,6 +611,19 @@ async function handleFormSubmit() {
             }
         });
 
+    // ... (Baris-baris sebelumnya, termasuk pengumpulan data ke objek 'data')
+
+    // --------------------------------------------------------------------------------
+    // HARUS ADA DI SINI: Deklarasi pdfFile dan Validasi
+    const pdfFile = document.getElementById("attachment_pdf").files[0];
+    if (!pdfFile) {
+        // ... (Error handling jika file kosong)
+        return;
+    }
+    // --------------------------------------------------------------------------------
+
+
+    // 4. Hapus semua field sederhana dari FormData
     for (const key of Object.keys(Object.fromEntries(new FormData(form)))) {
         formData.delete(key);
     }
@@ -622,10 +635,11 @@ async function handleFormSubmit() {
     formData.append('json_payload', JSON.stringify(data));
 
     try {
+        // 7. Lakukan permintaan POST ke ENDPOINT BARU dengan FormData
         const response = await fetch(`${PYTHON_API_BASE_URL}/api/submit_rab_kedua`, {
             method: "POST",
-            headers: { enctype: "multipart/form-data" },
-            body: JSON.stringify(data),
+            // PENTING: HILANGKAN header Content-Type/enctype
+            body: formData, // <-- Menggunakan objek formData
         });
 
         const result = await response.json();
