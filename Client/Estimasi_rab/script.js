@@ -617,7 +617,7 @@ async function handleFormSubmit() {
 
     // Tambah file PDF ke FormData
     if (pdfFile) {
-        submissionData.append("attachment_pdf", pdfFile, pdfFile.name);
+        submissionData.append("file_pdf", pdfFile, pdfFile.name);
     }
 
     // Input semua data (termasuk Nomor Ulok) sebagai field biasa
