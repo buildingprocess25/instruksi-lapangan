@@ -611,35 +611,36 @@ async function handleFormSubmit() {
             }
         });
 
-    // ... (Baris-baris sebelumnya, termasuk pengumpulan data ke objek 'data')
-
-    // --------------------------------------------------------------------------------
-    // HARUS ADA DI SINI: Deklarasi pdfFile dan Validasi
-    const pdfFile = document.getElementById("attachment_pdf").files[0];
-    if (!pdfFile) {
-        // ... (Error handling jika file kosong)
-        return;
-    }
-    // --------------------------------------------------------------------------------
-
-
-    // 4. Hapus semua field sederhana dari FormData
     for (const key of Object.keys(Object.fromEntries(new FormData(form)))) {
         formData.delete(key);
     }
 
+    // --- TAMBAHAN KODE (MULAI) ---
+    // Ambil elemen input file berdasarkan ID
+    const fileInput = document.getElementById('attachment_pdf');
+    // Ambil file pertama yang dipilih user
+    const pdfFile = fileInput.files[0]; 
+    // --- TAMBAHAN KODE (SELESAI) ---
+
     // 5. Tambahkan kembali file PDF ke FormData
-    formData.append("attachment_pdf", pdfFile, pdfFile.name);
+    if (pdfFile) {
+        formData.append("attachment_pdf", pdfFile, pdfFile.name);
+    } else {
+        // Opsional: Handle jika user belum upload file (meski sudah ada atribut required di HTML)
+        console.error("File PDF belum dipilih");
+        messageDiv.textContent = "Mohon pilih file PDF terlebih dahulu.";
+        submitButton.disabled = false;
+        return; 
+    }
 
     // 6. Masukkan seluruh data non-file (BOQ dan metadata) sebagai JSON payload
     formData.append('json_payload', JSON.stringify(data));
 
     try {
-        // 7. Lakukan permintaan POST ke ENDPOINT BARU dengan FormData
         const response = await fetch(`${PYTHON_API_BASE_URL}/api/submit_rab_kedua`, {
             method: "POST",
-            // PENTING: HILANGKAN header Content-Type/enctype
-            body: formData, // <-- Menggunakan objek formData
+            headers: { enctype: "multipart/form-data" },
+            body: JSON.stringify(data),
         });
 
         const result = await response.json();
