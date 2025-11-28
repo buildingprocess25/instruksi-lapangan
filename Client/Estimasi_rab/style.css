@@ -215,7 +215,7 @@ table tbody td select:focus {
     border-radius: 8px;
     background-color: #FDD835; 
     color: #333333 !important;
-    font-size: 1.1rem;
+    font-size: 1rem;
     font-weight: 600;
     cursor: pointer;
     text-align: center; 
