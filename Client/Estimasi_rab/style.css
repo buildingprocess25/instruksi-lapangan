@@ -207,7 +207,7 @@ table tbody td select:focus {
 /* Button Styles */
 .button-merge-pdf {
     display: block; 
-    width: 100%;
+    width: 25%;
     padding: 0.85rem;
     margin-top: 10px; 
     margin-bottom: 20px; 
