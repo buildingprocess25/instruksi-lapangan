@@ -270,7 +270,6 @@ const autoFillPrices = (selectElement) => {
     calculateTotalPrice(selectElement);
 };
 
-
 function refreshJenisPekerjaanOptions(category) {
     // Kumpulkan semua jenis pekerjaan yang sudah dipilih dalam category ini
     const selectedValues = Array.from(
@@ -299,7 +298,6 @@ function refreshJenisPekerjaanOptions(category) {
         });
 }
 
-
 const createBoQRow = (category, scope) => {
     const row = document.createElement("tr");
     row.classList.add("boq-item-row");
@@ -307,7 +305,6 @@ const createBoQRow = (category, scope) => {
     row.dataset.category = category;
 
     // PERBAIKAN UTAMA ADA DI BARIS innerHTML DI BAWAH INI
-    // Pastikan kelasnya .col-total dan .col-total-harga sudah benar
     row.innerHTML = `<td class="col-no"><span class="row-number"></span></td><td class="col-jenis-pekerjaan"><select class="jenis-pekerjaan form-control" name="Jenis_Pekerjaan_Item" required><option value="">-- Pilih --</option></select></td><td class="col-satuan"><input type="text" class="satuan form-control auto-filled" name="Satuan_Item" required readonly /></td><td class="col-volume"><input type="text" class="volume form-control" name="Volume_Item" value="0.00" inputmode="decimal" oninput="this.value = this.value.replace(/[^0-9.]/g, '').replace(/(\\..*?)\\..*/g, '$1').replace(/(\\.\\d{2})\\d+/, '$1')" /></td><td class="col-harga"><input type="text" class="harga-material form-control auto-filled" name="Harga_Material_Item" inputmode="numeric" required readonly /></td><td class="col-harga"><input type="text" class="harga-upah form-control auto-filled" name="Harga_Upah_Item" inputmode="numeric" required readonly /></td><td class="col-total"><input type="text" class="total-material form-control auto-filled" disabled /></td><td class="col-total"><input type="text" class="total-upah form-control auto-filled" disabled /></td><td class="col-total-harga"><input type="text" class="total-harga form-control auto-filled" disabled /></td><td class="col-aksi"><button type="button" class="delete-row-btn">Hapus</button></td>`;
 
     row.querySelector(".volume").addEventListener("input", (e) => calculateTotalPrice(e.target));
@@ -611,24 +608,21 @@ async function handleFormSubmit() {
             }
         });
 
-    // --- TAMBAHAN KODE (MULAI) ---
     // Ambil elemen input file berdasarkan ID
     const fileInput = document.getElementById('attachment_pdf');
     // Ambil file pertama yang dipilih user
     const pdfFile = fileInput.files[0]; 
-    // --- TAMBAHAN KODE (SELESAI) ---
+    // Form data baru
     const submissionData = new FormData();
 
-    // 5. Tambahkan kembali file PDF ke FormData
+    // Tambah file PDF ke FormData
     if (pdfFile) {
         submissionData.append("attachment_pdf", pdfFile, pdfFile.name);
     }
 
-    // 2. Masukkan semua data (termasuk Nomor Ulok) sebagai field biasa
-    // Ini agar server bisa membacanya langsung via request.form['Nomor Ulok']
+    // Input semua data (termasuk Nomor Ulok) sebagai field biasa
     for (const key in data) {
         if (data.hasOwnProperty(key)) {
-            // Konversi nilai ke string agar aman
             submissionData.append(key, String(data[key]));
         }
     }
@@ -636,12 +630,10 @@ async function handleFormSubmit() {
     try {
         const response = await fetch(`${PYTHON_API_BASE_URL}/api/submit_rab_kedua`, {
             method: "POST",
-            // Header tidak perlu diset manual, browser otomatis mengatur multipart/form-data
-            body: submissionData, // <--- Gunakan submissionData yang baru dibuat
+            body: submissionData,
         });
 
         const result = await response.json();
-
 
         if (response.ok && result.status === "success") {
             messageDiv.textContent =
