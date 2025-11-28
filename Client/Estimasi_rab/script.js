@@ -659,8 +659,18 @@ async function handleFormSubmit() {
             }
         });
 
+    for (const key of Object.keys(Object.fromEntries(new FormData(form)))) {
+        formData.delete(key);
+    }
+
+    // 5. Tambahkan kembali file PDF ke FormData
+    formData.append("attachment_pdf", pdfFile, pdfFile.name);
+
+    // 6. Masukkan seluruh data non-file (BOQ dan metadata) sebagai JSON payload
+    formData.append('json_payload', JSON.stringify(data));
+
     try {
-        const response = await fetch(`${PYTHON_API_BASE_URL}/api/submit_rab`, {
+        const response = await fetch(`${PYTHON_API_BASE_URL}/api/submit_rab_kedua`, {
             method: "POST",
             headers: { "Content-Type": "application/json" },
             body: JSON.stringify(data),
