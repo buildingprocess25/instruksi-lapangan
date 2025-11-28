@@ -6,8 +6,6 @@ import os
 import traceback
 import json
 import base64
-import json
-import traceback
 from flask import Flask, request, jsonify, render_template, url_for
 from dotenv import load_dotenv
 from flask_cors import CORS
@@ -272,77 +270,6 @@ def submit_rab():
         traceback.print_exc()
         return jsonify({"status": "error", "message": str(e)}), 500
     
-# ... (Akhir dari def submit_rab(): )
-
-@app.route('/api/submit_rab_kedua', methods=['POST'])
-def submit_rab_kedua():
-    new_row_index = None # Tambahkan inisialisasi ini untuk safety di block except
-    try:
-        # 1. Ambil data JSON dari field 'json_payload' (Dari FormData)
-        json_payload_str = request.form.get('json_payload')
-        if not json_payload_str:
-            return jsonify({"status": "error", "message": "JSON payload (data form) tidak ditemukan."}), 400
-        
-        # 2. Parse string JSON menjadi dictionary Python
-        data = json.loads(json_payload_str)
-
-        # 3. Ambil file PDF dari field 'attachment_pdf' (Dari FormData)
-        pdf_file = request.files.get('attachment_pdf')
-        if not pdf_file or pdf_file.filename == '':
-            return jsonify({"status": "error", "message": "Lampiran PDF tidak ditemukan."}), 400
-        
-        # 4. Lakukan pengolahan File dan Data
-        pdf_content = pdf_file.read() 
-        pdf_filename = pdf_file.filename
-
-        # Dapatkan data yang diperlukan
-        kode_ulok = data.get('kode_ulok')
-        nama_toko = data.get('Nama_Toko')
-        
-        final_pdf_content = create_recap_pdf(data) 
-
-        # 5. Tambahkan ke Google Sheet
-        new_row_index = google_provider.append_rab_submission(data)
-        
-        # 6. Logika Email
-        email_details = get_email_details(data, "RAB_SUBMIT")
-
-        # Kirim email dengan DUA lampiran
-        google_provider.send_email_with_multiple_attachments({
-            'to': email_details['recipients'],
-            'subject': f"[RAB] {data.get('Nomor Ulok')} - {data.get('Cabang')} - {data.get('Nama_Toko')}",
-            'body': email_details['body'],
-            'attachments': [
-                # 1. File rekap PDF yang dibuat dari data BOQ
-                {'content': final_pdf_content, 'filename': f"{kode_ulok}_RAB_REKAP_{nama_toko}.pdf", 'type': 'application/pdf'},
-                # 2. File PDF yang diunggah dari form (attachment_pdf)
-                {'content': pdf_content, 'filename': pdf_filename, 'type': 'application/pdf'} 
-            ]
-        })
-        
-        # 7. Logika Kalender (Wajib ada import datetime di bagian atas)
-        if 'tanggal_mengawas' in data and data['tanggal_mengawas']:
-            # Pastikan format tanggal sesuai dengan yang Anda simpan di 'data'
-            event_date_obj = datetime.datetime.strptime(data['tanggal_mengawas'], '%d %B %Y') 
-            google_provider.create_calendar_event({
-                'title': f"[REMINDER] Pengawasan H+2: {data.get('kode_ulok')}",
-                'description': f"Ini adalah pengingat untuk melakukan pengawasan H+2 untuk toko {data.get('kode_ulok')}. Link untuk mengisi laporan akan dikirimkan melalui email terpisah.",
-                'date': event_date_obj.strftime('%Y-%m-%d'),
-                'guests': email_details['recipients']
-            })
-
-        return jsonify({"status": "success", "message": "Laporan dan file berhasil dikirim."}), 200
-
-    except Exception as e:
-        # Jika terjadi error setelah data masuk ke Sheets, hapus baris tersebut
-        if new_row_index:
-            google_provider.delete_row(
-                config.DATA_ENTRY_SHEET_NAME,
-                new_row_index
-            )
-        traceback.print_exc() 
-        return jsonify({"status": "error", "message": f"Terjadi kesalahan server: {str(e)}"}), 500
-
 @app.route('/api/reject_form/rab', methods=['GET'])
 def reject_form_rab():
     row = request.args.get('row')
