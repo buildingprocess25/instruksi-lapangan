@@ -646,7 +646,6 @@ async function handleFormSubmit() {
     try {
         const response = await fetch(`${PYTHON_API_BASE_URL}/api/submit_rab_kedua`, {
             method: "POST",
-            headers: {enctype: "multipart/form-data"},
             body: formData, // <--- Kirim objek formData yang sudah berisi file & json_payload
         });
 
