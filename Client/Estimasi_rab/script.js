@@ -611,45 +611,37 @@ async function handleFormSubmit() {
             }
         });
 
-    for (const key of Object.keys(Object.fromEntries(new FormData(form)))) {
-        formData.delete(key);
-    }
-
-    // ... kode sebelumnya ...
-    for (const key of Object.keys(Object.fromEntries(new FormData(form)))) {
-        formData.delete(key);
-    }
-
     // --- TAMBAHAN KODE (MULAI) ---
     // Ambil elemen input file berdasarkan ID
     const fileInput = document.getElementById('attachment_pdf');
     // Ambil file pertama yang dipilih user
     const pdfFile = fileInput.files[0]; 
     // --- TAMBAHAN KODE (SELESAI) ---
+    const submissionData = new FormData();
 
     // 5. Tambahkan kembali file PDF ke FormData
     if (pdfFile) {
-        formData.append("attachment_pdf", pdfFile, pdfFile.name);
-    } else {
-        // Opsional: Handle jika user belum upload file (meski sudah ada atribut required di HTML)
-        console.error("File PDF belum dipilih");
-        messageDiv.textContent = "Mohon pilih file PDF terlebih dahulu.";
-        submitButton.disabled = false;
-        return; 
+        submissionData.append("attachment_pdf", pdfFile, pdfFile.name);
     }
 
-    // 6. Masukkan seluruh data non-file ...
-    // ... kode selanjutnya ...
-
-    formData.append('json_payload', JSON.stringify(data));
+    // 2. Masukkan semua data (termasuk Nomor Ulok) sebagai field biasa
+    // Ini agar server bisa membacanya langsung via request.form['Nomor Ulok']
+    for (const key in data) {
+        if (data.hasOwnProperty(key)) {
+            // Konversi nilai ke string agar aman
+            submissionData.append(key, String(data[key]));
+        }
+    }
 
     try {
         const response = await fetch(`${PYTHON_API_BASE_URL}/api/submit_rab_kedua`, {
             method: "POST",
-            body: formData, // <--- Kirim objek formData yang sudah berisi file & json_payload
-        });
+            // Header tidak perlu diset manual, browser otomatis mengatur multipart/form-data
+            body: submissionData, // <--- Gunakan submissionData yang baru dibuat
+        });
 
         const result = await response.json();
+
 
         if (response.ok && result.status === "success") {
             messageDiv.textContent =
