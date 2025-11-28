@@ -615,34 +615,16 @@ async function handleFormSubmit() {
         formData.delete(key);
     }
 
-    // --- TAMBAHAN KODE (MULAI) ---
-    // Ambil elemen input file berdasarkan ID
-    const fileInput = document.getElementById('attachment_pdf');
-    // Ambil file pertama yang dipilih user
-    const pdfFile = fileInput.files[0]; 
-    // --- TAMBAHAN KODE (SELESAI) ---
+    formData.append("attachment_pdf", pdfFile, pdfFile.name);
 
-    // 5. Tambahkan kembali file PDF ke FormData
-    if (pdfFile) {
-        formData.append("attachment_pdf", pdfFile, pdfFile.name);
-    } else {
-        // Opsional: Handle jika user belum upload file (meski sudah ada atribut required di HTML)
-        console.error("File PDF belum dipilih");
-        messageDiv.textContent = "Mohon pilih file PDF terlebih dahulu.";
-        submitButton.disabled = false;
-        return; 
-    }
-
-    // 6. Masukkan seluruh data non-file (BOQ dan metadata) sebagai JSON payload
     formData.append('json_payload', JSON.stringify(data));
 
     try {
         const response = await fetch(`${PYTHON_API_BASE_URL}/api/submit_rab_kedua`, {
             method: "POST",
-            // HAPUS headers: { enctype... } sepenuhnya.
-            // Browser otomatis menangani header untuk FormData.
-            body: formData, // <--- Kirim objek formData yang sudah berisi file & json_payload
-        });
+            headers: { enctype: "multipart/form-data" },
+            body: JSON.stringify(data),
+        });
 
         const result = await response.json();
 
