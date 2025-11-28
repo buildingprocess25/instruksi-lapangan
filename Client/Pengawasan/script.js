@@ -1,6 +1,6 @@
 document.addEventListener('DOMContentLoaded', () => {
     const form = document.querySelector('form');
-    const PYTHON_API_BASE_URL = "http://168.110.201.69:5000";
+    const PYTHON_API_BASE_URL = "https://cuma-backend.web.id";
 
     // --- Fungsi Bantuan ---
     const toBase64 = file => new Promise((resolve, reject) => {

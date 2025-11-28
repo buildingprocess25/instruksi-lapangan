@@ -14,7 +14,7 @@ let approvedStoreCodes = [];
 let rejectedSubmissionsList = [];
 let originalFormData = null;
 
-const PYTHON_API_BASE_URL = "http://168.110.201.69:5000";
+const PYTHON_API_BASE_URL = "https://cuma-backend.web.id";
 
 const sipilCategoryOrder = [
     "PEKERJAAN PERSIAPAN",
