@@ -116,7 +116,7 @@
           <option value="ME">ME</option>
         </select>
 
-        <label for="attachment_pdf">Lampiran PDF:</label>
+        <label for="attachment_pdf">Lampiran PD (Max 1 File):</label>
         <input 
           type="file" 
           id="attachment_pdf" 
@@ -124,6 +124,14 @@
           accept=".pdf" 
           required 
         />
+
+        <a 
+          href="https://pdf-combine-beta.vercel.app/" 
+          target="_blank" 
+          class="merge-pdf-btn"
+        >
+          Gabungkan File PDF (Jika Lebih dari 1) 🔗
+        </a>
 
         <div class="all-tables-container">
           <div id="sipil-tables-wrapper" class="hidden">
