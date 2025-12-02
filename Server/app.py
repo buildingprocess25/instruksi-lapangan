@@ -230,7 +230,8 @@ def submit_rab():
                 f"Tidak ada email Koordinator yang ditemukan untuk cabang '{cabang}'."
             )
 
-        base_url = "https://instruksi-lapangan.onrender.com"
+        # base_url = "https://instruksi-lapangan.onrender.com"
+        base_url = "https://cuma-backend.web.id"
         approver_for_link = coordinator_emails[0]
         approval_url = (
             f"{base_url}/api/handle_rab_approval"
@@ -436,7 +437,8 @@ def submit_rab_kedua():
         if not coordinator_emails:
             raise Exception(f"Tidak ada email Koordinator untuk cabang '{cabang}'.")
 
-        base_url = "https://instruksi-lapangan.onrender.com"
+        # base_url = "https://instruksi-lapangan.onrender.com"
+        base_url = "https://cuma-backend.web.id"
         approver_for_link = coordinator_emails[0]
         
         # Arahkan ke handler approval RAB 2
@@ -797,7 +799,8 @@ def handle_rab_2_approval():
                 manager_email = google_provider.get_email_by_jabatan(cabang, config.JABATAN.MANAGER)
                 
                 if manager_email:
-                    base_url = "https://instruksi-lapangan.onrender.com" 
+                    # base_url = "https://instruksi-lapangan.onrender.com" 
+                    base_url = "https://cuma-backend.web.id"
                     approval_url_manager = f"{base_url}/api/handle_rab_2_approval?action=approve&row={row}&level=manager&approver={manager_email}"
                     rejection_url_manager = f"{base_url}/api/reject_form/rab_kedua?action=reject&row={row}&level=manager&approver={manager_email}"
                     
