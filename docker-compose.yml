@@ -1,0 +1,20 @@
+version: '3.8'
+
+services:
+  backend:
+    build: ./app
+    container_name: alfamart_api
+    restart: always
+    ports:
+      - "5000:5000"  # Mapping port: Host 5000 -> Container 5000
+    environment:
+      - FLASK_ENV=production
+      # Tambahkan variabel environment lain jika ada di .env Anda, contoh:
+      # - SPREADSHEET_ID=1LA1TlhgltT2bqSN3H-LYasq9PtInVlqq98VPru8txoo
+    volumes:
+      # Mounting file kredensial dari luar container (agar lebih aman & mudah diganti)
+      # Pastikan path di sebelah kiri titik dua (:) sesuai lokasi file di komputer Anda
+      - ./app/token.json:/app/token.json
+      - ./app/client_secret.json:/app/client_secret.json
+      # Opsional: Mounting folder output PDF jika ingin hasil PDF tersimpan di komputer host
+      # - ./pdf_output:/app/output
