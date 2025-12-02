@@ -32,8 +32,6 @@ CORS(app,
             "http://168.110.201.69:8082",
             "https://instruksi-lapangan.vercel.app",
             "https://instruksi-lapangan.vercel.app/", 
-            "https://instruksi-lapangan.onrender.com",
-            "https://instruksi-lapangan.onrender.com/"
     ],
     methods=["GET", "POST", "OPTIONS", "PUT", "PATCH", "DELETE"],
     allow_headers=["Content-Type", "Authorization"],
