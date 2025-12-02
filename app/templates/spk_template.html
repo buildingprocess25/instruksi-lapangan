@@ -1,0 +1,304 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <meta charset="UTF-8">
+    <title>Surat Perintah Kerja</title>
+    <style>
+        @page {
+            size: A4;
+            margin: 1cm 1cm 1cm 1cm;
+        }
+
+        body {
+            font-family: Arial, sans-serif;
+            color: #000;
+            font-size: 12px;
+            line-height: 1.5;
+        }
+
+        .header,
+        .footer {
+            position: fixed;
+            left: 0;
+            right: 0;
+        }
+
+        .header {
+            top: 0;
+        }
+
+        .footer {
+            bottom: 0;
+            display: flex;
+            justify-content: space-between;
+            font-size: 11px;
+            background: #fff;
+            padding-top: 6px;
+        }
+
+        .footer-line {
+            text-align: left;
+            max-width: 72%;
+        }
+
+        .footer-website {
+            text-align: right;
+            align-self: flex-end;
+            white-space: nowrap;
+        }
+
+        .logo {
+            max-height: 35px;
+            max-width: 120px;
+            width: auto;
+            position: absolute;
+            top: 0;
+            left: 0;
+        }
+
+        .header-text {
+            text-align: left;
+            font-weight: bold;
+            margin-left: 180px;
+        }
+
+        .spk-title {
+            text-align: center;
+            font-weight: bold;
+            text-decoration: underline;
+            margin-top: 30px;
+            margin-bottom: 5px;
+            font-size: 14px;
+        }
+
+        .spk-number {
+            text-align: left;
+            font-size: 12px;
+            margin-bottom: 30px;
+        }
+
+        .content-section p,
+        .content-section ul {
+            margin: 5px 0;
+            text-align: justify;
+        }
+
+        .cost-section {
+            border: 1px solid #000;
+            padding: 10px;
+            margin: 20px 0;
+        }
+
+        .signatures {
+            margin-top: 45px;
+            width: 100%;
+            page-break-inside: avoid;
+        }
+
+        .signatures table {
+            width: 100%;
+            border-collapse: separate;
+            text-align: center;
+            table-layout: fixed;
+        }
+
+        .signatures td {
+            position: relative;
+        }
+
+        .sig-wrap {
+            position: relative;
+            height: 60px;
+        }
+
+        .signature-space {
+            height: 80px;
+            min-height: 80px;
+        }
+
+        .approval-details {
+            font-size: 11px;
+            line-height: 1.4;
+            color: #333;
+        }
+
+        .approval-details .timestamp {
+            font-size: 9px;
+            color: #555;
+            font-style: italic;
+        }
+
+        .page-content {
+            padding-top: 0.1cm;
+            padding-bottom: 2cm
+        }
+
+        .signatures .name {
+            font-weight: 600;
+            margin-top: 4px;
+        }
+
+        .signatures .ts {
+            font-size: 10px;
+            color: #777;
+            font-style: italic;
+            margin-top: 2px;
+        }
+
+        .content-section ul {
+            page-break-inside: avoid;
+        }
+
+        .sig-wrap .approval-details {
+            position: absolute;
+            left: 0;
+            right: 0;
+            bottom: 0;
+        }
+
+        .sig-wrap .approval-details .timestamp {
+            position: absolute;
+            left: 0;
+            right: 0;
+            bottom: 60px;
+            font-size: 10px;
+            color: #777;
+            font-style: italic;
+            margin-bottom: 8px;
+        }
+
+        .sig-wrap .approval-details .name {
+            position: absolute;
+            left: 0;
+            right: 0;
+            bottom: 10px;
+            font-weight: 600;
+        }
+
+        .signature-space {
+            height: 60px;
+            min-height: 60px;
+        }
+    </style>
+</head>
+
+<body>
+    <div class="header">
+        <img src="{{ logo_path }}" alt="Logo" class="logo">
+    </div>
+    <div class="page-content">
+
+        <p style="text-align: right;">{{ spk_location }}, {{ spk_date }}</p>
+
+        <div class="spk-number">
+            Nomor: {{ spk_number }}<br>
+            PAR&nbsp;&nbsp;&nbsp;: {{ par_number }}
+        </div>
+
+        <div class="content-section">
+            <p>Kepada Yth,<br>
+                <strong>{{ contractor_name }}</strong><br>
+                {{ project_address }}
+            </p>
+
+            <p style="margin-top: 30px;">Up. Bpk/Ibu Pimpinan</p>
+
+            <h3 class="spk-title">Surat Perintah Kerja (SPK)</h3>
+
+            <p>Dengan hormat,</p>
+            <p style="text-align: justify;">Sesuai dengan surat penawaran Bapak/Ibu ybs. mengenai pekerjaan {{
+                lingkup_pekerjaan }} pada toko Alfamart {{ nama_toko }}, pekerjaan {{ proyek }}, beralamat di {{
+                project_address }}, maka dengan ini menunjuk Bapak/Ibu untuk melaksanakan pekerjaan tersebut, dengan
+                ketentuan sebagai berikut:</p>
+
+            <div class="cost-section">
+                <ul>
+                    <li><strong>Perincian Biaya :</strong><br>
+                        Pekerjaan {{ lingkup_pekerjaan }}
+                        <strong style="float: right;">Rp. {{ total_cost_formatted }},-</strong>
+                    </li>
+                </ul>
+                <p><strong>Terbilang : ( {{ terbilang }} Rupiah )</strong></p>
+                <p>Harga tersebut sudah termasuk PPN dan PPh.</p>
+            </div>
+
+            <ul>
+                <li>Pelaksanaan pengadaan disesuaikan dengan spesifikasi dalam penawaran tersebut diatas.</li>
+                <li>Jangka waktu pelaksanaan terhitung dari tanggal {{ start_date }} sampai dengan {{ end_date }} ({{
+                    duration }} Hari Kalender)</li>
+            </ul>
+
+            <p>Demikian Surat Perintah Kerja ini kami sampaikan, atas perhatian dan kerjasamanya kami berharap Bapak
+                dapat bekerja dengan baik. Apabila ada pertanyaan sehubungan dengan pekerjaan tersebut, mohon kiranya
+                Bapak tidak segan menghubungi PT Sumber Alfaria Trijaya Tbk.</p>
+        </div>
+
+        <p style="margin-top: 30px;">Hormat kami,</p>
+        <p><strong>PT SUMBER ALFARIA TRIJAYA Tbk</strong></p>
+
+        <div class="signatures">
+            <table>
+                <tr>
+                    <td>Dibuat oleh,</td>
+                    <td>Disetujui oleh,</td>
+                </tr>
+                <tr>
+                    <td>Branch Building & Maintenance Manager</td>
+                    <td>Branch Manager</td>
+                </tr>
+                <tr>
+                    <td>
+                        <div class="signature-space"></div>
+                    </td>
+                    <td>
+                        <div class="signature-space"></div>
+                    </td>
+                </tr>
+                <tr>
+                    <td>
+                        <div class="sig-wrap">
+                            {% if initiator_details_html %}
+                            {{ initiator_details_html | safe }}
+                            {% else %}
+                            <div class="approval-details">
+                                <div class="timestamp"> </div>
+                                <div class="name">( _________________ )</div>
+                            </div>
+                            {% endif %}
+                        </div>
+                    </td>
+                    <td>
+                        <div class="sig-wrap">
+                            {% if approver_details_html %}
+                            {{ approver_details_html | safe }}
+                            {% else %}
+                            <div class="approval-details">
+                                <div class="timestamp"> </div>
+                                <div class="name">( _________________ )</div>
+                            </div>
+                            {% endif %}
+                        </div>
+                    </td>
+                </tr>
+
+            </table>
+        </div>
+    </div>
+    <div class="footer">
+        <div class="footer-line">
+            <strong>PT SUMBER ALFARIA TRIJAYA, Tbk.</strong><br>
+            ALFA TOWER <br>
+            Jl. Jalur Sutera Barat Kav. 9 <br>
+            Alam Sutera, Tangerang 15143, Indonesia <br>
+            <span style="color:red;font-weight:bold;">t</span> +62 21 808 21 555 (Hunting)<br>
+            <span style="color:red;font-weight:bold;">f</span> +62 21 808 21 556
+        </div>
+        <div class="footer-website">
+            <a>www.alfamart.co.id</a>
+        </div>
+    </div>
+
+</body>
+
+</html>

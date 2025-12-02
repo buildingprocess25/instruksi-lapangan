@@ -1,0 +1,11 @@
+Flask
+Flask-Cors
+gunicorn
+gevent
+gspread
+google-api-python-client
+google-auth-httplib2
+google-auth-oauthlib
+python-dotenv
+weasyprint
+num2words

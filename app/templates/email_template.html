@@ -1,0 +1,30 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <style>
+        .button { padding: 10px 20px; text-decoration: none; color: white !important; border-radius: 5px; }
+        .approve { background-color: #28a745; }
+        .reject { background-color: #dc3545; }
+    </style>
+</head>
+<body>
+    <p>Yth. Bapak/Ibu {{ level }},</p>
+   {% set label = "RAB" if doc_type == "RAB" else "SPK" %}
+    <p>
+        Dokumen {{ label }} untuk proyek 
+        <strong>{{ form_data.Proyek }}</strong> 
+        dengan Nomor Ulok <strong>{{ form_data['Nomor Ulok'] }}</strong> 
+        memerlukan tinjauan dan persetujuan Anda.
+    </p>
+    {% if additional_info %}
+    <p style="font-style: italic;">{{ additional_info | safe }}</p>
+    {% endif %}
+    <p>Silakan periksa detailnya pada file PDF yang terlampir dan pilih tindakan di bawah ini:</p>
+    <br>
+    <a href="{{ approval_url }}" class="button approve">SETUJUI</a>
+    <a href="{{ rejection_url }}" class="button reject">TOLAK</a>
+    <br><br>
+    <p>Terima kasih.</p>
+    <p><em>--- Email ini dibuat secara otomatis.---</em></p>
+</body>
+</html>
