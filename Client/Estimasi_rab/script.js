@@ -15,7 +15,7 @@ let rejectedSubmissionsList = [];
 let originalFormData = null;
 
 
-const PYTHON_API_BASE_URL = "https://cuma-backend.web.id";
+const PYTHON_API_BASE_URL = "https://instruksi-lapangan.onrender.com";
 
 const sipilCategoryOrder = [
     "PEKERJAAN PERSIAPAN",
