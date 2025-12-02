@@ -77,7 +77,7 @@ document.addEventListener('DOMContentLoaded', () => {
     MADIUN: "2MZ1",
   };
 
-  const PYTHON_API_BASE_URL = "https://cuma-backend.web.id";
+  const PYTHON_API_BASE_URL = "https://instruksi-lapangan.onrender.com";
   let approvedRabData = [];
 
   const branchGroups = {
