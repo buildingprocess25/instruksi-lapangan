@@ -587,6 +587,10 @@ body.dark .container {
   box-shadow: 0 10px 25px rgba(0, 0, 0, 0.4);
 }
 
+body.dark .no-ulok-container {
+  color: #010101ff;
+}
+
 body.dark .form-container label {
   color: #cbd5e1;
 }
