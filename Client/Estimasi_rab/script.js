@@ -889,23 +889,6 @@ async function initializePage() {
         }
     });
 
-    // Tombol X untuk menghapus/clear file PDF yang dipilih
-    const removeBtn = document.getElementById('remove-pdf-btn');
-    if (removeBtn) {
-        removeBtn.addEventListener('click', () => {
-            const fileInput = document.getElementById('attachment_pdf');
-            const fileNameDisplay = document.querySelector('.file-info-label');
-            const wrapper = document.querySelector('.file-upload-wrapper');
-
-            // Reset input file: trik dengan mengganti value ke ''
-            fileInput.value = '';
-            // Kembalikan UI ke keadaan awal
-            fileNameDisplay.textContent = 'Belum ada file dipilih.';
-            wrapper.style.borderColor = '#9e0000ff';
-            wrapper.style.backgroundColor = '#fff0f0ff';
-        });
-    }
-
     currentResetButton.addEventListener("click", () => {
         if (confirm("Apakah Anda yakin ingin mengulang dan mengosongkan semua isian form?")) {
             window.location.reload();
