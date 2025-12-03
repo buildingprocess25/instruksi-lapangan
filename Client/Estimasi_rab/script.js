@@ -81,6 +81,26 @@ const parseRupiah = (formattedString) => parseFloat(String(formattedString).repl
 const formatNumberWithSeparators = (num) => (num === null || isNaN(num)) ? '0' : new Intl.NumberFormat('id-ID').format(num);
 const parseFormattedNumber = (str) => typeof str !== 'string' ? (Number(str) || 0) : (parseFloat(String(str).replace(/\./g, '').replace(/,/g, '.')) || 0);
 
+function applyTheme(theme) {
+    const isDark = theme === 'dark';
+    document.body.classList.toggle('dark', isDark);
+    const btn = document.getElementById('theme-toggle');
+    if (btn) {
+        btn.setAttribute('aria-pressed', String(isDark));
+        btn.textContent = isDark ? '☀️ Tema' : '🌙 Tema';
+    }
+}
+
+function initThemeFromPreference() {
+    try {
+        const saved = localStorage.getItem('theme');
+        const preferred = saved || (window.matchMedia && window.matchMedia('(prefers-color-scheme: dark)').matches ? 'dark' : 'light');
+        applyTheme(preferred);
+    } catch (e) {
+        applyTheme('light');
+    }
+}
+
 
 const handleCurrencyInput = (event) => {
     const input = event.target;
@@ -769,6 +789,16 @@ async function initializePage() {
     sipilTablesWrapper = document.getElementById("sipil-tables-wrapper");
     meTablesWrapper = document.getElementById("me-tables-wrapper");
     currentResetButton = form.querySelector("button[type='reset']");
+
+    initThemeFromPreference();
+    const themeBtn = document.getElementById('theme-toggle');
+    if (themeBtn) {
+        themeBtn.addEventListener('click', () => {
+            const next = document.body.classList.contains('dark') ? 'light' : 'dark';
+            try { localStorage.setItem('theme', next); } catch (e) { }
+            applyTheme(next);
+        });
+    }
 
     const userEmail = sessionStorage.getItem('loggedInUserEmail');
     const userCabang = sessionStorage.getItem('loggedInUserCabang')?.toUpperCase();

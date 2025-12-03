@@ -548,3 +548,124 @@ table tbody td select.jenis-pekerjaan {
   /* Khusus untuk Firefox */
   text-align-last: left;
 }
+
+/* ======================= THEME TOGGLE & DARK MODE ======================= */
+.btn-theme-toggle {
+  position: absolute;
+  right: 130px;
+  top: 50%;
+  transform: translateY(-50%);
+  padding: 0.5rem 1rem;
+  background-color: #4b5563;
+  color: white;
+  border: none;
+  border-radius: 8px;
+  font-size: 0.9rem;
+  font-weight: 600;
+  cursor: pointer;
+  transition: background-color 0.2s;
+}
+
+.btn-theme-toggle:hover {
+  background-color: #374151;
+}
+
+body.dark {
+  background-color: #0f172a;
+  color: #e2e8f0;
+}
+
+body.dark header {
+  background-color: #111827;
+  color: #e5e7eb;
+  border-bottom: 1px solid #374151;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.25);
+}
+
+body.dark .container {
+  background-color: #1f2937;
+  box-shadow: 0 10px 25px rgba(0, 0, 0, 0.4);
+}
+
+body.dark .form-container label {
+  color: #cbd5e1;
+}
+
+body.dark .form-container input,
+body.dark .form-container select {
+  background-color: #111827;
+  border-color: #374151;
+  color: #e5e7eb;
+}
+
+body.dark .form-container input:focus,
+body.dark .form-container select:focus {
+  border-color: #60a5fa;
+  box-shadow: 0 0 0 3px rgba(96, 165, 250, 0.2);
+}
+
+body.dark .auto-filled {
+  background-color: #1f2937 !important;
+  color: #94a3b8;
+}
+
+body.dark .kondisional-input {
+  background-color: #2b2a1f !important;
+}
+
+body.dark table th,
+body.dark table td {
+  border-color: #374151;
+}
+
+body.dark table thead th {
+  background-color: #1f2937;
+  color: #f1f5f9;
+}
+
+body.dark table tbody tr:nth-child(even) {
+  background-color: #0b1220;
+}
+
+body.dark table tbody tr:nth-child(odd) {
+  background-color: #0f172a;
+}
+
+body.dark .file-upload-wrapper {
+  border-color: #b91c1c;
+  background-color: #241a1a;
+}
+
+body.dark #file-upload-text {
+  color: #cbd5e1;
+}
+
+body.dark .file-info-label {
+  color: #94a3b8;
+}
+
+body.dark .grand-total-box {
+  background-color: #1f2937;
+  color: #e5e7eb;
+  border-color: #f59e0b;
+}
+
+body.dark .btn-logout-form {
+  background-color: #b91c1c;
+}
+
+body.dark .btn-theme-toggle {
+  background-color: #374151;
+}
+
+@media (max-width: 768px) {
+
+  .btn-theme-toggle,
+  .btn-logout-form {
+    position: static;
+    transform: none;
+    margin-top: 10px;
+  }
+}
+
+/* ======================= END THEME TOGGLE & DARK MODE ======================= */
