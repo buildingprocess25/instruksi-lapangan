@@ -26,16 +26,16 @@ app = Flask(__name__)
 
 CORS(app,
      origins=[
-         "http://127.0.0.1:5500",
-         "http://localhost:5500",
-         "http://168.110.201.69",
-         "http://168.110.201.69:8082",
-         "https://instruksi-lapangan.vercel.app",
-         "https://instruksi-lapangan.vercel.app/"
-     ],
-     methods=["GET", "POST", "OPTIONS", "PUT", "PATCH", "DELETE"],
-     allow_headers=["Content-Type", "Authorization"],
-     supports_credentials=True
+            "http://127.0.0.1:5500",
+            "http://localhost:5500",
+            "http://168.110.201.69",
+            "http://168.110.201.69:8082",
+            "https://instruksi-lapangan.vercel.app",
+            "https://instruksi-lapangan.vercel.app/", 
+    ],
+    methods=["GET", "POST", "OPTIONS", "PUT", "PATCH", "DELETE"],
+    allow_headers=["Content-Type", "Authorization"],
+    supports_credentials=True
 )
 
 google_provider = GoogleServiceProvider()

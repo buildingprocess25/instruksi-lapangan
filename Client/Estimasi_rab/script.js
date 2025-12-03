@@ -15,7 +15,8 @@ let rejectedSubmissionsList = [];
 let originalFormData = null;
 
 
-const PYTHON_API_BASE_URL = "https://cuma-backend.web.id";
+const PYTHON_API_BASE_URL = "https://instruksi-lapangan.onrender.com";
+// const PYTHON_API_BASE_URL = "https://cuma-backend.web.id";
 
 const sipilCategoryOrder = [
     "PEKERJAAN PERSIAPAN",
@@ -793,7 +794,7 @@ async function initializePage() {
         }
     }
 
-    messageDiv.textContent = 'Memuat data status...';
+    messageDiv.textContent = ' ';
     messageDiv.style.display = 'block';
 
     try {
@@ -824,6 +825,7 @@ async function initializePage() {
     } finally {
         lingkupPekerjaanSelect.disabled = false;
     }
+
 
     document.getElementById('lokasi_cabang').addEventListener('change', updateNomorUlok);
     document.getElementById('lokasi_tanggal').addEventListener('input', updateNomorUlok);
