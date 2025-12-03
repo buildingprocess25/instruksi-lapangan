@@ -993,7 +993,7 @@ def handle_rab_2_approval():
 
                 return render_template('response_page.html', title='Sukses', message='Disetujui Manager (IL)', logo_url=logo_url)
 
-       elif action == 'reject':
+        elif action == 'reject':
             # 1. Tentukan Status Penolakan (Oleh Koordinator atau Manager)
             if level == 'coordinator':
                 new_status = config.STATUS.REJECTED_BY_COORDINATOR
