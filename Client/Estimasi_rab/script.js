@@ -799,7 +799,28 @@ async function initializePage() {
 
     try {
         if (userEmail && userCabang) {
-            const statusResponse = await fetch(`${PYTHON_API_BASE_URL}/api/check_status?email=${encodeURIComponent(userEmail)}&cabang=${encodeURIComponent(userCabang)}`);
+            const statusUrl = `${PYTHON_API_BASE_URL}/api/check_status?email=${encodeURIComponent(userEmail)}&cabang=${encodeURIComponent(userCabang)}`;
+            const statusResponse = await fetch(statusUrl);
+
+            // 1. Cek status HTTP. Jika GAGAL, lempar Error.
+            if (!statusResponse.ok) {
+                // Mencoba membaca body respons jika ada pesan error dari server, 
+                // tapi tetap memastikan tidak crash jika respons-nya HTML
+                let errorBody = await statusResponse.text(); 
+                try {
+                    errorBody = JSON.parse(errorBody).error || errorBody;
+                } catch(e) {
+                    // Abaikan, body bukan JSON
+                }
+                throw new Error(`Gagal mengambil data status (${statusResponse.status}): ${errorBody.substring(0, 100)}...`);
+            }
+            
+            // 2. Cek Content-Type. Jika bukan JSON, lempar Error.
+            const contentType = statusResponse.headers.get("content-type");
+            if (!contentType || !contentType.includes("application/json")) {
+                throw new Error("Respons server tidak dalam format JSON yang valid.");
+            }
+
             const statusResult = await statusResponse.json();
 
             if (statusResult.active_codes) {
@@ -820,7 +841,7 @@ async function initializePage() {
         }
     } catch (error) {
         console.error("Gagal memuat data status awal:", error);
-        messageDiv.textContent = "Gagal memuat data status. Mohon muat ulang halaman.";
+        messageDiv.textContent = `Gagal memuat data status. Mohon muat ulang halaman. Detail: ${error.message}`;
         messageDiv.style.backgroundColor = '#dc3545';
     } finally {
         lingkupPekerjaanSelect.disabled = false;
