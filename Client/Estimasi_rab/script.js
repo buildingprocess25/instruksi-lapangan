@@ -550,6 +550,45 @@ async function handleFormSubmit() {
         return;
     }
 
+    // Cek ULOK lebih dulu sebelum mengirim
+    const nomorUlok = (document.getElementById('lokasi')?.value || '').trim();
+    try {
+        if (!nomorUlok || nomorUlok.length < 12) {
+            messageDiv.textContent = "Nomor Ulok belum lengkap.";
+            messageDiv.style.backgroundColor = "#ffc107";
+            messageDiv.style.display = "block";
+            return;
+        }
+
+        const checkResp = await fetch(`${PYTHON_API_BASE_URL}/api/check_ulok_rab_2?ulok=${encodeURIComponent(nomorUlok.replace(/-/g, ''))}`);
+        const checkData = await checkResp.json();
+
+        if (checkResp.ok && checkData?.status === 'success') {
+            const exists = !!checkData?.data?.exists;
+            if (exists) {
+                // Tampilkan info bahwa ULok sudah ada di RAB 2
+                const infoLingkup = checkData?.data?.lingkup || '-';
+                messageDiv.innerHTML = `Nomor Ulok sudah terdaftar pada RAB 2 (Lingkup: <strong>${infoLingkup}</strong>). Jika ingin revisi, lanjutkan pengisian lalu kirim.`;
+                messageDiv.style.backgroundColor = "#ffc107";
+                messageDiv.style.display = "block";
+                // Tetap lanjut mengirim (boleh revisi)
+            } else {
+                // Tidak ada, sembunyikan bar
+                messageDiv.style.display = "none";
+            }
+        } else {
+            // Jika API cek gagal, jangan blokir submit; hanya tampilkan peringatan ringan
+            messageDiv.textContent = "Gagal mengecek status ULOK. Melanjutkan pengiriman.";
+            messageDiv.style.backgroundColor = "#ffc107";
+            messageDiv.style.display = "block";
+        }
+    } catch (err) {
+        console.error('Gagal cek ULOK RAB 2:', err);
+        messageDiv.textContent = "Gagal mengecek status ULOK. Melanjutkan pengiriman.";
+        messageDiv.style.backgroundColor = "#ffc107";
+        messageDiv.style.display = "block";
+    }
+
     submitButton.disabled = true;
     messageDiv.textContent = "Mengirim data...";
     messageDiv.style.display = "block";
@@ -562,9 +601,9 @@ async function handleFormSubmit() {
     const luasTerbangunan = parseFloat(luasTerbangunanRaw);
 
     // Jika kosong / bukan angka
-    
+
     // Jika hasil minus / <= 0
-    
+
 
     // Mapping nama_toko
     data["nama_toko"] =
@@ -613,7 +652,7 @@ async function handleFormSubmit() {
     // Ambil elemen input file berdasarkan ID
     const fileInput = document.getElementById('attachment_pdf');
     // Ambil file pertama yang dipilih user
-    const pdfFile = fileInput.files[0]; 
+    const pdfFile = fileInput.files[0];
     // Form data baru
     const submissionData = new FormData();
 
@@ -794,37 +833,10 @@ async function initializePage() {
         }
     }
 
-    messageDiv.textContent = ' ';
-    messageDiv.style.display = 'block';
-
-    try {
-        if (userEmail && userCabang) {
-            const statusResponse = await fetch(`${PYTHON_API_BASE_URL}/api/check_status?email=${encodeURIComponent(userEmail)}&cabang=${encodeURIComponent(userCabang)}`);
-            const statusResult = await statusResponse.json();
-
-            if (statusResult.active_codes) {
-                pendingStoreCodes = statusResult.active_codes.pending || [];
-                approvedStoreCodes = statusResult.active_codes.approved || [];
-            }
-
-            if (statusResult.rejected_submissions && statusResult.rejected_submissions.length > 0) {
-                rejectedSubmissionsList = statusResult.rejected_submissions;
-                const rejectedCodes = rejectedSubmissionsList.map(item => item['Nomor Ulok']).join(', ');
-                messageDiv.innerHTML = `Ditemukan pengajuan yang ditolak untuk Nomor Ulok: <strong>${rejectedCodes}</strong>. Masukkan Nomor Ulok lengkap untuk revisi.`;
-                messageDiv.style.backgroundColor = '#ffc107';
-            } else {
-                messageDiv.style.display = 'none';
-            }
-        } else {
-            messageDiv.style.display = 'none';
-        }
-    } catch (error) {
-        console.error("Gagal memuat data status awal:", error);
-        messageDiv.textContent = "Gagal memuat data status. Mohon muat ulang halaman.";
-        messageDiv.style.backgroundColor = '#dc3545';
-    } finally {
-        lingkupPekerjaanSelect.disabled = false;
-    }
+    // Sembunyikan status/message bar saat halaman pertama kali dimuat
+    messageDiv.textContent = '';
+    messageDiv.style.display = 'none';
+    lingkupPekerjaanSelect.disabled = false;
 
 
     document.getElementById('lokasi_cabang').addEventListener('change', updateNomorUlok);
@@ -858,24 +870,24 @@ async function initializePage() {
         }
     });
 
-    document.getElementById('attachment_pdf').addEventListener('change', function(e) {
-    const fileNameDisplay = document.querySelector('.file-info-label');
-    const wrapper = document.querySelector('.file-upload-wrapper');
-    
-    if (e.target.files.length > 0) {
-        // File dipilih
-        const fileName = e.target.files[0].name;
-        fileNameDisplay.textContent = `File Terpilih: ${fileName}`;
-        wrapper.style.borderColor = '#48bb78'; // Ubah border menjadi hijau
-        wrapper.style.backgroundColor = '#eafaea'; // Latar belakang hijau muda
-        
-    } else {
-        // Tidak ada file
-        fileNameDisplay.textContent = `Belum ada file dipilih.`;
-        wrapper.style.borderColor = '#9e0000ff'; // Kembalikan ke warna awal
-        wrapper.style.backgroundColor = '#fff0f0ff';
-    }
-});
+    document.getElementById('attachment_pdf').addEventListener('change', function (e) {
+        const fileNameDisplay = document.querySelector('.file-info-label');
+        const wrapper = document.querySelector('.file-upload-wrapper');
+
+        if (e.target.files.length > 0) {
+            // File dipilih
+            const fileName = e.target.files[0].name;
+            fileNameDisplay.textContent = `File Terpilih: ${fileName}`;
+            wrapper.style.borderColor = '#48bb78'; // Ubah border menjadi hijau
+            wrapper.style.backgroundColor = '#eafaea'; // Latar belakang hijau muda
+
+        } else {
+            // Tidak ada file
+            fileNameDisplay.textContent = `Belum ada file dipilih.`;
+            wrapper.style.borderColor = '#9e0000ff'; // Kembalikan ke warna awal
+            wrapper.style.backgroundColor = '#fff0f0ff';
+        }
+    });
 
     currentResetButton.addEventListener("click", () => {
         if (confirm("Apakah Anda yakin ingin mengulang dan mengosongkan semua isian form?")) {
