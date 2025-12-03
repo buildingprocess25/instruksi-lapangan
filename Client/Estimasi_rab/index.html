@@ -44,10 +44,10 @@
 
   <div class="container">
     <form id="form" class="form-container">
-      <label for="nama_toko">Nama Toko:</label>
+      <label for="nama_toko">Nama Toko: <span class="required-asterisk">*</span></label>
       <input type="text" id="nama_toko" name="Nama_Toko" placeholder="Masukkan nama toko" required
         style="margin-bottom: 15px" />
-      <label for="lokasi_cabang">Nomor Ulok:</label>
+      <label for="lokasi_cabang">Nomor Ulok: <span class="required-asterisk">*</span></label>
       <div id="nomor-ulok-container" style="display: flex; gap: 10px; align-items: center; flex-wrap: wrap">
         <select id="lokasi_cabang" required style="flex: 1 1 80px">
           <option value="">-- Kode --</option>
@@ -61,29 +61,34 @@
       </div>
       <input type="hidden" id="lokasi" name="Nomor Ulok" />
 
-      <label for="alamat">Alamat Toko:</label>
+      <label for="alamat">Alamat Toko: <span class="required-asterisk">*</span></label>
       <input type="text" id="alamat" name="Alamat" placeholder="Masukkan alamat lengkap proyek" required />
 
-      <label for="cabang">Cabang:</label>
+      <label for="cabang">Cabang: <span class="required-asterisk">*</span></label>
       <select name="Cabang" id="cabang" required>
         <option value="">-- Cabang Terisi Otomatis --</option>
       </select>
 
-      <label for="lingkup_pekerjaan">Lingkup Pekerjaan:</label>
+      <label for="lingkup_pekerjaan">Lingkup Pekerjaan: <span class="required-asterisk">*</span></label>
       <select name="Lingkup_Pekerjaan" id="lingkup_pekerjaan" required>
         <option value="">-- Pilih Lingkup Pekerjaan --</option>
         <option value="Sipil">Sipil</option>
         <option value="ME">ME</option>
       </select>
 
-      <label for="attachment_pdf">Lampiran Instruksi Lapangan (PDF Max 1 File):</label>
-      <div class="file-upload-wrapper">
+      <label for="attachment_pdf">Lampiran Instruksi Lapangan (PDF Max 1 File): <span
+          class="required-asterisk">*</span></label>
+      <div class="file-upload-wrapper" style="position: relative;">
         <div id="file-upload-text">
           Klik di sini atau seret file PDF Anda.
           <br>
           <span span class="file-info-label">Belum ada file dipilih.</span>
         </div>
         <input type="file" id="attachment_pdf" name="file_pdf" accept=".pdf" required />
+        <button type="button" id="remove-pdf-btn" aria-label="Hapus PDF" title="Hapus PDF"
+          style="position: absolute; right: 10px; top: 10px; background: #e53e3e; color: white; border: none; border-radius: 50%; width: 28px; height: 28px; cursor: pointer; font-weight: 700; line-height: 28px; text-align: center;">
+          ×
+        </button>
       </div>
 
       <label for="instruksi_pdf">Jika File Lebih Dari 1, Gabungkan File PDF</label>
