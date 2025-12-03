@@ -99,7 +99,8 @@ select[disabled] {
   -webkit-appearance: none;
   -moz-appearance: none;
   appearance: none;
-  background-color: #ffffffff !important;
+  background-color: #e9ecef !important;
+  color: #252525ff !important;
   cursor: not-allowed;
 }
 
