@@ -534,50 +534,6 @@ async function populateFormWithHistory(data) {
     originalFormData = getCurrentFormData();
 }
 
-    async function checkUlokAvailability() {
-    const kodeCabang = document.getElementById('lokasi_cabang').value;
-    const tanggalInput = document.getElementById('lokasi_tanggal').value;
-    const manualValue = document.getElementById('lokasi_manual').value;
-    const statusDiv = document.getElementById('ulok-status-message');
-
-    // Reset pesan
-    statusDiv.textContent = "";
-
-    // Pastikan semua field terisi lengkap
-    if (kodeCabang && tanggalInput.length === 4 && manualValue.length === 4) {
-        const fullUlok = `${kodeCabang}-${tanggalInput}-${manualValue}`;
-        
-        statusDiv.textContent = "Memeriksa ketersediaan Nomor Ulok...";
-        statusDiv.style.color = "#005a9e"; // Biru
-
-        try {
-            const response = await fetch(`${PYTHON_API_BASE_URL}/api/check_ulok_rab_2?ulok=${encodeURIComponent(fullUlok)}`);
-            const result = await response.json();
-
-            if (result.status === 'success' && result.data) {
-                if (result.data.exists) {
-                    // JIKA SUDAH ADA (DUPLIKAT)
-                    statusDiv.innerHTML = `❌ Nomor Ulok ini sudah terdaftar!<br>Status: ${result.data.status}<br>Pembuat: ${result.data.pembuat}`;
-                    statusDiv.style.color = "#dc3545"; // Merah
-                    return false; // Gagal, jangan lanjut submit
-                } else {
-                    // JIKA BELUM ADA (AMAN)
-                    statusDiv.textContent = "✅ Nomor Ulok tersedia.";
-                    statusDiv.style.color = "#28a745"; // Hijau
-                    return true; // Aman, lanjut submit
-                }
-            }
-        } catch (error) {
-            console.error("Gagal cek ulok:", error);
-            statusDiv.textContent = "Gagal mengecek status Ulok (Koneksi Error). Silakan coba lagi.";
-            statusDiv.style.color = "orange";
-            return false; // Anggap gagal jika error koneksi agar tidak double input
-        }
-    } 
-    
-    // Jika input belum lengkap, anggap aman dulu (validasi required form akan menangani ini)
-    return true; 
-}
 
 async function handleFormSubmit() {
     if (!form.checkValidity()) {
@@ -870,14 +826,6 @@ async function initializePage() {
         lingkupPekerjaanSelect.disabled = false;
     }
 
-    document.getElementById('lokasi_cabang').addEventListener('change', updateNomorUlok);
-    document.getElementById('lokasi_tanggal').addEventListener('input', updateNomorUlok);
-    document.getElementById('lokasi_manual').addEventListener('input', updateNomorUlok);
-    
-        elManual.addEventListener('input', () => {
-            updateNomorUlok();
-            checkUlokAvailability();
-        });
 
     document.getElementById('lokasi_cabang').addEventListener('change', updateNomorUlok);
     document.getElementById('lokasi_tanggal').addEventListener('input', updateNomorUlok);
