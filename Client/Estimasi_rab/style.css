@@ -587,7 +587,7 @@ body.dark .container {
   box-shadow: 0 10px 25px rgba(0, 0, 0, 0.4);
 }
 
-body.dark .no-ulok-container {
+body.dark .no-ulok-container input {
   color: #010101ff;
 }
 
