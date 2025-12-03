@@ -560,7 +560,7 @@ def reject_form_rab_kedua():
             row=row,
             level=level,
             approver=approver,
-            item_type="RAB (Tahap 2)",
+            item_type="IL",
             item_identifier=item_identifier,
             logo_url=logo_url
         )
@@ -1012,11 +1012,11 @@ def handle_rab_2_approval():
             
             # 3. Kirim Email Notifikasi ke Pembuat (Kontraktor/Support)
             creator_email = row_data.get(config.COLUMN_NAMES.EMAIL_PEMBUAT)
-            nama_toko = row_data.get('Nama_Toko', 'Tanpa Nama')
-            jenis_toko = row_data.get('Proyek', 'N/A')
+            nama_toko = row_data.get('Nama_Toko', row_data.get('nama_toko', 'N/A'))
+           
             
             if creator_email:
-                subject = f"[DITOLAK] Pengajuan IL Proyek {nama_toko}: {jenis_toko}"
+                subject = f"[DITOLAK] Pengajuan IL Proyek {nama_toko}"
                 penolak = "Koordinator" if level == 'coordinator' else "Branch Manager"
                 
                 body = (
@@ -1025,6 +1025,7 @@ def handle_rab_2_approval():
                     f"<p><b>Alasan Penolakan:</b></p>"
                     f"<blockquote style='background-color:#ffebeb; border-left:5px solid #dc3545; padding:10px;'><i>{reason}</i></blockquote>"
                     f"<p>Silakan perbaiki dan ajukan revisi melalui sistem.</p>"
+                    f"<p>https://instruksi-lapangan.vercel.app/</p>"
                     f"<p>Terima kasih.</p>"
                 )
                 
