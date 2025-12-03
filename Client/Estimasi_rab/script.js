@@ -794,7 +794,7 @@ async function initializePage() {
         }
     }
 
-    messageDiv.textContent = '';
+    messageDiv.textContent = 'Memuat data status...';
     messageDiv.style.display = 'block';
 
     try {
