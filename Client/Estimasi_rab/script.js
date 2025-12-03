@@ -799,31 +799,14 @@ async function initializePage() {
 
     try {
         if (userEmail && userCabang) {
-            const url = `${PYTHON_API_BASE_URL}/api/check_status?email=${encodeURIComponent(userEmail)}&cabang=${encodeURIComponent(userCabang)}`;
-            const statusResponse = await fetch(url);
-
-            // 1. Cek apakah Status HTTP sukses (200-299)
-            if (!statusResponse.ok) {
-                // Jika server error (misal 404 atau 500), lempar error agar masuk ke catch
-                throw new Error(`Server Error: ${statusResponse.status} ${statusResponse.statusText}`);
-            }
-
-            // 2. Cek apakah respons benar-benar JSON
-            const contentType = statusResponse.headers.get("content-type");
-            if (!contentType || !contentType.includes("application/json")) {
-                const textBody = await statusResponse.text(); // Baca sebagai text untuk debug
-                console.warn("Respons bukan JSON:", textBody);
-                throw new Error("Format respons server tidak valid (bukan JSON).");
-            }
-
-            // 3. Jika aman, baru parsing JSON
+            const statusResponse = await fetch(`${PYTHON_API_BASE_URL}/api/check_status?email=${encodeURIComponent(userEmail)}&cabang=${encodeURIComponent(userCabang)}`);
             const statusResult = await statusResponse.json();
-
+            
             if (statusResult.active_codes) {
                 pendingStoreCodes = statusResult.active_codes.pending || [];
                 approvedStoreCodes = statusResult.active_codes.approved || [];
             }
-
+            
             if (statusResult.rejected_submissions && statusResult.rejected_submissions.length > 0) {
                 rejectedSubmissionsList = statusResult.rejected_submissions;
                 const rejectedCodes = rejectedSubmissionsList.map(item => item['Nomor Ulok']).join(', ');
@@ -833,23 +816,13 @@ async function initializePage() {
                 messageDiv.style.display = 'none';
             }
         } else {
-            // Jika tidak ada email/cabang, sembunyikan pesan loading
             messageDiv.style.display = 'none';
         }
     } catch (error) {
         console.error("Gagal memuat data status awal:", error);
-        
-        // Tampilkan pesan error yang lebih spesifik tapi tidak menghalangi user bekerja
-        // Kita gunakan console.error untuk debug, tapi di UI kita hilangkan saja atau beri peringatan kecil
-        messageDiv.textContent = `Gagal memuat status (Offline/Error). Anda tetap bisa melanjutkan pengisian.`;
-        messageDiv.style.backgroundColor = '#6c757d'; // Warna abu-abu (info warning)
-        
-        // Opsional: Hilangkan pesan setelah 3 detik agar tidak mengganggu
-        setTimeout(() => {
-            messageDiv.style.display = 'none';
-        }, 5000);
+        messageDiv.textContent = "Gagal memuat data status. Mohon muat ulang halaman.";
+        messageDiv.style.backgroundColor = '#dc3545';
     } finally {
-        // Apapun yang terjadi (sukses/gagal), input harus dibuka kunci
         lingkupPekerjaanSelect.disabled = false;
     }
 
