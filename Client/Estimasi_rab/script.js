@@ -909,13 +909,13 @@ async function initializePage() {
             const fileName = e.target.files[0].name;
             fileNameDisplay.textContent = `File Terpilih: ${fileName}`;
             wrapper.style.borderColor = '#48bb78'; // Ubah border menjadi hijau
-            wrapper.style.backgroundColor = '#eafaea'; // Latar belakang hijau muda
+            wrapper.style.backgroundColor = '#60ff60ff'; // Latar belakang hijau muda
 
         } else {
             // Tidak ada file
             fileNameDisplay.textContent = `Belum ada file dipilih.`;
             wrapper.style.borderColor = '#9e0000ff'; // Kembalikan ke warna awal
-            wrapper.style.backgroundColor = '#fff0f0ff';
+            wrapper.style.backgroundColor = '#fe5757ff';
         }
     });
 
