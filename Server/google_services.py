@@ -656,3 +656,34 @@ class GoogleServiceProvider:
         except Exception as e:
             print(f"ERROR CRITICAL saat download file dari Drive: {e}")
             return None, None, None
+
+    def check_ulok_exists_rab_2(self, nomor_ulok):
+        """Mengecek apakah Nomor Ulok sudah ada di Spreadsheet RAB 2"""
+        try:
+            # Buka Spreadsheet RAB 2
+            spreadsheet = self.gspread_client.open_by_key(config.SPREADSHEET_ID_RAB_2)
+            worksheet = spreadsheet.worksheet(config.DATA_ENTRY_SHEET_NAME_RAB_2)
+            
+            # Ambil semua data
+            all_records = worksheet.get_all_records()
+            
+            # Normalisasi input (hapus spasi/dash untuk perbandingan yang akurat)
+            target_ulok = str(nomor_ulok).replace("-", "").strip().upper()
+
+            for record in all_records:
+                # Ambil Nomor Ulok dari record
+                record_ulok = str(record.get(config.COLUMN_NAMES.LOKASI, "")).replace("-", "").strip().upper()
+                
+                if record_ulok == target_ulok:
+                    # Jika ketemu, kembalikan statusnya
+                    return {
+                        "exists": True,
+                        "status": record.get(config.COLUMN_NAMES.STATUS, "Unknown"),
+                        "pembuat": record.get(config.COLUMN_NAMES.EMAIL_PEMBUAT, "-")
+                    }
+            
+            return {"exists": False}
+            
+        except Exception as e:
+            print(f"Error checking ULOK RAB 2: {e}")
+            return {"exists": False, "error": str(e)}

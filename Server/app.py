@@ -75,18 +75,38 @@ def login():
         traceback.print_exc()
         return jsonify({"status": "error", "message": "An internal server error occurred"}), 500
 
-@app.route('/api/check_status', methods=['GET'])
-def check_status():
-    email = request.args.get('email')
-    cabang = request.args.get('cabang')
-    if not email or not cabang:
-        return jsonify({"error": "Email and cabang parameters are missing"}), 400
+# @app.route('/api/check_status', methods=['GET'])
+# def check_status():
+#     email = request.args.get('email')
+#     cabang = request.args.get('cabang')
+#     if not email or not cabang:
+#         return jsonify({"error": "Email and cabang parameters are missing"}), 400
+#     try:
+#         status_data = google_provider.check_user_submissions(email, cabang)
+#         return jsonify(status_data), 200
+#     except Exception as e:
+#         traceback.print_exc()
+#         return jsonify({"error": str(e)}), 500
+
+@app.route('/api/check_ulok_rab_2', methods=['GET'])
+def check_ulok_rab_2():
+    ulok = request.args.get('ulok')
+    
+    if not ulok:
+        return jsonify({"status": "error", "message": "Parameter ulok dibutuhkan"}), 400
+
     try:
-        status_data = google_provider.check_user_submissions(email, cabang)
-        return jsonify(status_data), 200
+        # Panggil fungsi helper yang baru kita buat
+        result = google_provider.check_ulok_exists_rab_2(ulok)
+        
+        return jsonify({
+            "status": "success",
+            "data": result
+        }), 200
+        
     except Exception as e:
         traceback.print_exc()
-        return jsonify({"error": str(e)}), 500
+        return jsonify({"status": "error", "message": str(e)}), 500
 
 # --- ENDPOINTS UNTUK ALUR KERJA RAB ---
 @app.route('/api/submit_rab', methods=['POST'])
@@ -230,7 +250,7 @@ def submit_rab():
                 f"Tidak ada email Koordinator yang ditemukan untuk cabang '{cabang}'."
             )
 
-        base_url = "https://cuma-backend.web.id"
+        base_url = "https://instruksi-lapangan.onrender.com"
         approver_for_link = coordinator_emails[0]
         approval_url = (
             f"{base_url}/api/handle_rab_approval"
@@ -390,8 +410,8 @@ def submit_rab_kedua():
         pdf_nonsbo_bytes = create_pdf_from_data(google_provider, data, exclude_sbo=True)
         pdf_recap_bytes = create_recap_pdf(google_provider, data)
 
-        pdf_nonsbo_filename = f"RAB_NON-SBO_{jenis_toko}_{nomor_ulok_formatted}.pdf"
-        pdf_recap_filename = f"REKAP_RAB_{jenis_toko}_{nomor_ulok_formatted}.pdf"
+        pdf_nonsbo_filename = f"IL_NON-SBO_{jenis_toko}_{nomor_ulok_formatted}.pdf"
+        pdf_recap_filename = f"REKAP_IL_{jenis_toko}_{nomor_ulok_formatted}.pdf"
 
         link_pdf_nonsbo = google_provider.upload_file_to_drive(
             pdf_nonsbo_bytes, pdf_nonsbo_filename, 'application/pdf', config.PDF_STORAGE_FOLDER_ID
@@ -436,7 +456,7 @@ def submit_rab_kedua():
         if not coordinator_emails:
             raise Exception(f"Tidak ada email Koordinator untuk cabang '{cabang}'.")
 
-        base_url = "https://cuma-backend.web.id"
+        base_url = "https://instruksi-lapangan.onrender.com"
         approver_for_link = coordinator_emails[0]
         
         # Arahkan ke handler approval RAB 2
@@ -462,7 +482,7 @@ def submit_rab_kedua():
 
         google_provider.send_email(
             to=coordinator_emails,
-            subject=f"[TAHAP 1: PERLU PERSETUJUAN] RAB Proyek {nama_toko}",
+            subject=f"[TAHAP 1: PERLU PERSETUJUAN] IL Proyek {nama_toko}",
             html_body=email_html,
             attachments=attachments_list
         )
@@ -797,7 +817,7 @@ def handle_rab_2_approval():
                 manager_email = google_provider.get_email_by_jabatan(cabang, config.JABATAN.MANAGER)
                 
                 if manager_email:
-                    base_url = "https://cuma-backend.web.id" 
+                    base_url = "https://instruksi-lapangan.onrender.com" 
                     approval_url_manager = f"{base_url}/api/handle_rab_2_approval?action=approve&row={row}&level=manager&approver={manager_email}"
                     rejection_url_manager = f"{base_url}/api/reject_form/rab_kedua?action=reject&row={row}&level=manager&approver={manager_email}"
                     
@@ -819,8 +839,8 @@ def handle_rab_2_approval():
                     pdf_nonsbo_bytes = create_pdf_from_data(google_provider, row_data, exclude_sbo=True)
                     pdf_recap_bytes = create_recap_pdf(google_provider, row_data)
                     
-                    pdf_nonsbo_filename = f"RAB_NON-SBO_{jenis_toko}_{row_data.get('Nomor Ulok')}.pdf"
-                    pdf_recap_filename = f"REKAP_RAB_{jenis_toko}_{row_data.get('Nomor Ulok')}.pdf"
+                    pdf_nonsbo_filename = f"IL_NON-SBO_{jenis_toko}_{row_data.get('Nomor Ulok')}.pdf"
+                    pdf_recap_filename = f"REKAP_IL_{jenis_toko}_{row_data.get('Nomor Ulok')}.pdf"
                     
                     final_attachments = [
                         (pdf_nonsbo_filename, pdf_nonsbo_bytes, 'application/pdf'),
@@ -837,12 +857,12 @@ def handle_rab_2_approval():
                     # 7. Kirim Email
                     google_provider.send_email(
                         manager_email, 
-                        f"[TAHAP 2: PERLU PERSETUJUAN] RAB Proyek {nama_toko}", 
+                        f"[TAHAP 2: PERLU PERSETUJUAN] IL Proyek {nama_toko}", 
                         email_html_manager, 
                         attachments=final_attachments
                     )
                 
-                return render_template('response_page.html', title='Sukses', message='Disetujui Koordinator (RAB 2)', logo_url=logo_url)
+                return render_template('response_page.html', title='Sukses', message='Disetujui Koordinator (IL)', logo_url=logo_url)
 
             # =================================================================
             # LOGIKA MANAGER
@@ -864,10 +884,10 @@ def handle_rab_2_approval():
                 cabang = row_data.get('Cabang')
 
                 pdf_nonsbo_bytes = create_pdf_from_data(google_provider, row_data, exclude_sbo=True)
-                pdf_nonsbo_filename = f"DISETUJUI_RAB_NON-SBO_{jenis_toko}_{row_data.get('Nomor Ulok')}.pdf"
+                pdf_nonsbo_filename = f"DISETUJUI_IL_NON-SBO_{jenis_toko}_{row_data.get('Nomor Ulok')}.pdf"
 
                 pdf_recap_bytes = create_recap_pdf(google_provider, row_data)
-                pdf_recap_filename = f"DISETUJUI_REKAP_RAB_{jenis_toko}_{row_data.get('Nomor Ulok')}.pdf"
+                pdf_recap_filename = f"DISETUJUI_REKAP_IL_{jenis_toko}_{row_data.get('Nomor Ulok')}.pdf"
 
                 # 4. Upload PDF Final ke Google Drive
                 link_pdf_nonsbo = google_provider.upload_file_to_drive(
@@ -912,13 +932,13 @@ def handle_rab_2_approval():
                         print("System: File manual berhasil dilampirkan di email final.")
                 # ---------------------------------------------------------------
 
-                subject = f"[FINAL - DISETUJUI] Pengajuan RAB Proyek {nama_toko}"
+                subject = f"[FINAL - DISETUJUI] Pengajuan IL Proyek {nama_toko}"
 
                 # 9. Buat Body Email Dasar
                 base_body = (
-                    f"<p>Pengajuan RAB untuk proyek <b>{nama_toko}</b> di cabang <b>{cabang}</b> "
+                    f"<p>Pengajuan IL untuk proyek <b>{nama_toko}</b> di cabang <b>{cabang}</b> "
                     f"telah disetujui sepenuhnya.</p>"
-                    f"<p>Tiga versi file PDF RAB telah dilampirkan (Final):</p>"
+                    f"<p>Tiga versi file PDF IL telah dilampirkan (Final):</p>"
                     f"<ul>"
                     f"<li><b>{pdf_nonsbo_filename}</b>: Hanya berisi item pekerjaan di luar SBO.</li>"
                     f"<li><b>{pdf_recap_filename}</b>: Rekapitulasi Total Biaya.</li>"
@@ -971,14 +991,47 @@ def handle_rab_2_approval():
                         attachments=email_attachments
                     )
 
-                return render_template('response_page.html', title='Sukses', message='Disetujui Manager (RAB 2)', logo_url=logo_url)
+                return render_template('response_page.html', title='Sukses', message='Disetujui Manager (IL)', logo_url=logo_url)
 
-        elif action == 'reject':
-            new_status = config.STATUS.REJECTED_BY_COORDINATOR if level == 'coordinator' else config.STATUS.REJECTED_BY_MANAGER
+       elif action == 'reject':
+            # 1. Tentukan Status Penolakan (Oleh Koordinator atau Manager)
+            if level == 'coordinator':
+                new_status = config.STATUS.REJECTED_BY_COORDINATOR
+                # Simpan nama penolak di kolom Koordinator
+                google_provider.update_cell_by_sheet(worksheet, row, config.COLUMN_NAMES.KOORDINATOR_APPROVER, approver)
+                google_provider.update_cell_by_sheet(worksheet, row, config.COLUMN_NAMES.KOORDINATOR_APPROVAL_TIME, current_time)
+            elif level == 'manager':
+                new_status = config.STATUS.REJECTED_BY_MANAGER
+                # Simpan nama penolak di kolom Manager
+                google_provider.update_cell_by_sheet(worksheet, row, config.COLUMN_NAMES.MANAGER_APPROVER, approver)
+                google_provider.update_cell_by_sheet(worksheet, row, config.COLUMN_NAMES.MANAGER_APPROVAL_TIME, current_time)
+
+            # 2. Update Status & Alasan di Spreadsheet
             google_provider.update_cell_by_sheet(worksheet, row, config.COLUMN_NAMES.STATUS, new_status)
             google_provider.update_cell_by_sheet(worksheet, row, 'Alasan Penolakan', reason)
             
-            return render_template('response_page.html', title='Ditolak', message='Pengajuan RAB 2 Ditolak', logo_url=logo_url)
+            # 3. Kirim Email Notifikasi ke Pembuat (Kontraktor/Support)
+            creator_email = row_data.get(config.COLUMN_NAMES.EMAIL_PEMBUAT)
+            nama_toko = row_data.get('Nama_Toko', 'Tanpa Nama')
+            jenis_toko = row_data.get('Proyek', 'N/A')
+            
+            if creator_email:
+                subject = f"[DITOLAK] Pengajuan IL Proyek {nama_toko}: {jenis_toko}"
+                penolak = "Koordinator" if level == 'coordinator' else "Branch Manager"
+                
+                body = (
+                    f"<p>Yth. Bapak/Ibu,</p>"
+                    f"<p>Pengajuan IL untuk proyek <b>{nama_toko}</b> ({jenis_toko}) telah <b>DITOLAK</b> oleh {penolak} ({approver}).</p>"
+                    f"<p><b>Alasan Penolakan:</b></p>"
+                    f"<blockquote style='background-color:#ffebeb; border-left:5px solid #dc3545; padding:10px;'><i>{reason}</i></blockquote>"
+                    f"<p>Silakan perbaiki dan ajukan revisi melalui sistem.</p>"
+                    f"<p>Terima kasih.</p>"
+                )
+                
+                # Kirim email tanpa attachment
+                google_provider.send_email(to=creator_email, subject=subject, html_body=body)
+
+            return render_template('response_page.html', title='Ditolak', message='Pengajuan IL Berhasil Ditolak.', logo_url=logo_url)
 
     except Exception as e:
         traceback.print_exc()
