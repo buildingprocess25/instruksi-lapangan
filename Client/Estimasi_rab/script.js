@@ -826,6 +826,85 @@ async function initializePage() {
     //     lingkupPekerjaanSelect.disabled = false;
     // }
 
+    // Fungsi untuk mengecek status ULOK ke Backend
+    async function checkUlokAvailability() {
+        const kodeCabang = document.getElementById('lokasi_cabang').value;
+        const tanggalInput = document.getElementById('lokasi_tanggal').value;
+        const manualValue = document.getElementById('lokasi_manual').value;
+        const statusDiv = document.getElementById('ulok-status-message');
+        const submitBtn = document.getElementById('submit-button');
+
+        // Pastikan semua field terisi lengkap sebelum mengecek
+        if (kodeCabang && tanggalInput.length === 4 && manualValue.length === 4) {
+            const fullUlok = `${kodeCabang}-${tanggalInput}-${manualValue}`;
+
+            statusDiv.textContent = "Mengecek ketersediaan...";
+            statusDiv.style.color = "#005a9e"; // Biru
+
+            try {
+                const response = await fetch(`${PYTHON_API_BASE_URL}/api/check_ulok_rab_2?ulok=${encodeURIComponent(fullUlok)}`);
+                const result = await response.json();
+
+                if (result.status === 'success' && result.data) {
+                    if (result.data.exists) {
+                        // JIKA SUDAH ADA
+                        statusDiv.innerHTML = `❌ Nomor Ulok ini sudah terdaftar!<br>Status: ${result.data.status}<br>Pembuat: ${result.data.pembuat}`;
+                        statusDiv.style.color = "#dc3545"; // Merah
+ 
+                        // Opsional: Disable tombol kirim agar tidak bisa double submit
+                        submitBtn.disabled = true; 
+                        submitBtn.style.backgroundColor = "#ccc";
+                        submitBtn.style.cursor = "not-allowed";
+                    } else {
+                        // JIKA BELUM ADA (AMAN)
+                        statusDiv.textContent = "✅ Nomor Ulok tersedia.";
+                        statusDiv.style.color = "#28a745"; // Hijau
+
+                        // Enable kembali tombol kirim
+                        submitBtn.disabled = false;
+                        submitBtn.style.backgroundColor = ""; 
+                        submitBtn.style.cursor = "pointer";
+                    }
+                }
+            } catch (error) {
+                console.error("Gagal cek ulok:", error);
+                statusDiv.textContent = "Gagal mengecek status Ulok (Koneksi Error).";
+                statusDiv.style.color = "orange";
+            }
+        } else {
+            // Kosongkan pesan jika input belum lengkap
+            statusDiv.textContent = "";
+            submitBtn.disabled = false;
+            submitBtn.style.backgroundColor = "";
+            submitBtn.style.cursor = "pointer";
+        }
+    }
+
+    // Pasang Listener ke 3 Input Ulok
+    // (Pastikan ID elemen ini sesuai dengan HTML Anda)
+    const elCabang = document.getElementById('lokasi_cabang');
+    const elTanggal = document.getElementById('lokasi_tanggal');
+    const elManual = document.getElementById('lokasi_manual');
+
+    if (elCabang && elTanggal && elManual) {
+        // Cek saat user mengubah dropdown cabang
+        elCabang.addEventListener('change', () => {
+            updateNomorUlok(); // Fungsi bawaan Anda untuk update hidden input
+            checkUlokAvailability(); // Fungsi baru kita
+        });
+
+        // Cek saat user selesai mengetik (event 'input' atau 'blur')
+        elTanggal.addEventListener('input', () => {
+            updateNomorUlok();
+            checkUlokAvailability();
+        });
+
+        elManual.addEventListener('input', () => {
+            updateNomorUlok();
+            checkUlokAvailability();
+        });
+    }
+
     document.getElementById('lokasi_cabang').addEventListener('change', updateNomorUlok);
     document.getElementById('lokasi_tanggal').addEventListener('input', updateNomorUlok);
     document.getElementById('lokasi_manual').addEventListener('input', updateNomorUlok);
