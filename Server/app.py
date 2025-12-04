@@ -400,7 +400,7 @@ def submit_rab_kedua():
 
         jenis_toko = data.get('Proyek', 'N/A')
         nama_toko = data.get('Nama_Toko', data.get('nama_toko', 'N/A'))
-        lingkup_pekerjaan = data.get('Lingkup_Pekerjaan', data.get('lingkup_pekerjaan', 'N/A'))
+        
         
         nomor_ulok_formatted = str(nomor_ulok_raw)
         if len(nomor_ulok_formatted) == 12:
@@ -483,7 +483,7 @@ def submit_rab_kedua():
 
         google_provider.send_email(
             to=coordinator_emails,
-            subject=f"[TAHAP 1: PERLU PERSETUJUAN] IL Proyek {nama_toko}",
+            subject=f"[TAHAP 1: PERLU PERSETUJUAN] IL Proyek {nama_toko} - {lingkup_pekerjaan}",
             html_body=email_html,
             attachments=attachments_list
         )
@@ -859,7 +859,7 @@ def handle_rab_2_approval():
                     # 7. Kirim Email
                     google_provider.send_email(
                         manager_email, 
-                        f"[TAHAP 2: PERLU PERSETUJUAN] IL Proyek {nama_toko}", 
+                        f"[TAHAP 2: PERLU PERSETUJUAN] IL Proyek {nama_toko} - {lingkup_pekerjaan}", 
                         email_html_manager, 
                         attachments=final_attachments
                     )
@@ -884,6 +884,8 @@ def handle_rab_2_approval():
                 jenis_toko = row_data.get('Proyek', 'N/A')
                 nama_toko = row_data.get('Nama_Toko', row_data.get('nama_toko', 'N/A'))
                 cabang = row_data.get('Cabang')
+                lingkup_pekerjaan = row_data.get('Lingkup_Pekerjaan', row_data.get('lingkup_pekerjaan', 'N/A'))
+
 
                 pdf_nonsbo_bytes = create_pdf_from_data(google_provider, row_data, exclude_sbo=True)
                 pdf_nonsbo_filename = f"DISETUJUI_IL_NON-SBO_{jenis_toko}_{row_data.get('Nomor Ulok')}.pdf"
@@ -934,7 +936,7 @@ def handle_rab_2_approval():
                         print("System: File manual berhasil dilampirkan di email final.")
                 # ---------------------------------------------------------------
 
-                subject = f"[FINAL - DISETUJUI] Pengajuan IL Proyek {nama_toko}"
+                subject = f"[FINAL - DISETUJUI] Pengajuan IL Proyek {nama_toko} - {lingkup_pekerjaan}"
 
                 # 9. Buat Body Email Dasar
                 base_body = (
@@ -1015,15 +1017,16 @@ def handle_rab_2_approval():
             # 3. Kirim Email Notifikasi ke Pembuat (Kontraktor/Support)
             creator_email = row_data.get(config.COLUMN_NAMES.EMAIL_PEMBUAT)
             nama_toko = row_data.get('Nama_Toko', row_data.get('nama_toko', 'N/A'))
+            lingkup_pekerjaan = row_data.get('Lingkup_Pekerjaan', row_data.get('lingkup_pekerjaan', 'N/A'))
            
             
             if creator_email:
-                subject = f"[DITOLAK] Pengajuan IL Proyek {nama_toko}"
+                subject = f"[DITOLAK] Pengajuan IL Proyek {nama_toko} - {lingkup_pekerjaan}"
                 penolak = "Koordinator" if level == 'coordinator' else "Branch Manager"
                 
                 body = (
                     f"<p>Yth. Bapak/Ibu,</p>"
-                    f"<p>Pengajuan IL untuk proyek <b>{nama_toko}</b> telah <b>DITOLAK</b> oleh {penolak} ({approver}).</p>"
+                    f"<p>Pengajuan IL untuk proyek <b>{nama_toko}</b> dengan lingkup pekerjaan <b>{lingkup_pekerjaan}</b> telah <b>DITOLAK</b> oleh {penolak} ({approver}).</p>"
                     f"<p><b>Alasan Penolakan:</b></p>"
                     f"<blockquote style='background-color:#ffebeb; border-left:5px solid #dc3545; padding:10px;'><i>{reason}</i></blockquote>"
                     f"<p>Silakan perbaiki dan ajukan revisi melalui sistem.</p>"
