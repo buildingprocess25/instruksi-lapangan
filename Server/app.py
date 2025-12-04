@@ -416,9 +416,26 @@ def submit_rab_kedua():
         
         
         nomor_ulok_formatted = str(nomor_ulok_raw)
-        if len(nomor_ulok_formatted) == 12:
-            nomor_ulok_formatted = f"{nomor_ulok_formatted[:4]}-{nomor_ulok_formatted[4:8]}-{nomor_ulok_formatted[8:]}"
+        # if len(nomor_ulok_formatted) == 12:
+        #     nomor_ulok_formatted = f"{nomor_ulok_formatted[:4]}-{nomor_ulok_formatted[4:8]}-{nomor_ulok_formatted[8:]}"
+        # data[config.COLUMN_NAMES.LOKASI] = nomor_ulok_formatted
+        
+        # no ulog renovasi Z001-2512-D4D4-R di belakangnya ada huruf R
+        if isinstance(nomor_ulok_raw, str) and len(nomor_ulok_raw) >= 12:
+            if nomor_ulok_raw[-2] == '-':
+                nomor_ulok_formatted = (
+                    f"{nomor_ulok_raw[:-8][:4]}-"
+                    f"{nomor_ulok_raw[:-8][4:8]}-"
+                    f"{nomor_ulok_raw[:-8][8:]}-{nomor_ulok_raw[-7:]}"
+                )
+            else:
+                nomor_ulok_formatted = (
+                    f"{nomor_ulok_raw[:4]}-"
+                    f"{nomor_ulok_raw[4:8]}-"
+                    f"{nomor_ulok_raw[8:]}"
+                )
         data[config.COLUMN_NAMES.LOKASI] = nomor_ulok_formatted
+        # --- ENDLOGIKA UTAMA ---
 
         # --- GENERATE PDF OTOMATIS ---
         pdf_nonsbo_bytes = create_pdf_from_data(google_provider, data, exclude_sbo=True)
