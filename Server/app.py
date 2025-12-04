@@ -75,18 +75,31 @@ def login():
         traceback.print_exc()
         return jsonify({"status": "error", "message": "An internal server error occurred"}), 500
 
-# @app.route('/api/check_status', methods=['GET'])
-# def check_status():
-#     email = request.args.get('email')
-#     cabang = request.args.get('cabang')
-#     if not email or not cabang:
-#         return jsonify({"error": "Email and cabang parameters are missing"}), 400
-#     try:
-#         status_data = google_provider.check_user_submissions(email, cabang)
-#         return jsonify(status_data), 200
-#     except Exception as e:
-#         traceback.print_exc()
-#         return jsonify({"error": str(e)}), 500
+@app.route('/api/check_status', methods=['GET'])
+def check_status():
+    email = request.args.get('email')
+    cabang = request.args.get('cabang')
+    if not email or not cabang:
+        return jsonify({"error": "Email and cabang parameters are missing"}), 400
+    try:
+        status_data = google_provider.check_user_submissions(email, cabang)
+        return jsonify(status_data), 200
+    except Exception as e:
+        traceback.print_exc()
+        return jsonify({"error": str(e)}), 500
+
+@app.route('/api/check_status_rab_2', methods=['GET'])
+def check_status_rab_2():
+    email = request.args.get('email')
+    cabang = request.args.get('cabang')
+    if not email or not cabang:
+        return jsonify({"error": "Email and cabang parameters are missing"}), 400
+    try:
+        status_data = google_provider.check_user_submissions_rab_2(email, cabang)
+        return jsonify(status_data), 200
+    except Exception as e:
+        traceback.print_exc()
+        return jsonify({"error": str(e)}), 500
 
 @app.route('/api/check_ulok_rab_2', methods=['GET'])
 def check_ulok_rab_2():

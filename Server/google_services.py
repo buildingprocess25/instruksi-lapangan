@@ -341,6 +341,52 @@ class GoogleServiceProvider:
         except Exception as e:
             raise e
 
+    def check_user_submissions_rab_2(self, email, cabang):
+        """Mirrors check_user_submissions but reads from Spreadsheet RAB 2."""
+        try:
+            # Open RAB 2 spreadsheet and target worksheet
+            spreadsheet = self.gspread_client.open_by_key(config.SPREADSHEET_ID_RAB_2)
+            worksheet = spreadsheet.worksheet(config.DATA_ENTRY_SHEET_NAME_RAB_2)
+
+            all_values = worksheet.get_all_values()
+            if len(all_values) <= 1:
+                return {"active_codes": {"pending": [], "approved": []}, "rejected_submissions": []}
+
+            headers = all_values[0]
+            records = [dict(zip(headers, row)) for row in all_values[1:]]
+
+            pending_codes, approved_codes, rejected_submissions = [], [], []
+            processed_locations = set()
+            user_cabang = str(cabang).strip().lower()
+
+            for record in reversed(records):
+                lokasi = str(record.get(config.COLUMN_NAMES.LOKASI, "")).strip().upper()
+                if not lokasi or lokasi in processed_locations:
+                    continue
+
+                status = str(record.get(config.COLUMN_NAMES.STATUS, "")).strip()
+                record_cabang = str(record.get(config.COLUMN_NAMES.CABANG, "")).strip().lower()
+
+                if status in [config.STATUS.WAITING_FOR_COORDINATOR, config.STATUS.WAITING_FOR_MANAGER]:
+                    pending_codes.append(lokasi)
+                elif status == config.STATUS.APPROVED:
+                    approved_codes.append(lokasi)
+                elif status in [config.STATUS.REJECTED_BY_COORDINATOR, config.STATUS.REJECTED_BY_MANAGER] and record_cabang == user_cabang:
+                    item_details_json = record.get('Item_Details_JSON', '{}')
+                    if item_details_json:
+                        try:
+                            item_details = json.loads(item_details_json)
+                            record.update(item_details)
+                        except json.JSONDecodeError:
+                            print(f"Warning: Could not decode Item_Details_JSON for {lokasi}")
+                    rejected_submissions.append(record)
+
+                processed_locations.add(lokasi)
+
+            return {"active_codes": {"pending": pending_codes, "approved": approved_codes}, "rejected_submissions": rejected_submissions}
+        except Exception as e:
+            raise e
+
     def get_sheet_headers(self, worksheet_name):
         return self.sheet.worksheet(worksheet_name).row_values(1)
 
