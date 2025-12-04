@@ -824,6 +824,43 @@ function updateNomorUlok() {
     }
 }
 
+function checkAndPopulateRejectedData() {
+    // 1. Ambil Ulok Lengkap
+    const fullUlok = document.getElementById('lokasi').value.replace(/-/g, '');
+    
+    // 2. Ambil Lingkup Pekerjaan
+    const selectedScope = document.getElementById('lingkup_pekerjaan').value;
+
+    // PERBAIKAN: Izinkan panjang 12 (Reguler) ATAU 13 (Renovasi)
+    // Jika panjang bukan 12 DAN bukan 13, atau lingkup belum dipilih, hentikan.
+    if ((fullUlok.length !== 12 && fullUlok.length !== 13) || !selectedScope) {
+        return;
+    }
+
+    // 3. Cari di rejectedSubmissionsList
+    // Syarat: Ulok Sama DAN Lingkup Pekerjaan Sama
+    const rejectedData = rejectedSubmissionsList.find(item => {
+        const itemUlok = item['Nomor Ulok'].replace(/-/g, '');
+        const itemScope = item['Lingkup_Pekerjaan'] || item['Lingkup Pekerjaan']; 
+        
+        return itemUlok === fullUlok && itemScope === selectedScope;
+    });
+
+    // 4. Jika ditemukan data revisi yang cocok
+    if (rejectedData) {
+        console.log("Data revisi ditemukan:", rejectedData);
+        
+        if (confirm(`Ditemukan data REVISI untuk Ulok ${rejectedData['Nomor Ulok']} (${selectedScope}) yang ditolak. \nApakah Anda ingin memuat data tersebut untuk diperbaiki?`)) {
+            populateFormWithHistory(rejectedData);
+            
+            const msgDiv = document.getElementById("message");
+            msgDiv.textContent = `Memuat data revisi untuk ${selectedScope}. Silakan perbaiki item yang salah.`;
+            msgDiv.style.backgroundColor = '#ffc107'; 
+            msgDiv.style.display = 'block';
+        }
+    }
+}
+
 async function initializePage() {
     form = document.getElementById("form");
     submitButton = document.getElementById("submit-button");
