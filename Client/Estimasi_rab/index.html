@@ -49,6 +49,10 @@
       <input type="text" id="nama_toko" name="Nama_Toko" placeholder="Masukkan nama toko" required
         style="margin-bottom: 15px" />
       <label for="lokasi_cabang">Nomor Ulok: <span class="required-asterisk">*</span></label>
+      <div style="margin-bottom: 5px;">
+            <input type="checkbox" id="toggle_renovasi" style="width: auto; margin-right: 5px;">
+            <label for="toggle_renovasi" style="display: inline; font-weight: normal; cursor: pointer;">Proyek Renovasi (Format Baru)</label>
+        </div>
       <div id="nomor-ulok-container" style="display: flex; gap: 10px; align-items: center; flex-wrap: wrap">
         <select id="lokasi_cabang" required style="flex: 1 1 80px">
           <option value="">-- Kode --</option>
@@ -59,6 +63,8 @@
         <span style="font-weight: bold">-</span>
         <input type="text" id="lokasi_manual" placeholder="xxxx" maxlength="4"
           oninput="this.value = this.value.replace(/[^0-9]/g, '')" required style="flex: 1 1 80px" />
+        <span id="separator_renov" style="font-weight: bold; display: none;">-</span>
+          <input type="text" id="suffix_renov" value="R" readonly style="flex: 0 0 40px; text-align: center; background-color: #e9ecef; display: none;"/>
       </div>
       <input type="hidden" id="lokasi" name="Nomor Ulok" />
 
@@ -67,6 +73,7 @@
           <option value="">-- Pilih Jenis Proyek --</option>
           <option value="Alfamart Reguler">Reguler</option>
           <option value="Franchise">Franchise</option>
+          <option value="Renovasi">Renovasi</option>
         </select>
 
       <label for="alamat">Alamat Toko: <span class="required-asterisk">*</span></label>
