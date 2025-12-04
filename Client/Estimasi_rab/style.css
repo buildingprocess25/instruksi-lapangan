@@ -100,6 +100,7 @@ select[disabled] {
   -moz-appearance: none;
   appearance: none;
   background-color: #e9ecef !important;
+  color: #252525ff !important;
   cursor: not-allowed;
 }
 
@@ -637,7 +638,7 @@ body.dark .file-upload-wrapper {
 }
 
 body.dark #file-upload-text {
-  color: #cbd5e1;
+  color: #4a5568;
 }
 
 body.dark .file-info-label {
@@ -667,5 +668,18 @@ body.dark .btn-theme-toggle {
     margin-top: 10px;
   }
 }
+
+/* Dark mode: force jenis-pekerjaan select and Select2 rendered text to black */
+  body.dark select.jenis-pekerjaan,
+  body.dark table tbody td select.jenis-pekerjaan {
+    color: #000 !important;
+  }
+  body.dark .select2-container--default .select2-selection--single .select2-selection__rendered {
+    color: #000 !important;
+  }
+/* Also ensure Select2 dropdown options are readable in dark mode */
+  body.dark .select2-results__option {
+    color: #000 !important;
+  }
 
 /* ======================= END THEME TOGGLE & DARK MODE ======================= */

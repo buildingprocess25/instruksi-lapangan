@@ -909,7 +909,7 @@ async function initializePage() {
             const fileName = e.target.files[0].name;
             fileNameDisplay.textContent = `File Terpilih: ${fileName}`;
             wrapper.style.borderColor = '#48bb78'; // Ubah border menjadi hijau
-            wrapper.style.backgroundColor = '#eafaea'; // Latar belakang hijau muda
+            wrapper.style.backgroundColor = '#95ff95ff'; // Latar belakang hijau muda
 
         } else {
             // Tidak ada file
