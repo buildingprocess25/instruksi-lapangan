@@ -440,13 +440,72 @@ def submit_rab_kedua():
             )
             data[config.COLUMN_NAMES.LINK_PDF_IL] = link_pdf_IL
 
-        # --- SIMPAN KE SHEET ---
-        # Menggunakan fungsi append_to_dynamic_sheet agar masuk ke Spreadsheet RAB 2
-        new_row_index = google_provider.append_to_dynamic_sheet(
-            config.SPREADSHEET_ID_RAB_2,
-            config.DATA_ENTRY_SHEET_NAME_RAB_2,
-            data
-        )
+        # --- CEGAH DOUBLE DATA: CEK ULOK DI SHEET RAB 2 UNTUK STATUS DITOLAK ---
+        try:
+            spreadsheet = google_provider.gspread_client.open_by_key(config.SPREADSHEET_ID_RAB_2)
+            worksheet = spreadsheet.worksheet(config.DATA_ENTRY_SHEET_NAME_RAB_2)
+
+            header = worksheet.row_values(1)
+            # Cari index kolom penting
+            def col_index(col_name):
+                try:
+                    return header.index(col_name) + 1
+                except ValueError:
+                    return None
+
+            col_ulok = col_index(config.COLUMN_NAMES.LOKASI)
+            col_status = col_index(config.COLUMN_NAMES.STATUS)
+            col_timestamp = col_index(config.COLUMN_NAMES.TIMESTAMP)
+
+            existing_row_index = None
+            rejected_statuses = {
+                config.STATUS.REJECTED_BY_COORDINATOR,
+                config.STATUS.REJECTED_BY_MANAGER,
+            }
+
+            # Jika kolom ada, iterasi baris untuk mencari ULOK yang sama dengan status ditolak
+            if col_ulok and col_status:
+                all_rows = worksheet.get_all_values()
+                for r_idx in range(2, len(all_rows) + 1):
+                    row_vals = all_rows[r_idx - 1]
+                    current_ulok = row_vals[col_ulok - 1] if len(row_vals) >= col_ulok else ""
+                    current_status = row_vals[col_status - 1] if len(row_vals) >= col_status else ""
+                    if current_ulok == nomor_ulok_formatted and current_status in rejected_statuses:
+                        existing_row_index = r_idx
+                        break
+
+            # Jika ditemukan baris yang ditolak sebelumnya, jangan append. Ubah statusnya ke waiting sesuai asal penolakan
+            if existing_row_index:
+                previous_status = worksheet.cell(existing_row_index, col_status).value if col_status else ""
+                if previous_status == config.STATUS.REJECTED_BY_COORDINATOR:
+                    new_status_for_existing = config.STATUS.WAITING_FOR_COORDINATOR
+                elif previous_status == config.STATUS.REJECTED_BY_MANAGER:
+                    new_status_for_existing = config.STATUS.WAITING_FOR_MANAGER
+                else:
+                    new_status_for_existing = config.STATUS.WAITING_FOR_COORDINATOR
+
+                if col_status:
+                    worksheet.update_cell(existing_row_index, col_status, new_status_for_existing)
+                if col_timestamp:
+                    worksheet.update_cell(existing_row_index, col_timestamp, data.get(config.COLUMN_NAMES.TIMESTAMP, ""))
+
+                new_row_index = existing_row_index
+            else:
+                # --- SIMPAN KE SHEET ---
+                # Menggunakan fungsi append_to_dynamic_sheet agar masuk ke Spreadsheet RAB 2
+                new_row_index = google_provider.append_to_dynamic_sheet(
+                    config.SPREADSHEET_ID_RAB_2,
+                    config.DATA_ENTRY_SHEET_NAME_RAB_2,
+                    data
+                )
+        except Exception as sheet_check_err:
+            # Jika terjadi error saat cek, fallback ke append agar tidak memblokir alur
+            print(f"Warning: gagal cek double data RAB 2: {sheet_check_err}")
+            new_row_index = google_provider.append_to_dynamic_sheet(
+                config.SPREADSHEET_ID_RAB_2,
+                config.DATA_ENTRY_SHEET_NAME_RAB_2,
+                data
+            )
 
         # --- KIRIM EMAIL ---
         cabang = data.get('Cabang')
