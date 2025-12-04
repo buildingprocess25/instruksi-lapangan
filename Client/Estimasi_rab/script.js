@@ -1094,3 +1094,54 @@ function checkSessionTime() {
         console.error("Gagal menjalankan pengecekan jam sesi:", err);
     }
 }
+
+// Cek apakah ada pengajuan yang ditolak (rejected) untuk Nomor Ulok saat ini
+function checkAndPopulateRejectedData() {
+    try {
+        const ulokEl = document.getElementById('lokasi');
+        if (!ulokEl) return;
+        const fullUlokRaw = (ulokEl.value || '').toString();
+        const fullUlok = fullUlokRaw.replace(/-/g, '');
+
+        // Minimal 12 chars (format normal) atau 13 chars jika ada suffix renovasi 'R'
+        if (!fullUlok || (fullUlok.length !== 12 && fullUlok.length !== 13)) return;
+
+        if (!Array.isArray(rejectedSubmissionsList) || rejectedSubmissionsList.length === 0) return;
+
+        const selectedScope = (lingkupPekerjaanSelect && lingkupPekerjaanSelect.value) || '';
+
+        const rejectedData = rejectedSubmissionsList.find(item => {
+            const itemUlokRaw = String(item['Nomor Ulok'] || item['Nomor_Ulok'] || '');
+            const itemUlok = itemUlokRaw.replace(/-/g, '');
+            if (!itemUlok) return false;
+
+            // Cocokkan baik langsung maupun dengan/without suffix 'R'
+            const matchesUlok = (
+                itemUlok === fullUlok ||
+                (itemUlok.endsWith('R') && itemUlok.slice(0, -1) === fullUlok) ||
+                (fullUlok.endsWith('R') && fullUlok.slice(0, -1) === itemUlok)
+            );
+
+            if (!matchesUlok) return false;
+
+            if (!selectedScope) return true;
+
+            const itemScope = String(item['Lingkup Pekerjaan'] || item['Lingkup_Pekerjaan'] || item.lingkup || '');
+            if (!itemScope) return true;
+
+            return itemScope.toLowerCase().includes(selectedScope.toLowerCase());
+        });
+
+        if (rejectedData) {
+            populateFormWithHistory(rejectedData);
+            if (messageDiv) {
+                messageDiv.textContent = `Memuat data revisi untuk Nomor Ulok: ${rejectedData['Nomor Ulok'] || ''}`;
+                messageDiv.style.backgroundColor = '#17a2b8';
+                messageDiv.style.display = 'block';
+                setTimeout(() => { messageDiv.style.display = 'none'; }, 3500);
+            }
+        }
+    } catch (err) {
+        console.error('checkAndPopulateRejectedData error:', err);
+    }
+}
