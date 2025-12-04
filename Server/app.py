@@ -1021,7 +1021,7 @@ def handle_rab_2_approval():
                 
                 body = (
                     f"<p>Yth. Bapak/Ibu,</p>"
-                    f"<p>Pengajuan IL untuk proyek <b>{nama_toko}</b> ({jenis_toko}) telah <b>DITOLAK</b> oleh {penolak} ({approver}).</p>"
+                    f"<p>Pengajuan IL untuk proyek <b>{nama_toko}</b> telah <b>DITOLAK</b> oleh {penolak} ({approver}).</p>"
                     f"<p><b>Alasan Penolakan:</b></p>"
                     f"<blockquote style='background-color:#ffebeb; border-left:5px solid #dc3545; padding:10px;'><i>{reason}</i></blockquote>"
                     f"<p>Silakan perbaiki dan ajukan revisi melalui sistem.</p>"
