@@ -946,17 +946,57 @@ async function initializePage() {
         }
     }
 
-    // Sembunyikan status/message bar saat halaman pertama kali dimuat
-    messageDiv.textContent = '';
-    messageDiv.style.display = 'none';
-    lingkupPekerjaanSelect.disabled = false;
+    messageDiv.textContent = 'Memuat data status...';
+    messageDiv.style.display = 'block';
 
+    try {
+        if (userEmail && userCabang) {
+            const statusResponse = await fetch(`${PYTHON_API_BASE_URL}/api/check_status?email=${encodeURIComponent(userEmail)}&cabang=${encodeURIComponent(userCabang)}`);
+            const statusResult = await statusResponse.json();
+            
+            if (statusResult.active_codes) {
+                pendingStoreCodes = statusResult.active_codes.pending || [];
+                approvedStoreCodes = statusResult.active_codes.approved || [];
+            }
+            
+            if (statusResult.rejected_submissions && statusResult.rejected_submissions.length > 0) {
+                rejectedSubmissionsList = statusResult.rejected_submissions;
+                const rejectedCodes = rejectedSubmissionsList.map(item => item['Nomor Ulok']).join(', ');
+                messageDiv.innerHTML = `Ditemukan pengajuan yang ditolak untuk Nomor Ulok: <strong>${rejectedCodes}</strong>. Masukkan Nomor Ulok lengkap untuk revisi.`;
+                messageDiv.style.backgroundColor = '#ffc107';
+            } else {
+                messageDiv.style.display = 'none';
+            }
+        } else {
+            messageDiv.style.display = 'none';
+        }
+    } catch (error) {
+        console.error("Gagal memuat data status awal:", error);
+        messageDiv.textContent = "Gagal memuat data status. Mohon muat ulang halaman.";
+        messageDiv.style.backgroundColor = '#dc3545';
+    } finally {
+        lingkupPekerjaanSelect.disabled = false;
+    }
+    
+    // 1. Saat Kode Cabang berubah
+    document.getElementById('lokasi_cabang').addEventListener('change', () => {
+        updateNomorUlok();
+        checkAndPopulateRejectedData(); // Cek setiap kali ulok berubah
+    });
 
-    document.getElementById('lokasi_cabang').addEventListener('change', updateNomorUlok);
-    document.getElementById('lokasi_tanggal').addEventListener('input', updateNomorUlok);
-    document.getElementById('lokasi_manual').addEventListener('input', updateNomorUlok);
+    // 2. Saat Tanggal berubah
+    document.getElementById('lokasi_tanggal').addEventListener('input', () => {
+        updateNomorUlok();
+        checkAndPopulateRejectedData();
+    });
 
-    document.getElementById('lokasi_manual')?.addEventListener('input', function (e) {
+    // 3. Saat Nomor Manual berubah
+    document.getElementById('lokasi_manual').addEventListener('input', () => {
+        updateNomorUlok();
+        checkAndPopulateRejectedData(); 
+    });
+
+    document.getElementById('lokasi_manual')?.addEventListener('input', function(e) {
         const fullUlok = document.getElementById('lokasi').value.replace(/-/g, '');
         if (fullUlok.length === 12) {
             const rejectedData = rejectedSubmissionsList.find(item => item['Nomor Ulok'].replace(/-/g, '') === fullUlok);
@@ -965,16 +1005,23 @@ async function initializePage() {
             }
         }
     });
-
+    
+    // 4. Saat Lingkup Pekerjaan berubah
     lingkupPekerjaanSelect.addEventListener("change", () => {
         const selectedScope = lingkupPekerjaanSelect.value;
+        // Logika toggle tabel (tetap ada)
         sipilTablesWrapper.innerHTML = '';
         meTablesWrapper.innerHTML = '';
         sipilTablesWrapper.classList.toggle("hidden", selectedScope !== 'Sipil');
         meTablesWrapper.classList.toggle("hidden", selectedScope !== 'ME');
+        
+        // Fetch harga (tetap ada)
         if (cabangSelect.value && selectedScope) {
             fetchAndPopulatePrices();
         }
+
+        // --- TAMBAHAN BARU: Cek Data Revisi ---
+        checkAndPopulateRejectedData();
     });
 
     cabangSelect.addEventListener('change', () => {
