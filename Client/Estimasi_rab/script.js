@@ -16,6 +16,8 @@ let originalFormData = null;
 let toggleRenovasi;
 let separatorRenov;
 let suffixRenov;
+let pembulatanAmount;
+let ppnAmount;
 
 const PYTHON_API_BASE_URL = "https://instruksi-lapangan.onrender.com";
 // const PYTHON_API_BASE_URL = "https://cuma-backend.web.id";
@@ -826,6 +828,8 @@ async function initializePage() {
     submitButton = document.getElementById("submit-button");
     messageDiv = document.getElementById("message");
     grandTotalAmount = document.getElementById("grand-total-amount");
+    pembulatanAmount = document.getElementById("pembulatan-amount");
+    ppnAmount = document.getElementById("ppn-amount");
     lingkupPekerjaanSelect = document.getElementById("lingkup_pekerjaan");
     cabangSelect = document.getElementById("cabang");
     sipilTablesWrapper = document.getElementById("sipil-tables-wrapper");
