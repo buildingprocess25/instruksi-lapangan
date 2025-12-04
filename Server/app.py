@@ -489,6 +489,29 @@ def submit_rab_kedua():
                 if col_timestamp:
                     worksheet.update_cell(existing_row_index, col_timestamp, data.get(config.COLUMN_NAMES.TIMESTAMP, ""))
 
+                # --- OVERWRITE DATA ITEM & FIELD LAIN BERDASARKAN SUBMISSION BARU ---
+                item_prefixes = (
+                    'Kategori_Pekerjaan_', 'Jenis_Pekerjaan_', 'Satuan_Item_',
+                    'Volume_Item_', 'Harga_Material_Item_', 'Harga_Upah_Item_',
+                    'Total_Material_Item_', 'Total_Upah_Item_', 'Total_Harga_Item_'
+                )
+
+                # Pastikan field penting lainnya juga diperbarui dari data baru
+                # Termasuk: totals, links, item_details_json, lingkup, cabang, dll jika ada di data
+                for header_name in header:
+                    try:
+                        if header_name in data:
+                            google_provider.update_cell_by_sheet(
+                                worksheet, existing_row_index, header_name, data.get(header_name, "")
+                            )
+                        elif header_name.startswith(item_prefixes):
+                            # Kosongkan kolom item lama yang tidak ada di submission baru
+                            google_provider.update_cell_by_sheet(
+                                worksheet, existing_row_index, header_name, ""
+                            )
+                    except Exception as upd_err:
+                        print(f"Warning: gagal update kolom {header_name} pada baris {existing_row_index}: {upd_err}")
+
                 new_row_index = existing_row_index
             else:
                 # --- SIMPAN KE SHEET ---
