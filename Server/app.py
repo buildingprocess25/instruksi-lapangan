@@ -43,6 +43,40 @@ google_provider = GoogleServiceProvider()
 from data_api import data_bp
 app.register_blueprint(data_bp)
 
+def format_ulok(nomor_ulok_raw: str) -> str:
+    """Format Nomor Ulok to pattern XXXX-XXXX-XXXX[-R].
+    Examples:
+    - 'Z0012512D4D4' -> 'Z001-2512-D4D4'
+    - 'Z0012512D4D4R' -> 'Z001-2512-D4D4-R'
+    - 'Z001-2512-D4D4-R' -> 'Z001-2512-D4D4-R' (idempotent)
+    """
+    if not nomor_ulok_raw:
+        return ''
+    s = str(nomor_ulok_raw).strip()
+    # If already contains dashes in expected places and optional '-R', return as is
+    if '-' in s:
+        # Normalize multiple dashes; ensure final suffix preserved
+        parts = s.split('-')
+        if len(parts) >= 3:
+            head = parts[0]
+            mid = parts[1]
+            tail = parts[2]
+            suffix = parts[3] if len(parts) > 3 else None
+            base = f"{head}-{mid}-{tail}"
+            return f"{base}-{suffix}" if suffix else base
+        # Fall through to rebuild from cleaned string
+        s = ''.join(parts)
+    # Handle optional trailing 'R'
+    has_R = s.endswith('R')
+    core = s[:-1] if has_R else s
+    # Ensure core has at least 12 chars
+    core = core[:12]
+    if len(core) < 12:
+        # Pad or just return original if insufficient
+        return nomor_ulok_raw
+    formatted = f"{core[:4]}-{core[4:8]}-{core[8:12]}"
+    return f"{formatted}-R" if has_R else formatted
+
 def get_tanggal_h(start_date, jumlah_hari_kerja):
     tanggal = start_date
     count = 0
@@ -415,25 +449,7 @@ def submit_rab_kedua():
         nama_toko = data.get('Nama_Toko', data.get('nama_toko', 'N/A'))
         
         
-        nomor_ulok_formatted = str(nomor_ulok_raw)
-        # if len(nomor_ulok_formatted) == 12:
-        #     nomor_ulok_formatted = f"{nomor_ulok_formatted[:4]}-{nomor_ulok_formatted[4:8]}-{nomor_ulok_formatted[8:]}"
-        # data[config.COLUMN_NAMES.LOKASI] = nomor_ulok_formatted
-        
-        # no ulog renovasi Z001-2512-D4D4-R di belakangnya ada huruf R
-        if isinstance(nomor_ulok_raw, str) and len(nomor_ulok_raw) >= 12:
-            if nomor_ulok_raw[-2] == '-':
-                nomor_ulok_formatted = (
-                    f"{nomor_ulok_raw[:-8][:4]}-"
-                    f"{nomor_ulok_raw[:-8][4:8]}-"
-                    f"{nomor_ulok_raw[:-8][8:]}"+nomor_ulok_raw[-8:]
-                )
-            else:
-                nomor_ulok_formatted = (
-                    f"{nomor_ulok_raw[:4]}-"
-                    f"{nomor_ulok_raw[4:8]}-"
-                    f"{nomor_ulok_raw[8:]}"
-                )
+        nomor_ulok_formatted = format_ulok(nomor_ulok_raw)
         data[config.COLUMN_NAMES.LOKASI] = nomor_ulok_formatted
         # --- ENDLOGIKA UTAMA ---
 
