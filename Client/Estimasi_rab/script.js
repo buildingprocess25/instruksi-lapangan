@@ -3,6 +3,7 @@ let form;
 let submitButton;
 let messageDiv;
 let grandTotalAmount;
+let finalTotalAmount;
 let lingkupPekerjaanSelect;
 let cabangSelect;
 let sipilTablesWrapper;
@@ -830,6 +831,7 @@ async function initializePage() {
     grandTotalAmount = document.getElementById("grand-total-amount");
     pembulatanAmount = document.getElementById("pembulatan-amount");
     ppnAmount = document.getElementById("ppn-amount");
+    finalTotalAmount = document.getElementById("final-total-amount");
     lingkupPekerjaanSelect = document.getElementById("lingkup_pekerjaan");
     cabangSelect = document.getElementById("cabang");
     sipilTablesWrapper = document.getElementById("sipil-tables-wrapper");
