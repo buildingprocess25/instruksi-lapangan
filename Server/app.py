@@ -400,6 +400,7 @@ def submit_rab_kedua():
 
         jenis_toko = data.get('Proyek', 'N/A')
         nama_toko = data.get('Nama_Toko', data.get('nama_toko', 'N/A'))
+        lingkup_pekerjaan = data.get('Lingkup_Pekerjaan', data.get('lingkup_pekerjaan', 'N/A'))
         
         nomor_ulok_formatted = str(nomor_ulok_raw)
         if len(nomor_ulok_formatted) == 12:
@@ -835,6 +836,7 @@ def handle_rab_2_approval():
                     # 5. Generate PDF Otomatis
                     jenis_toko = row_data.get('Proyek', 'N/A')
                     nama_toko = row_data.get('Nama_Toko', row_data.get('nama_toko', 'N/A'))
+                    lingkup_pekerjaan = row_data.get('Lingkup_Pekerjaan', row_data.get('lingkup_pekerjaan', 'N/A'))
 
                     pdf_nonsbo_bytes = create_pdf_from_data(google_provider, row_data, exclude_sbo=True)
                     pdf_recap_bytes = create_recap_pdf(google_provider, row_data)
