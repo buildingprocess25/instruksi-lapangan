@@ -426,7 +426,7 @@ def submit_rab_kedua():
                 nomor_ulok_formatted = (
                     f"{nomor_ulok_raw[:-8][:4]}-"
                     f"{nomor_ulok_raw[:-8][4:8]}-"
-                    f"{nomor_ulok_raw[:-8][8:]}-{nomor_ulok_raw[-7:]}"
+                    f"{nomor_ulok_raw[:-8][8:]}"+nomor_ulok_raw[-8:]
                 )
             else:
                 nomor_ulok_formatted = (
