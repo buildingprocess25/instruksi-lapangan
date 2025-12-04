@@ -951,7 +951,7 @@ async function initializePage() {
 
     try {
         if (userEmail && userCabang) {
-            const statusResponse = await fetch(`${PYTHON_API_BASE_URL}/api/check_status?email=${encodeURIComponent(userEmail)}&cabang=${encodeURIComponent(userCabang)}`);
+            const statusResponse = await fetch(`${PYTHON_API_BASE_URL}/api/check_status_rab_2?email=${encodeURIComponent(userEmail)}&cabang=${encodeURIComponent(userCabang)}`);
             const statusResult = await statusResponse.json();
             
             if (statusResult.active_codes) {
