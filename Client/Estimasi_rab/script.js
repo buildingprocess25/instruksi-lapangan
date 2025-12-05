@@ -20,8 +20,8 @@ let suffixRenov;
 let pembulatanAmount;
 let ppnAmount;
 
-const PYTHON_API_BASE_URL = "https://instruksi-lapangan.onrender.com";
-// const PYTHON_API_BASE_URL = "https://cuma-backend.web.id";
+// const PYTHON_API_BASE_URL = "https://instruksi-lapangan.onrender.com";
+const PYTHON_API_BASE_URL = "https://sparta-backend.vercel.app";
 
 const sipilCategoryOrder = [
     "PEKERJAAN PERSIAPAN",
