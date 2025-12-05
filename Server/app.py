@@ -46,9 +46,9 @@ app.register_blueprint(data_bp)
 def format_ulok(nomor_ulok_raw: str) -> str:
     """Format Nomor Ulok to pattern XXXX-XXXX-XXXX[-R].
     Examples:
-    - 'Z0012512D4D4' -> 'Z001-2512-D4D4'
-    - 'Z0012512D4D4R' -> 'Z001-2512-D4D4-R'
-    - 'Z001-2512-D4D4-R' -> 'Z001-2512-D4D4-R' (idempotent)
+    - 'Z0012512TEST' -> 'Z001-2512-TEST'
+    - 'Z0012512TESTR' -> 'Z001-2512-TEST-R'
+    - 'Z001-2512-TEST-R' -> 'Z001-2512-TEST-R' (idempotent)
     """
     if not nomor_ulok_raw:
         return ''
