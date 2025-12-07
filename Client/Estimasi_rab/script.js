@@ -472,7 +472,7 @@ const calculateGrandTotal = () => {
     let total = 0;
     // Hitung total murni dari semua input
     document.querySelectorAll(".boq-table-body:not(.hidden) .total-harga").forEach(input => total += parseRupiah(input.value));
-    
+
     if (grandTotalAmount) grandTotalAmount.textContent = formatRupiah(total);
     // Pembulatan turun ke kelipatan 10.000
     const pembulatan = Math.floor(total / 10000) * 10000;
@@ -492,38 +492,38 @@ async function populateFormWithHistory(data) {
     meTablesWrapper.innerHTML = "";
 
     const nomorUlok = data["Nomor Ulok"];
-        if (nomorUlok) {
-            const cleanUlok = nomorUlok.replace(/-/g, ""); // Hapus dash jika ada
-    // Cek panjang karakter
-    // Format Normal: Z001 2512 0001 (12 chars)
-    // Format Renov:  Z001 2512 C0B4 R (13 chars)
-            let ulokParts;
-            const isRenov = cleanUlok.length === 13 && cleanUlok.endsWith("R");
-            if (isRenov) {
+    if (nomorUlok) {
+        const cleanUlok = nomorUlok.replace(/-/g, ""); // Hapus dash jika ada
+        // Cek panjang karakter
+        // Format Normal: Z001 2512 0001 (12 chars)
+        // Format Renov:  Z001 2512 C0B4 R (13 chars)
+        let ulokParts;
+        const isRenov = cleanUlok.length === 13 && cleanUlok.endsWith("R");
+        if (isRenov) {
             // Regex untuk Z001-2512-C0B4-R
-                ulokParts = cleanUlok.match(/^(.{4})(.{4})(.{4})R$/);
-            } else {
-                // Regex untuk Z001-2512-0001
-                    ulokParts = cleanUlok.match(/^(.{4})(.{4})(.{4})$/);
-                    }
-
-            if (ulokParts) {
-                document.getElementById("lokasi_cabang").value = ulokParts[1];
-                document.getElementById("lokasi_tanggal").value = ulokParts[2];
-                document.getElementById("lokasi_manual").value = ulokParts[3];
-            // Set status checkbox
-                const toggleBox = document.getElementById("toggle_renovasi");
-                if(isRenov) {
-                    toggleBox.checked = true;
-                // Trigger event change manual agar UI suffix muncul
-                    toggleBox.dispatchEvent(new Event('change')); 
-                } else {
-                    toggleBox.checked = false;
-                    toggleBox.dispatchEvent(new Event('change'));
-                }
-            updateNomorUlok();
-            }
+            ulokParts = cleanUlok.match(/^(.{4})(.{4})(.{4})R$/);
+        } else {
+            // Regex untuk Z001-2512-0001
+            ulokParts = cleanUlok.match(/^(.{4})(.{4})(.{4})$/);
         }
+
+        if (ulokParts) {
+            document.getElementById("lokasi_cabang").value = ulokParts[1];
+            document.getElementById("lokasi_tanggal").value = ulokParts[2];
+            document.getElementById("lokasi_manual").value = ulokParts[3];
+            // Set status checkbox
+            const toggleBox = document.getElementById("toggle_renovasi");
+            if (isRenov) {
+                toggleBox.checked = true;
+                // Trigger event change manual agar UI suffix muncul
+                toggleBox.dispatchEvent(new Event('change'));
+            } else {
+                toggleBox.checked = false;
+                toggleBox.dispatchEvent(new Event('change'));
+            }
+            updateNomorUlok();
+        }
+    }
     // Isi ulang field Nama Toko dari riwayat (dukung kedua penamaan)
     if (data["nama_toko"]) {
         document.getElementById("nama_toko").value = data["nama_toko"];
@@ -827,7 +827,7 @@ function updateNomorUlok() {
 function checkAndPopulateRejectedData() {
     // 1. Ambil Ulok Lengkap
     const fullUlok = document.getElementById('lokasi').value.replace(/-/g, '');
-    
+
     // 2. Ambil Lingkup Pekerjaan
     const selectedScope = document.getElementById('lingkup_pekerjaan').value;
 
@@ -841,21 +841,21 @@ function checkAndPopulateRejectedData() {
     // Syarat: Ulok Sama DAN Lingkup Pekerjaan Sama
     const rejectedData = rejectedSubmissionsList.find(item => {
         const itemUlok = item['Nomor Ulok'].replace(/-/g, '');
-        const itemScope = item['Lingkup_Pekerjaan'] || item['Lingkup Pekerjaan']; 
-        
+        const itemScope = item['Lingkup_Pekerjaan'] || item['Lingkup Pekerjaan'];
+
         return itemUlok === fullUlok && itemScope === selectedScope;
     });
 
     // 4. Jika ditemukan data revisi yang cocok
     if (rejectedData) {
         console.log("Data revisi ditemukan:", rejectedData);
-        
+
         if (confirm(`Ditemukan data REVISI untuk Ulok ${rejectedData['Nomor Ulok']} (${selectedScope}) yang ditolak. \nApakah Anda ingin memuat data tersebut untuk diperbaiki?`)) {
             populateFormWithHistory(rejectedData);
-            
+
             const msgDiv = document.getElementById("message");
             msgDiv.textContent = `Memuat data revisi untuk ${selectedScope}. Silakan perbaiki item yang salah.`;
-            msgDiv.style.backgroundColor = '#ffc107'; 
+            msgDiv.style.backgroundColor = '#ffc107';
             msgDiv.style.display = 'block';
         }
     }
@@ -888,7 +888,7 @@ async function initializePage() {
             applyTheme(next);
         });
     }
-    
+
     // --- LOGIKA 1: Event Listener Checkbox Renovasi ---
     toggleRenovasi.addEventListener('change', () => {
         if (toggleRenovasi.checked) {
@@ -908,7 +908,7 @@ async function initializePage() {
     });
 
     // --- Validasi Input Manual (Dinamis) ---
-    inputManual.addEventListener('input', function() {
+    inputManual.addEventListener('input', function () {
         if (toggleRenovasi.checked) {
             // Allow Angka & Huruf (Alphanumeric)
             this.value = this.value.replace(/[^a-zA-Z0-9]/g, '').toUpperCase();
@@ -990,12 +990,12 @@ async function initializePage() {
         if (userEmail && userCabang) {
             const statusResponse = await fetch(`${PYTHON_API_BASE_URL}/api/check_status_rab_2?email=${encodeURIComponent(userEmail)}&cabang=${encodeURIComponent(userCabang)}`);
             const statusResult = await statusResponse.json();
-            
+
             if (statusResult.active_codes) {
                 pendingStoreCodes = statusResult.active_codes.pending || [];
                 approvedStoreCodes = statusResult.active_codes.approved || [];
             }
-            
+
             if (statusResult.rejected_submissions && statusResult.rejected_submissions.length > 0) {
                 rejectedSubmissionsList = statusResult.rejected_submissions;
                 const rejectedCodes = rejectedSubmissionsList.map(item => item['Nomor Ulok']).join(', ');
@@ -1014,7 +1014,7 @@ async function initializePage() {
     } finally {
         lingkupPekerjaanSelect.disabled = false;
     }
-    
+
     // 1. Saat Kode Cabang berubah
     document.getElementById('lokasi_cabang').addEventListener('change', () => {
         updateNomorUlok();
@@ -1030,10 +1030,10 @@ async function initializePage() {
     // 3. Saat Nomor Manual berubah
     document.getElementById('lokasi_manual').addEventListener('input', () => {
         updateNomorUlok();
-        checkAndPopulateRejectedData(); 
+        checkAndPopulateRejectedData();
     });
 
-    document.getElementById('lokasi_manual')?.addEventListener('input', function(e) {
+    document.getElementById('lokasi_manual')?.addEventListener('input', function (e) {
         const fullUlok = document.getElementById('lokasi').value.replace(/-/g, '');
         if (fullUlok.length === 12) {
             const rejectedData = rejectedSubmissionsList.find(item => item['Nomor Ulok'].replace(/-/g, '') === fullUlok);
@@ -1042,7 +1042,7 @@ async function initializePage() {
             }
         }
     });
-    
+
     // 4. Saat Lingkup Pekerjaan berubah
     lingkupPekerjaanSelect.addEventListener("change", () => {
         const selectedScope = lingkupPekerjaanSelect.value;
@@ -1051,7 +1051,7 @@ async function initializePage() {
         meTablesWrapper.innerHTML = '';
         sipilTablesWrapper.classList.toggle("hidden", selectedScope !== 'Sipil');
         meTablesWrapper.classList.toggle("hidden", selectedScope !== 'ME');
-        
+
         // Fetch harga (tetap ada)
         if (cabangSelect.value && selectedScope) {
             fetchAndPopulatePrices();
@@ -1106,7 +1106,7 @@ document.addEventListener("DOMContentLoaded", initializePage);
 function checkSessionTime() {
     try {
         const startHour = 6;
-        const endHour = 18;
+        const endHour = 23;
 
         const now = new Date();
         const options = { timeZone: "Asia/Jakarta", hour: '2-digit', hour12: false };
