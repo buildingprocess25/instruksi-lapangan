@@ -107,18 +107,6 @@ document.addEventListener("DOMContentLoaded", () => {
         sessionStorage.setItem("loggedInUserCabang", password);
         sessionStorage.setItem("userRole", userRole);
 
-        setTimeout(() => {
-          if (loginType === "rab") {
-            window.location.href = "/il/index.html";
-          }
-          else if (loginType === "spk") {
-            window.location.href = "/SPK_form/index.html";
-          }
-          else {
-            window.location.href = "/";
-          }
-        }, 1200);
-      } else {
         if (result.message === "Invalid credentials") {
           loginMessage.textContent =
             "Email benar, tetapi password salah.";
