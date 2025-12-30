@@ -109,7 +109,7 @@ document.addEventListener("DOMContentLoaded", () => {
 
         setTimeout(() => {
           if (loginType === "rab") {
-            window.location.href = "/Estimasi_rab/index.html";
+            window.location.href = "/il/index.html";
           }
           else if (loginType === "spk") {
             window.location.href = "/SPK_form/index.html";
