@@ -20,7 +20,10 @@ let suffixRenov;
 let pembulatanAmount;
 let ppnAmount;
 
-const PYTHON_API_BASE_URL = "https://instruksi-lapangan.onrender.com";
+const PYTHON_API_BASE_URL = "https://sparta-backend-5hdj.onrender.com";
+if (!sessionStorage.getItem('loggedInUserCabang')) {
+    window.location.replace('../il/index.html');
+}
 
 const sipilCategoryOrder = [
     "PEKERJAAN PERSIAPAN",
@@ -85,27 +88,6 @@ const formatRupiah = (number) => new Intl.NumberFormat("id-ID", { style: "curren
 const parseRupiah = (formattedString) => parseFloat(String(formattedString).replace(/Rp\s?|\./g, "").replace(/,/g, ".")) || 0;
 const formatNumberWithSeparators = (num) => (num === null || isNaN(num)) ? '0' : new Intl.NumberFormat('id-ID').format(num);
 const parseFormattedNumber = (str) => typeof str !== 'string' ? (Number(str) || 0) : (parseFloat(String(str).replace(/\./g, '').replace(/,/g, '.')) || 0);
-
-// function applyTheme(theme) {
-//     const isDark = theme === 'dark';
-//     document.body.classList.toggle('dark', isDark);
-//     const btn = document.getElementById('theme-toggle');
-//     if (btn) {
-//         btn.setAttribute('aria-pressed', String(isDark));
-//         btn.textContent = isDark ? '☀️ Tema' : '🌙 Tema';
-//     }
-// }
-
-// function initThemeFromPreference() {
-//     try {
-//         const saved = localStorage.getItem('theme');
-//         const preferred = saved || (window.matchMedia && window.matchMedia('(prefers-color-scheme: dark)').matches ? 'dark' : 'light');
-//         applyTheme(preferred);
-//     } catch (e) {
-//         applyTheme('light');
-//     }
-// }
-
 
 const handleCurrencyInput = (event) => {
     const input = event.target;
