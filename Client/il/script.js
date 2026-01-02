@@ -41,13 +41,14 @@ const urlParams = new URLSearchParams(window.location.search);
     if (!isAuthenticated) {
         alert('Anda belum login. Silakan masuk melalui Aplikasi Opname.');
         window.location.href = 'https://opnamebnm.vercel.app'; 
-    } else if (userRole !== 'pic') {
+    } 
+    else if (userRole !== 'pic') {
         alert('Anda tidak memiliki izin untuk mengakses halaman ini.');
         window.location.href = 'https://opnamebnm.vercel.app';
     }
-
-    if (!sessionStorage.getItem('loggedInUserCabang')) {
-        window.location.replace('../il/index.html');
+    else if (!sessionStorage.getItem('loggedInUserCabang')) {
+        alert('Data Cabang tidak ditemukan. Silakan login ulang.');
+        window.location.href = 'https://opnamebnm.vercel.app';
     }
 
 const sipilCategoryOrder = [
