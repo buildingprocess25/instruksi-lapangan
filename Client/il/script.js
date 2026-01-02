@@ -1106,7 +1106,7 @@ function checkSessionTime() {
 
                 alert("Sesi Anda telah berakhir karena di luar jam operasional (06:00 - 18:00 WIB).");
 
-                window.location.href = "/login.html";
+                window.location.href = "/index.html";
             }
         }
     } catch (err) {
