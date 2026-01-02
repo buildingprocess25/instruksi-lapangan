@@ -9,21 +9,6 @@
   <meta http-equiv="Expires" content="0" />
   <title>Instruksi Lapangan - Alfamart</title>
   <link rel="icon" href="/Assets/favicon.ico" type="image/x-icon">
-  <script>
-    // Security Check
-    const isAuthenticated = sessionStorage.getItem('authenticated');
-    const userRole = sessionStorage.getItem('userRole');
-
-    if (!isAuthenticated) {
-      // Jika belum login, simpan tujuan & alihkan ke halaman login
-      sessionStorage.setItem('redirectTo', window.location.pathname);
-      window.location.href = '/index.html';
-    } else if (userRole !== 'BRANCH BUILDING SUPPORT') {
-      // Jika sudah login tapi jabatan salah, beri peringatan & alihkan ke homepage
-      alert('Anda tidak memiliki izin untuk mengakses halaman ini.');
-      window.location.href = '/';
-    }
-  </script>
 
   <script src="https://cdn.tailwindcss.com"></script>
   <link rel="stylesheet" href="style.css" />

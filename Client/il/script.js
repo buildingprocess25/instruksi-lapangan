@@ -21,9 +21,36 @@ let pembulatanAmount;
 let ppnAmount;
 
 const PYTHON_API_BASE_URL = "https://sparta-backend-5hdj.onrender.com";
-if (!sessionStorage.getItem('loggedInUserCabang')) {
-    window.location.replace('../il/index.html');
-}
+const urlParams = new URLSearchParams(window.location.search);
+    const isAuthFromOpname = urlParams.get('auth') === 'true';
+    if (isAuthFromOpname) {
+        const role = urlParams.get('role');
+        const email = urlParams.get('email');
+        const cabang = urlParams.get('cabang');
+
+        if (role && (role === 'BRANCH BUILDING SUPPORT' || role === 'HEAD OFFICE')) {
+            sessionStorage.setItem('authenticated', 'true');
+            sessionStorage.setItem('userRole', role);
+            sessionStorage.setItem('loggedInUserEmail', email || 'User Opname');
+            sessionStorage.setItem('loggedInUserCabang', cabang || '-');
+            window.history.replaceState({}, document.title, window.location.pathname);
+        } else {
+            alert('Anda tidak memiliki izin untuk mengakses halaman ini.');
+            window.location.href = '/';
+        }
+    }
+    const isAuthenticated = sessionStorage.getItem('authenticated');
+    const userRole = sessionStorage.getItem('userRole');
+
+    if (!isAuthenticated) {
+        alert('Anda belum login. Silakan masuk melalui Aplikasi Opname.');
+    } else if (userRole !== 'BRANCH BUILDING SUPPORT' && userRole !== 'HEAD OFFICE') {
+        alert('Anda tidak memiliki izin untuk mengakses halaman ini.');
+    }
+
+    if (!sessionStorage.getItem('loggedInUserCabang')) {
+        window.location.replace('../il/index.html');
+    }
 
 const sipilCategoryOrder = [
     "PEKERJAAN PERSIAPAN",
