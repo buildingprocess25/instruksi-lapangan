@@ -87,6 +87,64 @@ header h1 {
   height: 18px;
 }
 
+.button-merge-pdf {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  background-color: #eff6ff; /* Latar biru muda lembut */
+  color: #2563eb;            /* Teks biru agar kontras dengan merah Alfamart */
+  border: 1px solid #bfdbfe; /* Border biru halus */
+  padding: 10px 20px;
+  border-radius: 8px;
+  text-decoration: none;     /* Hilangkan garis bawah link */
+  font-weight: 600;
+  font-size: 0.9rem;
+  margin-top: 5px;
+  margin-bottom: 15px;
+  transition: all 0.2s ease;
+  cursor: pointer;
+}
+
+.button-merge-pdf:hover {
+  background-color: #dbeafe;
+  border-color: #60a5fa;
+  transform: translateY(-1px); /* Efek naik sedikit saat di-hover */
+  box-shadow: 0 2px 4px rgba(37, 99, 235, 0.1);
+}
+
+.button-group {
+  display: flex;
+  gap: 16px; /* Jarak antar tombol */
+  margin-top: 2rem;
+  align-items: center;
+}
+
+button[type="reset"] {
+  background-color: #ffffff;
+  color: #64748b;            /* Abu-abu netral (Slate) */
+  border: 1px solid #cbd5e1; /* Border abu-abu halus */
+  padding: 14px 28px;        /* Ukuran disamakan dengan tombol Kirim */
+  border-radius: 8px;
+  font-family: "Inter", sans-serif;
+  font-weight: 600;
+  font-size: 1rem;
+  cursor: pointer;
+  transition: all 0.2s ease;
+}
+
+button[type="reset"]:hover {
+  background-color: #f8fafc;
+  border-color: #94a3b8;
+  color: #334155;
+  transform: translateY(-1px);
+  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.05);
+}
+
+button[type="reset"]:active {
+  transform: translateY(0);
+  background-color: #f1f5f9;
+}
+
 /* Main Container Styles */
 .container {
   max-width: 1200px;
