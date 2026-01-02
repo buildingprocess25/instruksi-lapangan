@@ -34,18 +34,16 @@ const urlParams = new URLSearchParams(window.location.search);
             sessionStorage.setItem('loggedInUserEmail', email || 'User Opname');
             sessionStorage.setItem('loggedInUserCabang', cabang || '-');
             window.history.replaceState({}, document.title, window.location.pathname);
-        } else {
-            alert('Anda tidak memiliki izin untuk mengakses halaman ini.');
-            window.location.href = '/';
         }
     }
     const isAuthenticated = sessionStorage.getItem('authenticated');
     const userRole = sessionStorage.getItem('userRole');
-
     if (!isAuthenticated) {
         alert('Anda belum login. Silakan masuk melalui Aplikasi Opname.');
+        window.location.href = 'https://opnamebnm.vercel.app'; 
     } else if (userRole !== 'pic') {
         alert('Anda tidak memiliki izin untuk mengakses halaman ini.');
+        window.location.href = 'https://opnamebnm.vercel.app';
     }
 
     if (!sessionStorage.getItem('loggedInUserCabang')) {
