@@ -1116,6 +1116,12 @@ async function initializePage() {
 
 document.addEventListener("DOMContentLoaded", initializePage);
 
+document.getElementById('logout-button-form').addEventListener('click', (e) => {
+    e.preventDefault();
+    sessionStorage.clear(); 
+    window.location.href = 'https://opnamebnm.vercel.app'; 
+});
+
 function checkSessionTime() {
     try {
         const startHour = 6;
