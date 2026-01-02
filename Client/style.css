@@ -113,36 +113,43 @@ header h1 {
 }
 
 .button-group {
-  display: flex;
-  gap: 16px; /* Jarak antar tombol */
+  display: flex;       /* Membuat tombol bersebelahan */
+  gap: 16px;           /* Jarak antar tombol */
   margin-top: 2rem;
   align-items: center;
+  width: 100%;         /* Pastikan container mengambil lebar penuh */
+}
+
+.button-group button, 
+.button-group #submit-button {
+  flex: 1;             /* Membagi ruang kosong secara rata */
+  width: 100%;         /* Memaksa tombol mengisi ruang flex-nya */
 }
 
 button[type="reset"] {
-  background-color: #ffffff;
-  color: #64748b;            /* Abu-abu netral (Slate) */
-  border: 1px solid #cbd5e1; /* Border abu-abu halus */
-  padding: 14px 28px;        /* Ukuran disamakan dengan tombol Kirim */
+  /* Warna Kuning (Gradient agar senada dengan tombol merah) */
+  background: linear-gradient(135deg, #facc15 0%, #eab308 100%); 
+  color: #000000;      /* Teks hitam agar kontras dengan kuning */
+  border: none;        /* Hilangkan border abu-abu sebelumnya */
+  
+  /* Pastikan styling ini sama dengan tombol Kirim */
+  padding: 14px 28px;
   border-radius: 8px;
   font-family: "Inter", sans-serif;
-  font-weight: 600;
+  font-weight: 700;    /* Sesuaikan ketebalan font */
   font-size: 1rem;
   cursor: pointer;
   transition: all 0.2s ease;
 }
 
 button[type="reset"]:hover {
-  background-color: #f8fafc;
-  border-color: #94a3b8;
-  color: #334155;
+  background: linear-gradient(135deg, #eab308 0%, #ca8a04 100%); /* Kuning lebih gelap saat hover */
   transform: translateY(-1px);
-  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.05);
+  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
 }
 
 button[type="reset"]:active {
   transform: translateY(0);
-  background-color: #f1f5f9;
 }
 
 /* Main Container Styles */
