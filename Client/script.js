@@ -26,7 +26,7 @@ const isAuthFromOpname = urlParams.get('auth') === 'true';
 if (isAuthFromOpname) {
     const role = urlParams.get('role');
     const email = urlParams.get('email');
-    const cabang = urlParams.get('password');
+    const cabang = urlParams.get('cabang');
 
     if (role && (role === 'pic')) {
         sessionStorage.setItem('authenticated', 'true');
