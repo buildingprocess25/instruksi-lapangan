@@ -113,43 +113,42 @@ header h1 {
 }
 
 .button-group {
-  display: flex;       /* Membuat tombol bersebelahan */
-  gap: 16px;           /* Jarak antar tombol */
+  display: flex;            /* Membuat elemen berbaris ke samping */
+  flex-direction: row;      /* Pastikan arahnya horizontal */
+  justify-content: space-between; 
+  align-items: center;      /* Vertikal senter */
+  gap: 16px;                /* Jarak antar tombol */
+  width: 100%;              /* Lebar container full */
   margin-top: 2rem;
-  align-items: center;
-  width: 100%;         /* Pastikan container mengambil lebar penuh */
+  padding: 0;
+  box-sizing: border-box;
 }
 
-.button-group button, 
-.button-group #submit-button {
-  flex: 1;             /* Membagi ruang kosong secara rata */
-  width: 100%;         /* Memaksa tombol mengisi ruang flex-nya */
-}
-
+#submit-button, 
 button[type="reset"] {
-  /* Warna Kuning (Gradient agar senada dengan tombol merah) */
-  background: linear-gradient(135deg, #facc15 0%, #eab308 100%); 
-  color: #000000;      /* Teks hitam agar kontras dengan kuning */
-  border: none;        /* Hilangkan border abu-abu sebelumnya */
-  
-  /* Pastikan styling ini sama dengan tombol Kirim */
-  padding: 14px 28px;
+  flex: 1;                  /* KUNCI: Memaksa kedua tombol membagi ruang sisa (50:50) */
+  width: 100%;              /* Pastikan tombol mengisi ruang flex-nya */
+  margin: 0;                /* Hapus margin aneh-aneh dari browser */
+  padding: 14px 0;          /* Padding atas-bawah saja, kiri-kanan auto */
   border-radius: 8px;
   font-family: "Inter", sans-serif;
-  font-weight: 700;    /* Sesuaikan ketebalan font */
+  font-weight: 700;
   font-size: 1rem;
   cursor: pointer;
   transition: all 0.2s ease;
+  text-align: center;       /* Teks pasti di tengah */
+}
+
+button[type="reset"] {
+  background: linear-gradient(135deg, #facc15 0%, #eab308 100%);
+  color: #000000;           /* Teks hitam */
+  border: none;
 }
 
 button[type="reset"]:hover {
-  background: linear-gradient(135deg, #eab308 0%, #ca8a04 100%); /* Kuning lebih gelap saat hover */
+  background: linear-gradient(135deg, #eab308 0%, #ca8a04 100%);
   transform: translateY(-1px);
   box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
-}
-
-button[type="reset"]:active {
-  transform: translateY(0);
 }
 
 /* Main Container Styles */
@@ -313,23 +312,16 @@ button {
   box-shadow: 0 4px 6px rgba(220, 38, 38, 0.1);
 }
 
-#submit-button, .btn-submit {
+#submit-button {
   background: linear-gradient(135deg, #dc2626 0%, #b91c1c 100%);
   color: white;
   border: none;
-  padding: 14px 28px;
-  border-radius: 10px;
-  font-weight: 600;
-  font-size: 1rem;
-  width: 100%;
-  margin-top: 2rem;
-  box-shadow: 0 4px 12px rgba(220, 38, 38, 0.3);
-  transition: all 0.2s ease;
 }
 
 #submit-button:hover {
-  transform: translateY(-2px);
-  box-shadow: 0 8px 20px rgba(220, 38, 38, 0.4);
+  background: linear-gradient(135deg, #b91c1c 0%, #991b1b 100%);
+  transform: translateY(-1px);
+  box-shadow: 0 4px 6px rgba(220, 38, 38, 0.4);
 }
 
 /* Utility Helpers */
