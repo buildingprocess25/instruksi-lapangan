@@ -1,32 +1,28 @@
-/* General Body and Header Styles */
+/* =========================================
+   STYLE BARU (Diambil dari referensi)
+   ========================================= */
 body {
-  font-family: 'Inter', sans-serif;
-  background-color: #f4f7f6;
-  /* Softer background color */
+  font-family: "Inter", sans-serif;
+  background: white;
   margin: 0;
   padding: 0;
-  color: #2d3748;
-  /* Darker text for better readability */
-  -webkit-font-smoothing: antialiased;
-  -moz-osx-font-smoothing: grayscale;
 }
 
 header {
-  background-color: #ffffff;
-  color: #1a202c;
+  background: linear-gradient(135deg, #dc2626 0%, #b91c1c 100%); /* Gradasi Merah Alfamart */
+  color: white;
   text-align: center;
   padding: 1rem 1.5rem;
-  border-bottom: 1px solid #e2e8f0;
+  border-bottom: 1px solid rgba(255, 255, 255, 0.1);
   display: flex;
   align-items: center;
   justify-content: center;
   position: relative;
-  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.05);
+  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
 }
 
 .header-logo {
   width: 140px;
-  /* Increased logo size for better presence */
   height: auto;
   position: absolute;
   left: 25px;
@@ -37,649 +33,197 @@ header {
 header h1 {
   margin: 0;
   font-size: 1.75rem;
-  /* Adjusted font size */
-  font-weight: 600;
+  font-weight: 700;
   letter-spacing: -0.5px;
+  color: white;
+  text-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
 }
 
-/* Main Container Styles */
 .container {
-  max-width: 1200px;
+  max-width: 1400px; /* Lebar container mengikuti style referensi */
   margin: 2.5rem auto;
-  background-color: #ffffff;
   padding: 2.5rem;
-  box-shadow: 0 10px 25px rgba(0, 0, 0, 0.08);
-  /* Softer, more modern shadow */
-  border-radius: 12px;
+  background: white;
+  border-radius: 15px;
+  box-shadow: 0 20px 60px rgba(0, 0, 0, 0.3); /* Shadow lebih tegas sesuai referensi */
+  overflow: hidden;
 }
 
-/* Form Element Styles */
+/* Style Tombol Umum (Style Baru) */
+.btn {
+  padding: 8px 20px;
+  border: none;
+  border-radius: 6px;
+  font-weight: 600;
+  cursor: pointer;
+  transition: all 0.3s;
+}
+
+/* Tombol Logout khusus di header */
+.btn-logout-header {
+  position: absolute;
+  right: 25px;
+  top: 50%;
+  transform: translateY(-50%);
+  background: rgba(255, 255, 255, 0.2);
+  color: white;
+  border: 1px solid rgba(255, 255, 255, 0.4);
+  padding: 8px 16px;
+  border-radius: 6px;
+  font-weight: 600;
+  cursor: pointer;
+  text-decoration: none;
+  transition: all 0.2s;
+  font-size: 14px;
+}
+
+.btn-logout-header:hover {
+  background: white;
+  color: #b91c1c;
+}
+
+/* =========================================
+   STYLE FUNGSIONAL LAMA (Tetap Dipertahankan)
+   ========================================= */
+
+/* Form Styles */
 .form-container {
   display: flex;
   flex-direction: column;
 }
 
-.form-container label {
-  font-weight: 500;
-  margin-bottom: 0.5rem;
-  margin-top: 1.25rem;
-  color: #4a5568;
-  /* Softer label color */
-  font-size: 0.9rem;
+label {
+  margin-top: 15px;
+  font-weight: 600;
+  color: #495057;
+  display: block;
+  margin-bottom: 5px;
 }
 
-/* Red asterisk for required fields */
-.required-asterisk {
-  color: #e53e3e;
-  margin-left: 4px;
+input[type="text"],
+input[type="number"],
+input[type="date"],
+select,
+textarea {
+  width: 100%;
+  padding: 10px;
+  margin-top: 5px;
+  border: 2px solid #dee2e6; /* Style border diperbarui sedikit agar match */
+  border-radius: 6px;
+  box-sizing: border-box;
+  font-family: inherit;
+  font-size: 14px;
 }
 
-.form-container input,
-.form-container select {
-  padding: 0.8rem 1rem;
-  border: 1px solid #cbd5e0;
-  border-radius: 8px;
-  /* More rounded inputs */
-  transition: border-color 0.3s, box-shadow 0.3s;
-  font-size: 1rem;
-  background-color: #fdfdff;
-}
-
-.form-container input:focus,
-.form-container select:focus {
-  border-color: #005a9e;
-  /* Alfamart Blue on focus */
-  box-shadow: 0 0 0 3px rgba(0, 90, 158, 0.2);
+input:focus, select:focus, textarea:focus {
   outline: none;
+  border-color: #b91c1c; /* Fokus warna merah */
 }
 
-/* ======================= KODE YANG DIPERBARUI ======================= */
-/* Menghilangkan panah dropdown untuk select yang di-disable */
-select[disabled] {
-  -webkit-appearance: none;
-  -moz-appearance: none;
-  appearance: none;
-  background-color: #e9ecef !important;
-  color: #252525ff !important;
-  cursor: not-allowed;
-}
-
-/* ======================= AKHIR DARI PERUBAHAN ======================= */
-
-/* Section Titles */
-.section-title {
-  color: #e53e3e;
-  /* Alfamart Red */
-  border-bottom: 2px solid #ffc107;
-  /* Alfamart Yellow */
-  padding-bottom: 8px;
-  margin-top: 2.5rem;
-  margin-bottom: 1.5rem;
-  font-size: 1.4rem;
-  font-weight: 700;
-}
-
-/* Table Styles */
+/* Table Styles (BOQ) */
 .table-container {
   overflow-x: auto;
-  margin-top: 1rem;
-  border: 1px solid #e2e8f0;
+  margin-top: 15px;
   border-radius: 8px;
+  border: 1px solid #e2e8f0;
 }
 
 table {
-  table-layout: fixed !important;
-  /* Pastikan ini ada */
-  width: 100% !important;
+  width: 100%;
   border-collapse: collapse;
+  font-size: 13px; /* Sedikit diperkecil agar muat */
 }
 
-/* Lebar kolom disesuaikan untuk table-layout: fixed (Total 100%) */
-.col-no {
-  width: 3%;
-  text-align: center;
-}
-
-/* Dikecilkan */
-.col-jenis-pekerjaan {
-  width: 34%;
-}
-
-/* Dilebarkan */
-.col-satuan {
-  width: 4%;
-  text-align: center;
-}
-
-/* Dikecilkan */
-.col-volume {
-  width: 5%;
-  text-align: center;
-}
-
-/* Dikecilkan */
-.col-harga {
-  width: 9%;
-}
-
-/* Harga Satuan (Mat & Upah) */
-.col-total {
-  width: 9%;
-}
-
-/* Total Harga Satuan (Mat & Upah) */
-.col-total-harga {
-  width: 10%;
-}
-
-/* Total Harga (Final) */
-.col-aksi {
-  width: 7%;
-  text-align: center;
-}
-
-/* Dikecilkan */
-
-table th,
-table td {
+th, td {
   border: 1px solid #e2e8f0;
+  padding: 10px;
+  text-align: center;
+}
+
+th {
+  background-color: #f8f9fa;
+  font-weight: 600;
+  color: #1a202c;
   vertical-align: middle;
-  word-wrap: break-word;
-  hyphens: auto;
 }
 
-table thead th {
-  background-color: #fce4e4;
-  font-weight: 700;
-  color: #d61027;
-  text-transform: uppercase;
-  font-size: 0.75rem;
-  line-height: 1.2;
-  padding: 8px 3px;
-}
-
-table tbody tr:nth-child(even) {
-  background-color: #fcfdff;
-}
-
-table tbody td {
-  padding: 6px 3px;
-  font-size: 0.8rem;
-  line-height: 1.3;
-  white-space: normal;
-}
-
-table tbody td input,
-table tbody td select {
-  width: 100%;
-  box-sizing: border-box;
-  transition: all 0.2s ease;
-  min-height: 32px;
-  line-height: 1.2;
-  white-space: normal;
-  height: auto;
-}
-
-table tbody td input[type="text"],
-table tbody td select {
-  padding: 5px 3px;
-  border: 1px solid #ddd;
-  border-radius: 4px;
-  font-size: 0.8rem;
-  text-align: center;
-}
-
-table tbody td input:focus,
-table tbody td select:focus {
-  border-color: #005a9e;
+td {
   background-color: #fff;
-  box-shadow: 0 0 0 2px rgba(0, 90, 158, 0.2);
-  outline: none;
 }
 
-.auto-filled {
-  background-color: #e9ecef !important;
-  /* Abu-abu muda */
-  cursor: not-allowed;
-  color: #6c757d;
-}
-
-.kondisional-input {
-  background-color: #fffde7 !important;
-  /* Kuning muda */
-}
-
-.col-jenis-pekerjaan {
-  text-align: left !important;
-  padding: 10px 8px !important;
-}
-
-.col-harga input,
-.col-total input,
-.col-total-harga input {
-  text-align: right;
-  font-family: 'Courier New', monospace;
-}
-
-/* Attachment PDF */
-.file-upload-wrapper {
-  border: 2px dashed #9e0000ff;
-  border-radius: 8px;
-  padding: 15px;
-  background-color: #fff0f0ff;
-  cursor: pointer;
-  text-align: center;
-  position: relative;
-  transition: border-color 0.2s, background-color 0.2s;
-}
-
-.file-upload-wrapper:hover {
-  border-color: #e14242ff;
-  background-color: #ffe6e6ff;
-}
-
-#file-upload-text {
-  font-size: 0.95rem;
-  color: #4a5568;
-  z-index: 10;
-  padding: 10px 0;
-}
-
-.file-info-label {
-  font-size: 0.8rem;
-  color: #a0aec0;
-  display: block;
-  margin-top: 5px;
-}
-
-#attachment_pdf {
-  opacity: 0;
-  position: absolute;
-  top: 0;
-  left: 0;
+/* Input di dalam tabel */
+td input[type="text"],
+td input[type="number"] {
   width: 100%;
-  height: 100%;
-  cursor: pointer;
-  z-index: 20;
-}
-
-/* Button Styles */
-.button-merge-pdf {
-  display: block;
-  width: 25%;
-  padding: 0.85rem;
-  margin-top: 10px;
-  margin-bottom: 20px;
-  border: none;
-  border-radius: 8px;
-  background-color: #FDD835;
-  color: #333333 !important;
-  font-size: 1rem;
-  font-weight: 600;
-  cursor: pointer;
+  border: 1px solid #cbd5e0;
+  padding: 6px;
   text-align: center;
-  text-decoration: none;
-  transition: background-color 0.2s, transform 0.1s;
+  border-radius: 4px;
+  font-size: 13px;
+  margin: 0;
 }
 
-.button-merge-pdf:hover {
-  background-color: #FBC02D;
-  /* Warna sedikit lebih gelap saat hover */
-  transform: translateY(-1px);
-  box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
-}
-
-.button-group {
-  display: flex;
-  gap: 1rem;
-  margin-top: 2.5rem;
-}
-
-.form-container button {
-  background-color: #e53e3e;
-  color: white;
-  padding: 0.85rem 1.5rem;
-  border: none;
-  border-radius: 8px;
-  cursor: pointer;
-  transition: background-color 0.3s, transform 0.2s, box-shadow 0.3s;
-  flex: 1;
-  font-weight: 600;
-  font-size: 1rem;
-}
-
-.form-container button:hover {
-  background-color: #c53030;
-  transform: translateY(-2px);
-  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
-}
-
-.form-container button:disabled {
-  background-color: #ccc;
-  cursor: not-allowed;
-  transform: none;
-  box-shadow: none;
-}
-
-.form-container button[type="reset"] {
-  background-color: #6c757d;
-}
-
-.form-container button[type="reset"]:hover {
-  background-color: #5a6268;
-}
-
+/* Utility & Buttons Lama */
 .add-row-btn {
-  background-color: #005a9e !important;
-  margin-top: 1rem !important;
-  padding: 0.6rem 1rem !important;
-  flex: none !important;
-  align-self: flex-start;
-  font-size: 0.9rem !important;
-  font-weight: 500 !important;
+  background-color: #10b981; /* Green */
+  color: white;
+  border: none;
+  padding: 10px 15px;
+  border-radius: 6px;
+  cursor: pointer;
+  margin-top: 10px;
+  font-weight: 600;
+  font-size: 13px;
+  display: inline-block;
 }
 
 .add-row-btn:hover {
-  background-color: #004a80 !important;
+  background-color: #059669;
 }
 
-.delete-row-btn {
-  background-color: #f1f3f5 !important;
-  color: #e53e3e !important;
-  padding: 6px 10px !important;
-  border-radius: 6px !important;
-  font-weight: 500 !important;
-  font-size: 0.8rem !important;
+.remove-btn {
+  background-color: #ef4444;
+  color: white;
+  border: none;
+  padding: 6px 10px;
+  border-radius: 4px;
+  cursor: pointer;
+  font-size: 12px;
 }
 
-.delete-row-btn:hover {
-  background-color: #e53e3e !important;
-  color: white !important;
+.remove-btn:hover {
+  background-color: #dc2626;
 }
 
-/* Grand Total Box */
-.grand-total-box {
-  background-color: #fff9e6;
-  color: #1a202c;
-  border: 1px solid #ffc107;
-  padding: 1.5rem;
-  border-radius: 10px;
-  text-align: right;
-  margin-top: 2.5rem;
-}
-
-.grand-total-box span {
-  font-size: 1.5rem;
-  font-weight: 700;
-}
-
-#grand-total-amount {
-  color: #e53e3e;
-  margin-left: 1rem;
-}
-
-/* Back Button */
-.back-btn {
-  color: #005a9e;
-  text-decoration: none;
-  font-size: 1rem;
-  display: inline-block;
+.section-title {
+  color: #b91c1c;
+  border-bottom: 2px solid #b91c1c;
+  padding-bottom: 5px;
   margin-top: 2rem;
-  cursor: pointer;
-  transition: color 0.3s;
-  font-weight: 500;
+  display: inline-block;
 }
 
-.back-btn:hover {
+.required-asterisk {
   color: #e53e3e;
+  margin-left: 2px;
 }
 
-/* Message Display Area */
-#message {
-  margin: 25px auto;
-  max-width: 1200px;
-  padding: 15px;
-  border-radius: 8px;
-  font-weight: 600;
-  text-align: center;
-  display: none;
-  box-shadow: 0 2px 10px rgba(0, 0, 0, 0.08);
+.hidden {
+  display: none !important;
 }
 
-.btn-logout-form {
-  position: absolute;
-  right: 25px;
-  top: 50%;
-  transform: translateY(-50%);
-  padding: 0.5rem 1rem;
-  background-color: #e53e3e;
-  color: white;
-  border: none;
-  border-radius: 8px;
-  font-size: 0.9rem;
-  font-weight: 600;
-  cursor: pointer;
-  transition: background-color 0.2s;
+/* Grand Total Footer */
+.grand-total-container {
+  position: fixed;
+  bottom: 0;
+  left: 0;
+  width: 100%;
+  background: white;
+  box-shadow: 0 -4px 6px rgba(0,0,0,0.1);
+  padding: 15px 30px;
+  z-index: 100;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  border-top: 1px solid #e2e8f0;
 }
-
-.btn-logout-form:hover {
-  background-color: #c53030;
-}
-
-
-/* Responsive Styles */
-@media (max-width: 768px) {
-  .container {
-    margin: 1rem;
-    padding: 1.5rem;
-    max-width: 100%;
-  }
-
-  header {
-    flex-direction: column;
-    padding: 1.5rem;
-    height: auto;
-  }
-
-  header h1 {
-    font-size: 1.5rem;
-    margin-top: 1rem;
-    text-align: center;
-  }
-
-  .header-logo {
-    position: static;
-    transform: none;
-    margin: 0 auto;
-    width: 120px;
-    left: auto;
-  }
-
-  .table-container {
-    -webkit-overflow-scrolling: touch;
-  }
-
-  table {
-    min-width: 880px;
-  }
-
-  .button-group {
-    flex-direction: column;
-    gap: 10px;
-  }
-
-  .form-container button {
-    padding: 10px 15px;
-    font-size: 1rem;
-  }
-
-  .back-btn {
-    margin-top: 20px;
-    font-size: 0.9rem;
-  }
-
-  .section-title {
-    font-size: 1.1rem;
-  }
-
-  .grand-total-box {
-    padding: 15px;
-  }
-
-  .grand-total-box span {
-    font-size: 1.5rem;
-  }
-
-  #nomor-ulok-container {
-    flex-direction: column;
-    gap: 8px !important;
-    align-items: stretch !important;
-  }
-
-  #nomor-ulok-container>* {
-    flex: 1 1 100% !important;
-    text-align: center;
-  }
-}
-
-/* Aturan untuk membuat dropdown rata kiri */
-table tbody td select.jenis-pekerjaan {
-  text-align: left;
-  -moz-text-align-last: left;
-  /* Khusus untuk Firefox */
-  text-align-last: left;
-}
-
-/* ======================= THEME TOGGLE & DARK MODE ======================= */
-.btn-theme-toggle {
-  position: absolute;
-  right: 130px;
-  top: 50%;
-  transform: translateY(-50%);
-  padding: 0.5rem 1rem;
-  background-color: #4b5563;
-  color: white;
-  border: none;
-  border-radius: 8px;
-  font-size: 0.9rem;
-  font-weight: 600;
-  cursor: pointer;
-  transition: background-color 0.2s;
-}
-
-.btn-theme-toggle:hover {
-  background-color: #374151;
-}
-
-body.dark {
-  background-color: #0f172a;
-  color: #e2e8f0;
-}
-
-body.dark header {
-  background-color: #111827;
-  color: #e5e7eb;
-  border-bottom: 1px solid #374151;
-  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.25);
-}
-
-body.dark .container {
-  background-color: #1f2937;
-  box-shadow: 0 10px 25px rgba(0, 0, 0, 0.4);
-}
-
-body.dark .form-container label {
-  color: #cbd5e1;
-}
-
-body.dark .form-container input,
-body.dark .form-container select {
-  background-color: #111827;
-  border-color: #374151;
-  color: #e5e7eb;
-}
-
-body.dark .form-container input:focus,
-body.dark .form-container select:focus {
-  border-color: #60a5fa;
-  box-shadow: 0 0 0 3px rgba(96, 165, 250, 0.2);
-}
-
-body.dark .auto-filled {
-  background-color: #1f2937 !important;
-  color: #94a3b8;
-}
-
-body.dark .kondisional-input {
-  background-color: #2b2a1f !important;
-}
-
-body.dark table th,
-body.dark table td {
-  border-color: #374151;
-}
-
-body.dark table thead th {
-  background-color: #1f2937;
-  color: #f1f5f9;
-}
-
-body.dark table tbody tr:nth-child(even) {
-  background-color: #0b1220;
-}
-
-body.dark table tbody tr:nth-child(odd) {
-  background-color: #0f172a;
-}
-
-body.dark .file-upload-wrapper {
-  border-color: #b91c1c;
-  background-color: #241a1a;
-}
-
-body.dark #file-upload-text {
-  color: #4a5568;
-}
-
-body.dark .file-info-label {
-  color: #94a3b8;
-}
-
-body.dark .grand-total-box {
-  background-color: #1f2937;
-  color: #e5e7eb;
-  border-color: #f59e0b;
-}
-
-body.dark .btn-logout-form {
-  background-color: #b91c1c;
-}
-
-body.dark .btn-theme-toggle {
-  background-color: #374151;
-}
-
-@media (max-width: 768px) {
-
-  .btn-theme-toggle,
-  .btn-logout-form {
-    position: static;
-    transform: none;
-    margin-top: 10px;
-  }
-}
-
-/* Dark mode: force jenis-pekerjaan select and Select2 rendered text to black */
-  body.dark select.jenis-pekerjaan,
-  body.dark table tbody td select.jenis-pekerjaan {
-    color: #000 !important;
-  }
-  body.dark .select2-container--default .select2-selection--single .select2-selection__rendered {
-    color: #000 !important;
-  }
-/* Also ensure Select2 dropdown options are readable in dark mode */
-  body.dark .select2-results__option {
-    color: #000 !important;
-  }
-
-/* ======================= END THEME TOGGLE & DARK MODE ======================= */

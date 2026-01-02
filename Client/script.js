@@ -109,6 +109,11 @@ const branchToUlokMap = {
     "BATAM": "2DZ1", "MADIUN": "2MZ1"
 };
 
+function initializeSelect2(selector) {
+    $(selector).select2({
+        width: '100%' // Pastikan lebar dropdown sesuai dengan kolom
+    });
+    }
 // --- Helper Functions ---
 const formatRupiah = (number) => new Intl.NumberFormat("id-ID", { style: "currency", currency: "IDR", minimumFractionDigits: 0, maximumFractionDigits: 0 }).format(number);
 const parseRupiah = (formattedString) => parseFloat(String(formattedString).replace(/Rp\s?|\./g, "").replace(/,/g, ".")) || 0;
