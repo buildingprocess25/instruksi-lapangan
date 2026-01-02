@@ -28,7 +28,7 @@ const urlParams = new URLSearchParams(window.location.search);
         const email = urlParams.get('email');
         const cabang = urlParams.get('cabang');
 
-        if (role && (role === 'BRANCH BUILDING SUPPORT' || role === 'HEAD OFFICE')) {
+        if (role && (role === 'pic')) {
             sessionStorage.setItem('authenticated', 'true');
             sessionStorage.setItem('userRole', role);
             sessionStorage.setItem('loggedInUserEmail', email || 'User Opname');
@@ -44,7 +44,7 @@ const urlParams = new URLSearchParams(window.location.search);
 
     if (!isAuthenticated) {
         alert('Anda belum login. Silakan masuk melalui Aplikasi Opname.');
-    } else if (userRole !== 'BRANCH BUILDING SUPPORT' && userRole !== 'HEAD OFFICE') {
+    } else if (userRole !== 'pic') {
         alert('Anda tidak memiliki izin untuk mengakses halaman ini.');
     }
 
