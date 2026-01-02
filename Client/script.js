@@ -22,34 +22,34 @@ let ppnAmount;
 
 const PYTHON_API_BASE_URL = "https://sparta-backend-5hdj.onrender.com";
 const urlParams = new URLSearchParams(window.location.search);
-    const isAuthFromOpname = urlParams.get('auth') === 'true';
-    if (isAuthFromOpname) {
-        const role = urlParams.get('role');
-        const email = urlParams.get('email');
-        const cabang = urlParams.get('cabang');
+const isAuthFromOpname = urlParams.get('auth') === 'true';
+if (isAuthFromOpname) {
+    const role = urlParams.get('role');
+    const email = urlParams.get('email');
+    const cabang = urlParams.get('password');
 
-        if (role && (role === 'pic')) {
-            sessionStorage.setItem('authenticated', 'true');
-            sessionStorage.setItem('userRole', role);
-            sessionStorage.setItem('loggedInUserEmail', email || 'User Opname');
-            sessionStorage.setItem('loggedInUserCabang', cabang || '-');
-            window.history.replaceState({}, document.title, window.location.pathname);
-        }
+    if (role && (role === 'pic')) {
+        sessionStorage.setItem('authenticated', 'true');
+        sessionStorage.setItem('userRole', role);
+        sessionStorage.setItem('loggedInUserEmail', email || 'User Opname');
+        sessionStorage.setItem('loggedInUserCabang', cabang || '-');
+        window.history.replaceState({}, document.title, window.location.pathname);
     }
-    const isAuthenticated = sessionStorage.getItem('authenticated');
-    const userRole = sessionStorage.getItem('userRole');
-    if (!isAuthenticated) {
-        alert('Anda belum login. Silakan masuk melalui Aplikasi Opname.');
-        window.location.href = 'https://opnamebnm.vercel.app'; 
-    } 
-    else if (userRole !== 'pic') {
-        alert('Anda tidak memiliki izin untuk mengakses halaman ini.');
-        window.location.href = 'https://opnamebnm.vercel.app';
-    }
-    else if (!sessionStorage.getItem('loggedInUserCabang')) {
-        alert('Data Cabang tidak ditemukan. Silakan login ulang.');
-        window.location.href = 'https://opnamebnm.vercel.app';
-    }
+}
+const isAuthenticated = sessionStorage.getItem('authenticated');
+const userRole = sessionStorage.getItem('userRole');
+if (!isAuthenticated) {
+    alert('Anda belum login. Silakan masuk melalui Aplikasi Opname.');
+    window.location.href = 'https://opnamebnm.vercel.app';
+}
+else if (userRole !== 'pic') {
+    alert('Anda tidak memiliki izin untuk mengakses halaman ini.');
+    window.location.href = 'https://opnamebnm.vercel.app';
+}
+else if (!sessionStorage.getItem('loggedInUserCabang')) {
+    alert('Data Cabang tidak ditemukan. Silakan login ulang.');
+    window.location.href = 'https://opnamebnm.vercel.app';
+}
 
 const sipilCategoryOrder = [
     "PEKERJAAN PERSIAPAN",
@@ -113,7 +113,7 @@ function initializeSelect2(selector) {
     $(selector).select2({
         width: '100%' // Pastikan lebar dropdown sesuai dengan kolom
     });
-    }
+}
 // --- Helper Functions ---
 const formatRupiah = (number) => new Intl.NumberFormat("id-ID", { style: "currency", currency: "IDR", minimumFractionDigits: 0, maximumFractionDigits: 0 }).format(number);
 const parseRupiah = (formattedString) => parseFloat(String(formattedString).replace(/Rp\s?|\./g, "").replace(/,/g, ".")) || 0;
@@ -1121,7 +1121,7 @@ document.getElementById('logout-button-form').addEventListener('click', (e) => {
     const role = sessionStorage.getItem('userRole');
     const email = sessionStorage.getItem('loggedInUserEmail');
     const cabang = sessionStorage.getItem('loggedInUserCabang');
-    const baseUrl = 'https://opnamebnm.vercel.app'; 
+    const baseUrl = 'https://opnamebnm.vercel.app';
     const targetUrl = `${baseUrl}/?auth=true&role=${encodeURIComponent(role)}&email=${encodeURIComponent(email)}&cabang=${encodeURIComponent(cabang)}`;
     sessionStorage.clear();
     window.location.href = targetUrl;
