@@ -1100,22 +1100,6 @@ document.getElementById('logout-button-form').addEventListener('click', (e) => {
     window.location.href = targetUrl;
 });
 
-function showMessage(text, isError = false) {
-    const msgDiv = document.getElementById('message');
-    msgDiv.textContent = text;
-
-    msgDiv.className = ''; 
-    if (isError) {
-        msgDiv.classList.add('error');
-    } else {
-        msgDiv.classList.add('success');
-    }
-    setTimeout(() => {
-        msgDiv.className = ''; 
-        msgDiv.style.display = 'none';
-    }, 5000);
-}
-
 function checkSessionTime() {
     try {
         const startHour = 6;
