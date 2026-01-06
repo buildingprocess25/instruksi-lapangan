@@ -87,6 +87,30 @@ header h1 {
   height: 18px;
 }
 
+#logout-button-form {
+  position: absolute;
+  right: 25px; /* Jarak dari kanan */
+  top: 50%;
+  transform: translateY(-50%); /* Menengahkan vertikal */
+  background-color: white;
+  color: #dc2626; /* Merah Alfamart */
+  border: 1px solid rgba(255, 255, 255, 0.5);
+  padding: 8px 16px;
+  border-radius: 8px;
+  font-weight: 600;
+  font-size: 0.9rem;
+  cursor: pointer;
+  transition: all 0.2s ease;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+  z-index: 20;
+}
+
+#logout-button-form:hover {
+  background-color: #fef2f2; /* Merah sangat muda saat hover */
+  transform: translateY(-50%) scale(1.05); /* Sedikit membesar */
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+}
+
 .button-merge-pdf {
   display: inline-flex;
   align-items: center;
@@ -322,6 +346,41 @@ button {
   background: linear-gradient(135deg, #b91c1c 0%, #991b1b 100%);
   transform: translateY(-1px);
   box-shadow: 0 4px 6px rgba(220, 38, 38, 0.4);
+}
+
+#message {
+  position: fixed; /* Agar mengambang (floating) */
+  top: 100px; /* Muncul di bawah header */
+  left: 50%;
+  transform: translateX(-50%); /* Posisi tengah horizontal */
+  z-index: 1000;
+  padding: 12px 24px;
+  border-radius: 8px;
+  font-weight: 600;
+  text-align: center;
+  min-width: 300px;
+  max-width: 80%;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
+  display: none; /* Tersembunyi default */
+  opacity: 0;
+  transition: opacity 0.3s ease, top 0.3s ease;
+}
+
+/* Class tambahan untuk status sukses/gagal (perlu ditrigger JS) */
+#message.success {
+  background-color: #dcfce7; /* Hijau muda */
+  color: #166534; /* Hijau tua */
+  border: 1px solid #86efac;
+  display: block;
+  opacity: 1;
+}
+
+#message.error {
+  background-color: #fee2e2; /* Merah muda */
+  color: #991b1b; /* Merah tua */
+  border: 1px solid #fca5a5;
+  display: block;
+  opacity: 1;
 }
 
 /* Utility Helpers */
