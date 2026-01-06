@@ -348,6 +348,37 @@ button {
   box-shadow: 0 4px 6px rgba(220, 38, 38, 0.4);
 }
 
+#messageDiv {
+  /* Memberikan ruang agar teks tidak menempel ke pinggir */
+  padding: 12px 24px;
+  
+  /* Memberikan jarak dari elemen di atas/bawahnya */
+  margin: 20px auto;
+  
+  /* Membuat sudut tumpul (tidak lancip/kaku) */
+  border-radius: 12px;
+  
+  /* Menambahkan bayangan halus untuk efek kedalaman (3D effect) */
+  box-shadow: 0 4px 15px rgba(0, 0, 0, 0.1);
+  
+  /* Pengaturan font agar lebih rapi */
+  font-family: "Inter", sans-serif;
+  font-weight: 500;
+  text-align: center;
+  line-height: 1.5;
+  max-width: 90%; /* Agar tidak terlalu lebar di layar besar */
+  
+  /* Transisi halus saat muncul */
+  transition: all 0.3s ease-in-out;
+  
+  /* Memastikan elemen ini berada di atas elemen lain jika overlap */
+  position: relative;
+  z-index: 50;
+  
+  /* Border tipis transparan untuk estetika */
+  border: 1px solid rgba(255, 255, 255, 0.2);
+}
+
 /* Utility Helpers */
 .hidden {
   display: none !important;
