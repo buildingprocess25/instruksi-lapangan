@@ -1089,17 +1089,6 @@ async function initializePage() {
 
 document.addEventListener("DOMContentLoaded", initializePage);
 
-document.getElementById('logout-button-form').addEventListener('click', (e) => {
-    e.preventDefault();
-    const role = sessionStorage.getItem('userRole');
-    const email = sessionStorage.getItem('loggedInUserEmail');
-    const cabang = sessionStorage.getItem('loggedInUserCabang');
-    const baseUrl = 'https://opnamebnm.vercel.app';
-    const targetUrl = `${baseUrl}/?auth=true&role=${encodeURIComponent(role)}&email=${encodeURIComponent(email)}&cabang=${encodeURIComponent(cabang)}`;
-    sessionStorage.clear();
-    window.location.href = targetUrl;
-});
-
 function checkSessionTime() {
     try {
         const startHour = 6;
