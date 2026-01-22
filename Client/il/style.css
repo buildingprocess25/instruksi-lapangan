@@ -1,16 +1,21 @@
-/* General Body and Header Styles */
+/* =========================================
+   1. General Body & Reset
+   ========================================= */
 body {
   font-family: "Inter", sans-serif;
-  background-color: #f8fafc; /* Latar belakang sedikit abu-abu agar container putih lebih pop-up */
+  background-color: #f1f5f9; /* Slate-100: Lebih soft untuk mata */
   margin: 0;
   padding: 0;
-  color: #334155;
+  color: #334155; /* Slate-700 */
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
 }
 
+/* =========================================
+   2. Header Styling
+   ========================================= */
 header {
-  /* Menggunakan Gradasi Merah Alfamart sesuai file Gantt Chart */
+  /* Gradasi Merah Alfamart */
   background: linear-gradient(135deg, #dc2626 0%, #b91c1c 100%);
   color: white;
   text-align: center;
@@ -20,8 +25,8 @@ header {
   align-items: center;
   justify-content: center;
   position: relative;
-  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
-  z-index: 10;
+  box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1);
+  z-index: 50;
 }
 
 .header-logo {
@@ -36,69 +41,26 @@ header {
 
 header h1 {
   margin: 0;
-  font-size: 1.75rem;
+  font-size: 1.5rem; /* Sedikit diperkecil agar proporsional */
   font-weight: 700;
-  letter-spacing: -0.5px;
-  color: white; /* Pastikan teks putih */
+  letter-spacing: -0.025em;
+  color: white;
   text-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
 }
 
-/* Styling Tombol Kembali di Header (Menyesuaikan style Gantt) */
-.btn-back-header {
+/* Tombol Logout di Header */
+#logout-button-form {
   position: absolute;
   right: 25px;
   top: 50%;
-  transform: translateY(-50%); /* Posisi vertikal tengah presisi */
-  
-  display: inline-flex;
-  align-items: center;
-  gap: 8px; /* Jarak icon dan teks */
-  
-  background: rgba(255, 255, 255, 0.15); /* Putih transparan */
-  border: 1px solid rgba(255, 255, 255, 0.3); /* Border halus */
-  backdrop-filter: blur(4px); /* Efek blur di belakang tombol */
-  
-  padding: 8px 16px;
-  border-radius: 8px;
-  
-  color: white;
-  text-decoration: none;
-  font-size: 0.9rem;
-  font-weight: 500;
-  cursor: pointer;
-  transition: all 0.2s ease;
-}
-
-.btn-back-header:hover {
-  background: rgba(255, 255, 255, 0.25); /* Lebih terang saat di-hover */
-  border-color: rgba(255, 255, 255, 0.5);
-  transform: translateY(-50%) translateY(-2px); /* Naik sedikit saat hover */
-  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
-}
-
-.btn-back-header:active {
-  transform: translateY(-50%) scale(0.98); /* Efek tekan */
-}
-
-/* Pastikan SVG di dalam tombol warnanya putih */
-.btn-back-header svg {
-  stroke: white;
-  width: 18px;
-  height: 18px;
-}
-
-#logout-button-form {
-  position: absolute;
-  right: 25px; /* Jarak dari kanan */
-  top: 50%;
-  transform: translateY(-50%); /* Menengahkan vertikal */
+  transform: translateY(-50%);
   background-color: white;
-  color: #dc2626; /* Merah Alfamart */
+  color: #dc2626;
   border: 1px solid rgba(255, 255, 255, 0.5);
   padding: 8px 16px;
   border-radius: 8px;
   font-weight: 600;
-  font-size: 0.9rem;
+  font-size: 0.85rem;
   cursor: pointer;
   transition: all 0.2s ease;
   box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
@@ -106,88 +68,26 @@ header h1 {
 }
 
 #logout-button-form:hover {
-  background-color: #fef2f2; /* Merah sangat muda saat hover */
-  transform: translateY(-50%) scale(1.05); /* Sedikit membesar */
-  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+  background-color: #fef2f2;
+  transform: translateY(-50%) scale(1.05);
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.15);
 }
 
-.button-merge-pdf {
-  display: inline-flex;
-  align-items: center;
-  justify-content: center;
-  background-color: #eff6ff; /* Latar biru muda lembut */
-  color: #2563eb;            /* Teks biru agar kontras dengan merah Alfamart */
-  border: 1px solid #bfdbfe; /* Border biru halus */
-  padding: 10px 20px;
-  border-radius: 8px;
-  text-decoration: none;     /* Hilangkan garis bawah link */
-  font-weight: 600;
-  font-size: 0.9rem;
-  margin-top: 5px;
-  margin-bottom: 15px;
-  transition: all 0.2s ease;
-  cursor: pointer;
-}
-
-.button-merge-pdf:hover {
-  background-color: #dbeafe;
-  border-color: #60a5fa;
-  transform: translateY(-1px); /* Efek naik sedikit saat di-hover */
-  box-shadow: 0 2px 4px rgba(37, 99, 235, 0.1);
-}
-
-.button-group {
-  display: flex;            /* Membuat elemen berbaris ke samping */
-  flex-direction: row;      /* Pastikan arahnya horizontal */
-  justify-content: space-between; 
-  align-items: center;      /* Vertikal senter */
-  gap: 16px;                /* Jarak antar tombol */
-  width: 100%;              /* Lebar container full */
-  margin-top: 2rem;
-  padding: 0;
-  box-sizing: border-box;
-}
-
-#submit-button, 
-button[type="reset"] {
-  flex: 1;                  /* KUNCI: Memaksa kedua tombol membagi ruang sisa (50:50) */
-  width: 100%;              /* Pastikan tombol mengisi ruang flex-nya */
-  margin: 0;                /* Hapus margin aneh-aneh dari browser */
-  padding: 14px 0;          /* Padding atas-bawah saja, kiri-kanan auto */
-  border-radius: 8px;
-  font-family: "Inter", sans-serif;
-  font-weight: 700;
-  font-size: 1rem;
-  cursor: pointer;
-  transition: all 0.2s ease;
-  text-align: center;       /* Teks pasti di tengah */
-}
-
-button[type="reset"] {
-  background: linear-gradient(135deg, #facc15 0%, #eab308 100%);
-  color: #000000;           /* Teks hitam */
-  border: none;
-}
-
-button[type="reset"]:hover {
-  background: linear-gradient(135deg, #eab308 0%, #ca8a04 100%);
-  transform: translateY(-1px);
-  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
-}
-
-/* Main Container Styles */
+/* =========================================
+   3. Main Container & Layout
+   ========================================= */
 .container {
-  max-width: 1200px;
-  margin: 2.5rem auto;
+  max-width: 1280px; /* Lebar ditambah sedikit agar tabel lega */
+  margin: 2rem auto;
   padding: 2.5rem;
   background: white;
-  /* Shadow yang lebih dalam (Deep Shadow) mirip Gantt Chart */
-  border-radius: 15px;
-  box-shadow: 0 20px 60px rgba(0, 0, 0, 0.05);
-  position: relative;
+  border-radius: 16px;
+  box-shadow: 0 10px 15px -3px rgba(0, 0, 0, 0.05), 0 4px 6px -2px rgba(0, 0, 0, 0.025);
 }
 
-/* Form Element Styles */
+/* =========================================
+   4. Form Elements (General)
+   ========================================= */
 .form-container {
   display: flex;
   flex-direction: column;
@@ -197,35 +97,39 @@ button[type="reset"]:hover {
   font-weight: 600;
   margin-bottom: 0.5rem;
   margin-top: 1.25rem;
-  color: #1e293b;
+  color: #1e293b; /* Slate-800 */
   font-size: 0.95rem;
 }
 
 .required-asterisk {
-  color: #ef4444; /* Merah yang lebih cerah */
-  margin-left: 4px;
+  color: #dc2626;
+  margin-left: 2px;
 }
 
-.form-container input,
-.form-container select {
-  padding: 0.85rem 1rem;
-  border: 1px solid #e2e8f0;
-  border-radius: 10px; /* Radius lebih besar sesuai style modern */
+/* Input Global (Di luar tabel) */
+.form-container > input,
+.form-container > select,
+.form-container > div > input,
+.form-container > div > select {
+  padding: 0.75rem 1rem;
+  border: 1px solid #cbd5e1; /* Slate-300 */
+  border-radius: 8px;
   transition: all 0.2s ease;
-  font-size: 1rem;
-  background-color: #f8fafc;
+  font-size: 0.95rem;
+  background-color: #fff;
   color: #1e293b;
 }
 
 .form-container input:focus,
 .form-container select:focus {
-  border-color: #dc2626; /* Fokus warna Merah Alfamart */
-  background-color: #fff;
-  box-shadow: 0 0 0 4px rgba(220, 38, 38, 0.1); /* Ring merah halus */
+  border-color: #dc2626;
+  box-shadow: 0 0 0 3px rgba(220, 38, 38, 0.1);
   outline: none;
 }
 
-/* File Upload Custom Style (Disesuaikan agar mirip tema) */
+/* =========================================
+   5. File Upload & Utilities
+   ========================================= */
 .file-upload-wrapper {
   position: relative;
   border: 2px dashed #cbd5e1;
@@ -239,7 +143,7 @@ button[type="reset"]:hover {
 
 .file-upload-wrapper:hover {
   border-color: #dc2626;
-  background: #fef2f2; /* Latar belakang merah sangat muda saat hover */
+  background: #fef2f2;
 }
 
 #file-upload-text {
@@ -249,127 +153,353 @@ button[type="reset"]:hover {
 
 .file-upload-wrapper input[type="file"] {
   position: absolute;
-  top: 0;
-  left: 0;
-  width: 100%;
-  height: 100%;
-  opacity: 0;
-  cursor: pointer;
+  top: 0; left: 0; width: 100%; height: 100%;
+  opacity: 0; cursor: pointer;
 }
 
-/* Section Titles */
+.button-merge-pdf {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  background-color: #eff6ff;
+  color: #2563eb;
+  border: 1px solid #bfdbfe;
+  padding: 10px 20px;
+  border-radius: 8px;
+  text-decoration: none;
+  font-weight: 600;
+  font-size: 0.9rem;
+  margin-top: 5px;
+  margin-bottom: 15px;
+  transition: all 0.2s ease;
+}
+
+.button-merge-pdf:hover {
+  background-color: #dbeafe;
+  border-color: #60a5fa;
+  transform: translateY(-1px);
+}
+
 .section-title {
-  color: #b91c1c; /* Merah gelap */
-  border-bottom: 2px solid #fca5a5; /* Garis bawah merah muda */
-  padding-bottom: 10px;
-  margin-top: 3rem;
-  margin-bottom: 1.5rem;
-  font-size: 1.5rem;
+  color: #991b1b; /* Red-800 */
+  border-bottom: 2px solid #fecaca; /* Red-200 */
+  padding-bottom: 8px;
+  margin-top: 2.5rem;
+  margin-bottom: 1rem;
+  font-size: 1.25rem;
   font-weight: 700;
-  letter-spacing: -0.02em;
 }
 
-/* Table Styles */
+/* =========================================
+   6. Modern Table Styles (REFACTORED)
+   ========================================= */
+
+/* Wrapper Kartu Tabel */
 .table-container {
-  overflow-x: auto;
-  margin-top: 1rem;
-  border: 1px solid #e2e8f0;
+  background: white;
   border-radius: 12px;
   box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.05);
+  margin-top: 1rem;
+  margin-bottom: 2rem;
+  overflow: hidden; /* Agar sudut border-radius tidak tembus */
+  border: 1px solid #e2e8f0;
+  animation: fadeIn 0.3s ease-in-out;
+}
+
+@keyframes fadeIn {
+  from { opacity: 0; transform: translateY(5px); }
+  to { opacity: 1; transform: translateY(0); }
 }
 
 table {
-  table-layout: fixed !important;
   width: 100% !important;
-  border-collapse: separate; /* Penting untuk border-radius */
+  table-layout: fixed !important;
+  border-collapse: separate; 
   border-spacing: 0;
 }
 
-/* Header Tabel */
+/* Header Table Modern */
 table thead th {
-  background: linear-gradient(to bottom, #f8fafc, #f1f5f9);
-  color: #334155;
+  background-color: #f8fafc; /* Slate-50 */
+  color: #475569; /* Slate-600 */
   font-weight: 700;
   text-transform: uppercase;
-  font-size: 0.75rem;
+  font-size: 0.7rem;
   padding: 12px 8px;
-  border-bottom: 2px solid #e2e8f0;
-  letter-spacing: 0.05em;
+  border-bottom: 2px solid #cbd5e1;
+  border-right: 1px solid #f1f5f9;
+  letter-spacing: 0.025em;
+  position: sticky;
+  top: 0;
+  z-index: 10;
+  text-align: center;
+  vertical-align: middle;
 }
 
-table th, table td {
+table thead th:last-child {
+  border-right: none;
+}
+
+/* Body Cell Styling */
+table td {
+  padding: 8px; /* Padding lebih rapat agar compact */
+  border-bottom: 1px solid #e2e8f0;
+  vertical-align: top;
+  background-color: #fff;
+}
+
+/* Row Hover Effect */
+table tbody tr:hover td {
+  background-color: #fff1f2; /* Rose-50 (Merah tipis) */
+}
+
+/* --- Input & Select Styles inside Table --- */
+.table-container input.form-control,
+.table-container select.form-control {
+  width: 100%;
+  padding: 6px 8px; /* Ukuran input lebih kecil dari form utama */
+  font-size: 0.85rem;
+  border: 1px solid #cbd5e1;
+  border-radius: 6px;
+  background-color: #fff;
+  transition: all 0.2s ease;
+  box-sizing: border-box; /* Mencegah overflow */
+}
+
+/* Focus State dalam Tabel */
+.table-container input.form-control:focus,
+.table-container select.form-control:focus {
+  border-color: #dc2626;
+  box-shadow: 0 0 0 2px rgba(220, 38, 38, 0.1);
+  outline: none;
+}
+
+/* Readonly / Auto-filled Styling */
+.table-container input.auto-filled,
+.table-container input:read-only {
+  background-color: #f1f5f9; /* Slate-100 */
+  color: #64748b; /* Slate-500 */
+  border-color: #e2e8f0;
+  border-style: dashed; /* Visual cue untuk field otomatis */
+  cursor: default;
+}
+
+/* Kondisional Input (JS Logic) */
+.table-container input.kondisional-input {
+  background-color: #ffffff !important;
+  border: 1px solid #f59e0b !important; /* Amber-500 */
+  color: #000;
+  cursor: text !important;
+  font-weight: 600;
+}
+
+/* --- Column Widths & Alignments --- */
+
+/* No Urut */
+.col-no { width: 45px; text-align: center; }
+.row-number { font-weight: 600; color: #94a3b8; font-size: 0.8rem; }
+
+/* Jenis Pekerjaan & Select2 Fix */
+.col-jenis-pekerjaan { width: 28%; }
+
+/* Penyesuaian Select2 agar match dengan input modern */
+.select2-container--default .select2-selection--single {
+  border: 1px solid #cbd5e1 !important;
+  border-radius: 6px !important;
+  height: 34px !important; /* Tinggi disamakan dengan input */
+  display: flex !important;
+  align-items: center !important;
+}
+.select2-container--default .select2-selection--single .select2-selection__arrow {
+  height: 32px !important;
+}
+.select2-container--default .select2-selection--single .select2-selection__rendered {
+  font-size: 0.85rem !important;
+  color: #334155 !important;
+  padding-left: 8px !important;
+}
+
+/* Satuan & Volume */
+.col-satuan { width: 7%; text-align: center; }
+.col-volume { width: 9%; }
+.col-volume input { 
+    text-align: center; 
+    font-weight: 600; 
+    color: #0f172a; 
+}
+
+/* Harga & Total (Rata Kanan & Tabular Nums) */
+.col-harga { width: 12%; }
+.col-total { width: 12%; }
+.col-total-harga { width: 14%; }
+
+.col-harga input, 
+.col-total input, 
+.col-total-harga input {
+  text-align: right;
+  font-family: "Inter", sans-serif;
+  font-variant-numeric: tabular-nums; /* Agar angka sejajar vertikal */
+}
+
+/* Total Harga Akhir (Highlight) */
+.col-total-harga input {
+  font-weight: 700;
+  color: #0f172a;
+  background-color: #f8fafc !important; /* Sedikit beda background */
   border: 1px solid #e2e8f0;
-  vertical-align: middle;
+}
+
+/* Tombol Hapus Row */
+.col-aksi { width: 80px; text-align: center; }
+
+.delete-row-btn {
+  background-color: #fff;
+  color: #ef4444;
+  border: 1px solid #fecaca;
+  border-radius: 6px;
+  padding: 4px 10px;
+  font-size: 0.75rem;
+  font-weight: 600;
+  transition: all 0.2s;
+  cursor: pointer;
+}
+
+.delete-row-btn:hover {
+  background-color: #ef4444;
+  color: white;
+  border-color: #ef4444;
+  box-shadow: 0 2px 4px rgba(239, 68, 68, 0.2);
+}
+
+/* --- Footer (Subtotal) --- */
+table tfoot tr {
+  background-color: #f8fafc;
+  border-top: 2px solid #e2e8f0;
+}
+
+table tfoot td {
+  padding: 12px;
+  color: #334155;
+  border-bottom: none;
+}
+
+.sub-total-amount {
+  background-color: #fff;
+  border: 1px solid #cbd5e1;
+  border-radius: 6px;
+  padding: 6px 12px;
+  color: #dc2626 !important;
+  font-weight: 800 !important;
+  font-variant-numeric: tabular-nums;
+  display: inline-block;
+  min-width: 120px;
+}
+
+/* Tombol Tambah Item (Dashed Style) */
+.add-row-btn {
+  width: calc(100% - 4px); /* Kompensasi border */
+  margin: 10px auto;
+  border-radius: 8px;
+  background-color: #ffffff;
+  border: 2px dashed #cbd5e1;
+  color: #64748b;
   padding: 10px;
   font-size: 0.9rem;
-}
-
-/* Row Styling */
-table tbody tr:hover {
-  background-color: #fef2f2; /* Hover baris warna merah tipis */
-}
-
-/* Button Styles (Simulasi tombol Gantt) */
-button {
-  cursor: pointer;
-  font-family: "Inter", sans-serif;
-}
-
-.add-row-btn {
-  background-color: #fff;
-  color: #dc2626;
-  border: 1px solid #dc2626;
-  padding: 10px 20px;
-  border-radius: 8px;
   font-weight: 600;
-  font-size: 0.9rem;
-  margin-top: 1rem;
-  transition: all 0.2s;
-  display: inline-flex;
+  display: flex;
+  justify-content: center;
   align-items: center;
-  gap: 8px;
+  cursor: pointer;
+  transition: all 0.2s ease;
 }
 
 .add-row-btn:hover {
-  background-color: #fef2f2;
-  transform: translateY(-1px);
-  box-shadow: 0 4px 6px rgba(220, 38, 38, 0.1);
+  border-color: #dc2626;
+  color: #dc2626;
+  background-color: #fff1f2;
+}
+
+/* =========================================
+   7. Grand Total Box & Action Buttons
+   ========================================= */
+.grand-total-box {
+  background-color: #f8fafc !important;
+  border: 1px solid #e2e8f0 !important;
+  border-radius: 12px !important;
+  padding: 1.5rem !important;
+  margin-top: 2rem !important;
+  box-shadow: inset 0 2px 4px rgba(0,0,0,0.02);
+}
+
+.button-group {
+  display: flex;
+  flex-direction: row;
+  justify-content: space-between;
+  align-items: center;
+  gap: 16px;
+  width: 100%;
+  margin-top: 2rem;
+}
+
+#submit-button, 
+button[type="reset"] {
+  flex: 1;
+  width: 100%;
+  padding: 14px 0;
+  border-radius: 8px;
+  font-weight: 700;
+  font-size: 1rem;
+  cursor: pointer;
+  transition: all 0.2s ease;
+  text-align: center;
+  border: none;
 }
 
 #submit-button {
   background: linear-gradient(135deg, #dc2626 0%, #b91c1c 100%);
   color: white;
-  border: none;
+  box-shadow: 0 4px 6px -1px rgba(220, 38, 38, 0.2);
 }
 
 #submit-button:hover {
   background: linear-gradient(135deg, #b91c1c 0%, #991b1b 100%);
-  transform: translateY(-1px);
-  box-shadow: 0 4px 6px rgba(220, 38, 38, 0.4);
+  transform: translateY(-2px);
+  box-shadow: 0 10px 15px -3px rgba(220, 38, 38, 0.3);
 }
 
-#message {
-    margin: 25px auto;
-    max-width: 1200px;
-    padding: 15px;
-    border-radius: 8px;
-    font-weight: 600;
-    text-align: center;
-    display: none;
-    box-shadow: 0 2px 10px rgba(0, 0, 0, 0.08);
-    }
+#submit-button:disabled {
+  background: #cbd5e1;
+  cursor: not-allowed;
+  transform: none;
+  box-shadow: none;
+}
 
-/* Utility Helpers */
+button[type="reset"] {
+  background: white;
+  color: #475569;
+  border: 1px solid #cbd5e1;
+}
+
+button[type="reset"]:hover {
+  background: #f1f5f9;
+  color: #1e293b;
+  border-color: #94a3b8;
+}
+
+/* =========================================
+   8. Messages & Helpers
+   ========================================= */
+#message {
+  margin: 20px auto;
+  max-width: 1200px;
+  padding: 12px;
+  border-radius: 8px;
+  font-weight: 600;
+  text-align: center;
+  display: none;
+  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.05);
+}
+
 .hidden {
   display: none !important;
 }
-
-/* Adjustments for Column Widths */
-.col-no { width: 4%; text-align: center; }
-.col-jenis-pekerjaan { width: 30%; }
-.col-satuan { width: 6%; text-align: center; }
-.col-volume { width: 7%; text-align: center; }
-.col-harga { width: 12%; }
-.col-total { width: 12%; }
-.col-total-harga { width: 14%; }
-.col-aksi { width: 8%; text-align: center; }
