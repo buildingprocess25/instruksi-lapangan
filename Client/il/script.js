@@ -826,7 +826,7 @@ async function initializePage() {
             if (statusResult.rejected_submissions?.length > 0) {
                 STATE.rejectedSubmissionsList = statusResult.rejected_submissions;
                 const rejectedCodes = STATE.rejectedSubmissionsList.map(item => item['Nomor Ulok']).join(', ');
-                Utils.toggleMessage(`Ditemukan pengajuan yang ditolak untuk Nomor Ulok: <strong>${rejectedCodes}</strong>. Masukkan Nomor Ulok lengkap untuk revisi.`, 'warning');
+                Utils.toggleMessage(`Ditemukan pengajuan yang ditolak untuk Nomor Ulok: ${rejectedCodes}. Masukkan Nomor Ulok lengkap untuk revisi.`, 'warning');
             } else {
                 DOM.messageDiv.style.display = 'none';
             }
