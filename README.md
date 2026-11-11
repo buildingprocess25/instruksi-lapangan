@@ -1,21 +1,26 @@
-# Next.js template
+# Warta Warga — Social News App
 
-This is a Next.js template with shadcn/ui.
+Next.js (App Router) + Tailwind + shadcn/ui + Prisma + Supabase (PostgreSQL + Auth) + Google Drive (image storage).
 
-## Adding components
+## Setup
 
-To add components to your app, run the following command:
+1. `npm install`
+2. Copy `.env.example` to `.env`, fill Supabase + Google Drive service account values.
+   Share the Drive folder with the service account `client_email` as **Editor**.
+3. Supabase: enable Email and Google providers; add `http://localhost:3000/auth/callback` to redirect URLs.
+4. `npm run db:migrate` then `npm run db:seed` (seeds navbar categories).
+5. `npm run dev`
 
-```bash
-npx shadcn@latest add button
-```
+First user: sign up, then set `role = 'ADMIN'` on your row in `User` (SQL editor). Admins/moderators manage headlines and categories at `/admin`.
 
-This will place the ui components in the `components` directory.
+## Scripts
 
-## Using components
+`dev`, `build`, `lint`, `typecheck`, `test`, `db:migrate`, `db:seed`.
 
-To use the components in your app, import them as follows:
+## Notes
 
-```tsx
-import { Button } from "@/components/ui/button";
-```
+- Mutations: Form/Client → Server Action → `services/*` → Prisma. Business logic lives in `services/`.
+- Images: `POST /api/media/upload` (sharp → WebP ≤ 5 MB → Drive), `GET /api/media/[fileId]` (immutable cached proxy).
+- `/@username` is rewritten to `/profil/[username]` (`@` folders are reserved in the App Router).
+- Article HTML is sanitized with DOMPurify on save and on render.
+- Trust score: like +1, repost +3 for the author; ≥ 50 earns the Verified Contributor badge.

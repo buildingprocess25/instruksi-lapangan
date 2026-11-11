@@ -1,15 +1,20 @@
-import { Geist, Geist_Mono, Figtree } from "next/font/google"
+import type { Metadata } from "next"
+import { Inter, Plus_Jakarta_Sans } from "next/font/google"
 
 import "./globals.css"
+import { Navbar } from "@/components/layout/navbar"
 import { ThemeProvider } from "@/components/theme-provider"
-import { cn } from "@/lib/utils";
+import { Toaster } from "@/components/ui/sonner"
+import { cn } from "@/lib/utils"
 
-const figtree = Figtree({subsets:['latin'],variable:'--font-sans'})
+const inter = Inter({ subsets: ["latin"], variable: "--font-sans" })
+const jakarta = Plus_Jakarta_Sans({ subsets: ["latin"], variable: "--font-jakarta" })
 
-const fontMono = Geist_Mono({
-  subsets: ["latin"],
-  variable: "--font-mono",
-})
+export const metadata: Metadata = {
+  title: { default: "Warta Warga", template: "%s | Warta Warga" },
+  description: "Portal berita sosial dan jurnalisme warga: tulis, repost, dan diskusikan berita.",
+  metadataBase: new URL(process.env.NEXT_PUBLIC_SITE_URL ?? "http://localhost:3000"),
+}
 
 export default function RootLayout({
   children,
@@ -18,12 +23,16 @@ export default function RootLayout({
 }>) {
   return (
     <html
-      lang="en"
+      lang="id"
       suppressHydrationWarning
-      className={cn("antialiased", fontMono.variable, "font-sans", figtree.variable)}
+      className={cn("antialiased", inter.variable, jakarta.variable, "font-sans")}
     >
       <body>
-        <ThemeProvider>{children}</ThemeProvider>
+        <ThemeProvider>
+          <Navbar />
+          <main className="mx-auto w-full max-w-7xl px-4 py-6 lg:px-8">{children}</main>
+          <Toaster richColors />
+        </ThemeProvider>
       </body>
     </html>
   )

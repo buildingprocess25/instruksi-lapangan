@@ -1,0 +1,176 @@
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider  = "postgresql"
+  url       = env("DATABASE_URL")
+  directUrl = env("DIRECT_URL")
+}
+
+enum Role {
+  USER
+  MODERATOR
+  ADMIN
+}
+
+enum ArticleStatus {
+  DRAFT
+  PUBLISHED
+  ARCHIVED
+}
+
+enum ArticleType {
+  CITIZEN_REPORT // Laporan Langsung
+  OPINION        // Saduran / Opini
+}
+
+enum HeadlinePosition {
+  NONE
+  MAIN_LEFT
+  MIDDLE_CENTER
+  RIGHT_LIST
+}
+
+model User {
+  id            String   @id @default(uuid())
+  email         String   @unique
+  username      String   @unique
+  fullName      String
+  bio           String?  @db.Text
+  avatarDriveId String?
+  role          Role     @default(USER)
+  isVerified    Boolean  @default(false)
+  trustScore    Int      @default(0)
+  createdAt     DateTime @default(now())
+  updatedAt     DateTime @updatedAt
+
+  articles  Article[]
+  comments  Comment[]
+  reposts   Repost[]
+  likes     Like[]
+  bookmarks Bookmark[]
+  followers Follow[]   @relation("following")
+  following Follow[]   @relation("follower")
+
+  @@index([username])
+}
+
+model Category {
+  id          String   @id @default(cuid())
+  name        String   @unique
+  slug        String   @unique
+  description String?
+  orderIndex  Int      @default(0)
+  createdAt   DateTime @default(now())
+
+  articles Article[]
+
+  @@index([slug])
+}
+
+model Article {
+  id           String   @id @default(cuid())
+  title        String   @db.VarChar(255)
+  slug         String   @unique
+  excerpt      String?  @db.Text
+  content      String   @db.Text
+  keyTakeaways String[]
+
+  thumbnailDriveId String
+  imageCaption     String?
+
+  sourceUrl        String?
+  type             ArticleType      @default(CITIZEN_REPORT)
+  status           ArticleStatus    @default(PUBLISHED)
+  headlinePosition HeadlinePosition @default(NONE)
+  viewCount        Int              @default(0)
+
+  authorId   String
+  categoryId String
+
+  createdAt   DateTime  @default(now())
+  updatedAt   DateTime  @updatedAt
+  publishedAt DateTime? @default(now())
+
+  author    User       @relation(fields: [authorId], references: [id], onDelete: Cascade)
+  category  Category   @relation(fields: [categoryId], references: [id], onDelete: Restrict)
+  comments  Comment[]
+  reposts   Repost[]
+  likes     Like[]
+  bookmarks Bookmark[]
+
+  @@index([slug])
+  @@index([categoryId, status, publishedAt(sort: Desc)])
+  @@index([authorId])
+  @@index([headlinePosition])
+}
+
+model Repost {
+  id        String   @id @default(cuid())
+  userId    String
+  articleId String
+  quoteText String?  @db.Text
+  createdAt DateTime @default(now())
+
+  user    User    @relation(fields: [userId], references: [id], onDelete: Cascade)
+  article Article @relation(fields: [articleId], references: [id], onDelete: Cascade)
+
+  @@unique([userId, articleId])
+  @@index([userId, createdAt(sort: Desc)])
+  @@index([articleId])
+}
+
+model Comment {
+  id        String   @id @default(cuid())
+  content   String   @db.Text
+  userId    String
+  articleId String
+  parentId  String?
+  isEdited  Boolean  @default(false)
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+
+  user    User      @relation(fields: [userId], references: [id], onDelete: Cascade)
+  article Article   @relation(fields: [articleId], references: [id], onDelete: Cascade)
+  parent  Comment?  @relation("CommentReplies", fields: [parentId], references: [id], onDelete: Cascade)
+  replies Comment[] @relation("CommentReplies")
+
+  @@index([articleId, createdAt(sort: Asc)])
+  @@index([parentId])
+}
+
+model Like {
+  id        String   @id @default(cuid())
+  userId    String
+  articleId String
+  createdAt DateTime @default(now())
+
+  user    User    @relation(fields: [userId], references: [id], onDelete: Cascade)
+  article Article @relation(fields: [articleId], references: [id], onDelete: Cascade)
+
+  @@unique([userId, articleId])
+}
+
+model Bookmark {
+  id        String   @id @default(cuid())
+  userId    String
+  articleId String
+  createdAt DateTime @default(now())
+
+  user    User    @relation(fields: [userId], references: [id], onDelete: Cascade)
+  article Article @relation(fields: [articleId], references: [id], onDelete: Cascade)
+
+  @@unique([userId, articleId])
+}
+
+model Follow {
+  followerId  String
+  followingId String
+  createdAt   DateTime @default(now())
+
+  follower  User @relation("follower", fields: [followerId], references: [id], onDelete: Cascade)
+  following User @relation("following", fields: [followingId], references: [id], onDelete: Cascade)
+
+  @@id([followerId, followingId])
+}
